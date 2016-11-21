@@ -31,11 +31,8 @@ function ClassExample() {
     
     this.mRedSq =  new CircleRenderable(this.mConstColorShader);
     this.mRedSq.setColor([1.0, 0.5, 0.5, 1]);
-    this.mRedSq.getXform().setSize(0.25, 0.25);// so you want to move the yellow circle way with the red pivote?
-   //not, i want to let the red pivot in the center of yellow, 
-  //this mRedSq is this, let me show you
-  // wait you wantto that one?yes
-  // into the center of the yellow circle?yes
+    this.mRedSq.getXform().setSize(0.25, 0.25);
+
     
     this.mXfSq =  new CircleRenderable(this.mConstColorShader);
     this.mXfSq.setColor([0.4, 0., 0.4, 1]);
