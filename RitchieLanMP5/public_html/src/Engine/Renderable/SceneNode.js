@@ -19,7 +19,8 @@ function SceneNode(shader, name, drawPivot) {
     // this is for debugging only: for drawing the pivot position
     this.mPivotPos = null;
     if ((drawPivot !== undefined) && (drawPivot === true)) {
-        this.mPivotPos = new SquareRenderable(shader);
+//        this.mPivotPos = new SquareRenderable(shader);
+        this.mPivotPos = new CircleRenderable(shader);
         this.mPivotPos.setColor([1, 0, 0, 1]); // default color
         var xf = this.mPivotPos.getXform();
         xf.setSize(0.2, 0.2); // always this size

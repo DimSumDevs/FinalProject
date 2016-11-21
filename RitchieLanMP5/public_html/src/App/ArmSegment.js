@@ -3,7 +3,7 @@
  * This is the logic of our game. For now, this is very simple.
  */
 /*jslint node: true, vars: true */
-/*global gEngine, SimpleShader, SquareRenderable, SceneNode */
+/*global gEngine, SimpleShader, CircleRenderable, SceneNode */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
@@ -15,40 +15,55 @@ function ArmSegment(shader, name, xPivot, yPivot) {
     xf.setPivot(xPivot, yPivot);
     
     // now create the children shapes
-    var obj = new SquareRenderable(shader);  // The yellow 1x2 base
+    var obj = new CircleRenderable(shader);  // The another small plane
     this.addToSet(obj);
     obj.setColor([1, 1, 0, 1]);
     xf = obj.getXform();
-    xf.setSize(1, 2);
-    xf.setPosition(xPivot, 1 + yPivot);
+    xf.setSize(1, 1);
+    xf.setPosition(xPivot, yPivot);
  
-    obj = new SquareRenderable(shader);  // The red top
+    obj = new CircleRenderable(shader);  // The red eye left
     this.addToSet(obj);
     obj.setColor([0.7, 0.2, 0.2, 1]);
     xf = obj.getXform();
-    xf.setSize(1, 0.5); // so that we can see the connecting point
-    xf.setPosition(xPivot, 1.75 + yPivot);
+    xf.setSize(0.2, 0.2); // so that we can see the connecting point
+    xf.setPosition(0.4 + xPivot, .5 + yPivot);
     
-    obj = new SquareRenderable(shader); // The green base (left)
+    obj = new CircleRenderable(shader);  // The red eye right
     this.addToSet(obj);
-    obj.setColor([0, 1, 0, 1]);
+    obj.setColor([0.7, 0.2, 0.2, 1]);
     xf = obj.getXform();
-    xf.setSize(0.25, 0.25); // so that we can see the connecting point
-    xf.setPosition(xPivot+0.375, yPivot+0.125);
+    xf.setSize(0.2, 0.2); // so that we can see the connecting point
+    xf.setPosition(xPivot- 0.4, .5 + yPivot);
     
-    obj = new SquareRenderable(shader); // The green base (right)
+    obj = new CircleRenderable(shader);  // The mouth 
     this.addToSet(obj);
-    obj.setColor([0, 1, 0, 1]);
+    obj.setColor([0,0,0,0]);
     xf = obj.getXform();
-    xf.setSize(0.25, 0.25); // so that we can see the connecting point
-    xf.setPosition(xPivot-0.375, yPivot+0.125);
+    xf.setSize(0.3, 0.2); // so that we can see the connecting point
+    xf.setPosition(xPivot, -0.5 + yPivot);
     
-    obj = new SquareRenderable(shader); // The middle blue "circle"
+//    obj = new CircleRenderable(shader); // The green base (left)
+//    this.addToSet(obj);
+//    obj.setColor([0, 1, 0, 1]);
+//    xf = obj.getXform();
+//    xf.setSize(1, 0.5); // so that we can see the connecting point
+//    xf.setPosition(xPivot+0.375, yPivot+0.125);
+    
+//    obj = new CircleRenderable(shader); // The green base (right)
+//    this.addToSet(obj);
+//    obj.setColor([0, 1, 0, 1]);
+//    xf = obj.getXform();
+//    xf.setSize(0.85, 0.25); // so that we can see the connecting point
+//    xf.setPosition(xPivot-0.375, yPivot+0.125);
+    
+    
+    obj = new CircleRenderable(shader); // mouth
     this.addToSet(obj);
     obj.setColor([0, 0, 1, 1]);
     xf = obj.getXform();
-    xf.setSize(0.5, 0.5); // so that we can see the connecting point
-    xf.setPosition(xPivot, yPivot+1);
+    xf.setSize(0.5, 0.2); // so that we can see the connecting point
+    xf.setPosition(xPivot, -0.5 + yPivot);
     
     this.mPulseRate = 0.005;
     this.mRotateRate = -2;

@@ -3,7 +3,7 @@
  * This is the logic of our game. For now, this is very simple.
  */
 /*jslint node: true, vars: true */
-/*global gEngine, SimpleShader, SquareRenderable, SceneNode, ArmSegment */
+/*global gEngine, SimpleShader, CircleRenderable, SceneNode, ArmSegment */
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
@@ -21,44 +21,59 @@ function ClassExample() {
         "src/GLSLShaders/SimpleVS.glsl",      // Path to the VertexShader 
         "src/GLSLShaders/SimpleFS.glsl");    // Path to the simple FragmentShader
         
-    this.mHeadSq = new SquareRenderable(this.mConstColorShader);
+    this.mHeadSq = new CircleRenderable(this.mConstColorShader);
     this.mHeadSq.setColor([0.2, 1.0, 0.2, 1]);
     this.mHeadSq.getXform().setSize(0.25, 0.25);
-    this.mBlueSq = new SquareRenderable(this.mConstColorShader);
+    
+    this.mBlueSq = new CircleRenderable(this.mConstColorShader);
     this.mBlueSq.setColor([0.5, 0.5, 1.0, 1]);
     this.mBlueSq.getXform().setSize(0.25, 0.25);
-    this.mRedSq =  new SquareRenderable(this.mConstColorShader);
+    
+    this.mRedSq =  new CircleRenderable(this.mConstColorShader);
     this.mRedSq.setColor([1.0, 0.5, 0.5, 1]);
-    this.mRedSq.getXform().setSize(0.25, 0.25);
-    this.mXfSq =  new SquareRenderable(this.mConstColorShader);
+    this.mRedSq.getXform().setSize(0.25, 0.25);// so you want to move the yellow circle way with the red pivote?
+   //not, i want to let the red pivot in the center of yellow, 
+  //this mRedSq is this, let me show you
+  // wait you wantto that one?yes
+  // into the center of the yellow circle?yes
+    
+    this.mXfSq =  new CircleRenderable(this.mConstColorShader);
     this.mXfSq.setColor([0.4, 0., 0.4, 1]);
     this.mXfSq.getXform().setSize(0.2, 0.2);
 
     this.mParent = new SceneNode(this.mConstColorShader, "Root", true);
     this.mLeftChild = new ArmSegment(this.mConstColorShader, "LeftGen 1",
-                            -2, 0);
+                            -4, 3);
     this.mParent.addAsChild(this.mLeftChild);
     this.mTopChild = new ArmSegment(this.mConstColorShader, "LeftGen 2",
-                            -2, 2);
-    this.mLeftChild.addAsChild(this.mTopChild);
+                            -5, 5); 
+    this.mLeftChild.addAsChild(this.mTopChild); 
 
-    this.mRightChild = new ArmSegment(this.mConstColorShader, "RightGen 1",
-                            2, 0);
-    this.mParent.addAsChild(this.mRightChild);  // <-- WHAT ARE WE DOING?!!
+
+//    this.mRightChild = new ArmSegment(this.mConstColorShader, "RightGen 1",
+//                            2, 0);
+//    this.mParent.addAsChild(this.mRightChild);  // <-- WHAT ARE WE DOING?!!
+
 
 
     // shapes in the parent
-    var obj = new SquareRenderable(this.mConstColorShader);  // the base
+    var obj = new CircleRenderable(this.mConstColorShader);  // the base
     this.mParent.addToSet(obj);
     obj.setColor([0.3, 0.3, 0.9, 1]);
     var xf = obj.getXform();
-    xf.setSize(4, 1.5);
+    xf.setSize(2.5, 2.5);
     
-    obj = new SquareRenderable(this.mConstColorShader); // The head
+    obj = new CircleRenderable(this.mConstColorShader); // The head
     this.mParent.addToSet(obj);
     obj.setColor([0.9, 0.8, 0.8, 1]);
     xf = obj.getXform();
-    xf.setSize(1.3, 1.3);
+    xf.setSize(0.5, 0.5);
+    
+//     obj = new CircleRenderable(this.mConstColorShader); // The head
+//    this.mParent.addToSet(obj);
+//    obj.setColor([0.9, 0.8, 0.8, 1]);
+//    xf = obj.getXform();
+//    xf.setSize(0.5, 0.5);
 }
 
 ClassExample.prototype.toggleHeadSpin = function () {
@@ -86,7 +101,7 @@ ClassExample.prototype.draw = function (camera) {
 ClassExample.prototype.update = function () {
     if (this.mChildShouldUpdate) {
         this.mLeftChild.update();
-        this.mRightChild.update();
+//        this.mRightChild.update();
         this.mTopChild.update();
     }
     
@@ -116,9 +131,9 @@ ClassExample.prototype.leftChildXform = function () {
     return this.mLeftChild.getXform();
 };
 
-ClassExample.prototype.rightChildXform = function () {
-    return this.mRightChild.getXform();
-};
+//ClassExample.prototype.rightChildXform = function () {
+//    return this.mRightChild.getXform();
+//};
 
 
 ClassExample.prototype.topChildXform = function () {
