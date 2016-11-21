@@ -24,8 +24,8 @@ myModule.controller("MainCtrl", function ($scope) {
     $scope.eSelection = [
         {label: "Parent"},
         {label: "LeftChild"},
-        {label: "TopChild"},
-        {label: "RightChild"},
+        {label: "TopChild"}
+//        {label: "RightChild"},
     ];
 
        // this is the model
@@ -64,9 +64,9 @@ myModule.controller("MainCtrl", function ($scope) {
         case $scope.eSelection[2].label:
             $scope.mSelectedXform = $scope.mMyWorld.topChildXform();
             break;
-        case $scope.eSelection[3].label:
-            $scope.mSelectedXform = $scope.mMyWorld.rightChildXform();
-            break;
+//        case $scope.eSelection[3].label:
+//            $scope.mSelectedXform = $scope.mMyWorld.rightChildXform();
+//            break;
         }
     };
 
