@@ -20,6 +20,8 @@ function ClassExample() {
     this.mConstColorShader = new SimpleShader(
         "src/GLSLShaders/SimpleVS.glsl",      // Path to the VertexShader 
         "src/GLSLShaders/SimpleFS.glsl");    // Path to the simple FragmentShader
+    this.mManipulator = new Manipulator(this.mConstColorShader);
+    this.mManipulator.getXform().setPosition(5, 5);
         
 //    this.mHeadSq = new CircleRenderable(this.mConstColorShader);
 //    this.mHeadSq.setColor([0.2, 1.0, 0.2, 1]);
@@ -93,6 +95,7 @@ ClassExample.prototype.draw = function (camera) {
 //        this.mRedSq.draw(camera);
 //        this.mXfSq.draw(camera);
 //    }
+    this.mManipulator.draw(camera);
 };
 
 ClassExample.prototype.update = function () {
