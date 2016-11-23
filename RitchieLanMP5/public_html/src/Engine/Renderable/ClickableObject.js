@@ -12,34 +12,46 @@
 
 //constructor, checks the boolean boolCircle to determine if this should
 //be a square ore circle.
-function ClickableObject(shader, boolCircle, knobVisible) {
-    this.knobSize = 3;
-    this.knobVisible = knobVisible;
-    if(boolCircle)
-    {
-        //this.myRenderable = new CircleRenderable(shader);
-    }
-    else
-    {
-        this.myRenderable = new SquareRenderable(shader);
-    }
-    //TODO change this to circle renderable
-    this.myKnob = new SquareRenderable(shader);
-    this.myKnob.setSize(this.knobSize, this.KnobSize);
+function ClickableObject(shader, kVisible) {
+    this.knobSize = .1;
+    this.knobVisible = kVisible;
+     this.myRenderable = new CircleRenderable(shader);
+
+    this.myKnob = new CircleRenderable(shader);
+    this.myKnob.setColor([1,1,1,1]);
+    var knobXf = this.myKnob.getXform();
+    knobXf.setSize(this.knobSize, this.knobSize);
 }
 ClickableObject.prototype.hideKnob = function(){this.knobVisible = false;};
-ClickableObject.prototype.showKnob - function(){this.knobVisible = true;};
+ClickableObject.prototype.showKnob = function(){this.knobVisible = true;};
+ClickableObject.prototype.setKnobSize = function(value)
+{
+  this.myKnob.setSize(value, value);
+};
+//set the knob size equal to that of the renderable, thus the whole object will become clickable
+//note that click detection is based on a circle shape so square objects won't work precisely
+//also note that if knob is visible the knob will cover the entire renderable object
+ClickableObject.prototype.setKnobFullSize = function()
+{
+    this.myKnob.getXform().setSize(this.myRenderable.getXform().getSize()[0],
+    this.myRenderable.getXform().getSize()[1]);
+};
+//reset knob size to 0
+ClickableObject.prototype.resetKnobSize = function()
+{
+    this.myKnob.getXform().setSize(this.knobSize, this.KnobSize);
+};
 ClickableObject.prototype.getXform = function () { return this.myRenderable.getXform(); };
 ClickableObject.prototype.setColor = function (color) { this.myRenderable.setColor(color); };
 ClickableObject.prototype.getColor = function () { return this.myRenderable.getColor(); };
-ClickableObject.prototype.checkClick = function (parentX, parentY, x, y)
+ClickableObject.prototype.checkClick = function ( x, y)
 {
-    var realX = parentX + this.myRenderable.getXform().getXPos();
-    var realY = parentY + this.myRenderable.getXform().getYPos();
+    var myX = this.myRenderable.getXform().getXPos();
+    var myY = this.myRenderable.getXform().getYPos();
     
-    //compute disctance btween realX/Y and x/y
-    var xDis = realX - x;
-    var yDis = realY - y;
+    //compute disctance btween my X/Y and x/y
+    var xDis = myX - x;
+    var yDis = myY - y;
     var distance = Math.sqrt((xDis * xDis) + (yDis * yDis));
     
     return(distance <= this.knobSize);
@@ -52,9 +64,9 @@ ClickableObject.prototype.draw = function (camera, parentMat)
      //set the postion of the knob to be equal to that of the renderable.
      var knobXform = this.myKnob.getXform();
      var renderableXform = this.myRenderable.getXform(); 
-     knobXform.setPos(renderableXform.getXPos(), renderableXform.getYPos());
+     knobXform.setPosition(renderableXform.getXPos(), renderableXform.getYPos());
     
-    if(this.knobVsible)
+    if(this.knobVisible)
     {      
         //set color of the knob to be related to that of the renderable? maybe inverted color
         
