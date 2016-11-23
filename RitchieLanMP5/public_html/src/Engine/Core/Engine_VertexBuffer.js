@@ -18,16 +18,16 @@ var gEngine = gEngine || { };
 // The VertexBuffer object
 gEngine.VertexBuffer = (function () {
     // reference to the vertex positions for the square in the gl context
-//    var mSquareVertexBuffer = null;
+    var mSquareVertexBuffer = null;
     var mCircleVertexBuffer = null;
 
     // First: define the vertices for a square
-//    var verticesOfSquare = [
-//        0.5, 0.5, 0.0,
-//        -0.5, 0.5, 0.0,
-//        0.5, -0.5, 0.0,
-//        -0.5, -0.5, 0.0
-//    ];
+    var verticesOfSquare = [
+        0.5, 0.5, 0.0,
+        -0.5, 0.5, 0.0,
+        0.5, -0.5, 0.0,
+        -0.5, -0.5, 0.0
+    ];
   
     var kCircleVertices = 50;
     var computeCircleVertices = function (v) {
@@ -49,13 +49,13 @@ gEngine.VertexBuffer = (function () {
     var initialize = function () {
         var gl = gEngine.Core.getGL();
 
-//        // Step A: Create a buffer on the gGL context for our vertex positions
-//        mSquareVertexBuffer = gl.createBuffer();
-//        // Step B: Activate vertexBuffer
-//        gl.bindBuffer(gl.ARRAY_BUFFER, mSquareVertexBuffer);
-//        // Step C: Loads verticesOfSquare into the vertexBuffer
-//        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verticesOfSquare), gl.STATIC_DRAW);
-//        
+        // Step A: Create a buffer on the gGL context for our vertex positions
+        mSquareVertexBuffer = gl.createBuffer();
+        // Step B: Activate vertexBuffer
+        gl.bindBuffer(gl.ARRAY_BUFFER, mSquareVertexBuffer);
+        // Step C: Loads verticesOfSquare into the vertexBuffer
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verticesOfSquare), gl.STATIC_DRAW);
+        
         
         // now do circle
         var v = [];
@@ -66,15 +66,15 @@ gEngine.VertexBuffer = (function () {
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(v), gl.STATIC_DRAW);
     };
 
-//    var getSquareVertexRef = function () { return mSquareVertexBuffer; };
-//    var getSquareVertexSize = function () { return 4; };
+    var getSquareVertexRef = function () { return mSquareVertexBuffer; };
+    var getSquareVertexSize = function () { return 4; };
     var getCircleVertexRef = function () { return mCircleVertexBuffer; };
     var getCircleVertexSize = function() { return kCircleVertices + 2; };
     
     var mPublic = {
         initialize: initialize,
-//        getSquareVertexRef: getSquareVertexRef,
-//        getSquareVertexSize: getSquareVertexSize,
+        getSquareVertexRef: getSquareVertexRef,
+        getSquareVertexSize: getSquareVertexSize,
         getCircleVertexRef: getCircleVertexRef,
         getCircleVertexSize: getCircleVertexSize
     };

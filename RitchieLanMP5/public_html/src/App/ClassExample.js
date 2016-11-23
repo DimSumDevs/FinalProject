@@ -60,7 +60,7 @@ function ClassExample() {
     var xf = obj.getXform();
     xf.setSize(2.5, 2.5);
     
-    obj = new CircleRenderable(this.mConstColorShader); // The head
+    obj = new SquareRenderable(this.mConstColorShader); // The head
     this.mParent.addToSet(obj);
     obj.setColor([0.9, 0.8, 0.8, 1]);
     xf = obj.getXform();
