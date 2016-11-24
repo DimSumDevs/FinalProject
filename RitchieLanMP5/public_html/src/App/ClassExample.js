@@ -14,7 +14,7 @@ function ClassExample() {
     this.mConstColorShader = new SimpleShader(
         "src/GLSLShaders/SimpleVS.glsl",      // Path to the VertexShader 
         "src/GLSLShaders/SimpleFS.glsl");    // Path to the simple FragmentShader
-        
+
     this.mSelected = null;
     this.mSelectedMatrix = null;
     this.manipulatorValue = 3;
@@ -61,7 +61,7 @@ ClassExample.prototype.update = function () {
 
 ClassExample.prototype.checkClick = function(clickPos)
 {
-//    this.manipulatorValue = this.mManipulator.detect(clickPos[0], clickPos[1]);
+    this.manipulatorValue = this.mManipulator.detect(clickPos[0], clickPos[1]);
     
     if(this.manipulatorValue !== -1)
     {
@@ -96,7 +96,9 @@ ClassExample.prototype.getMatrixOfSelected= function()
     }
     this.mSelectedMatrix = selectedMatrix;
 };
+
 ClassExample.prototype.setPositionOfSelected = function(x, y)
+
 {
     if(this.mSelected !== null)
     {

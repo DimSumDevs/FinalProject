@@ -20,82 +20,82 @@ ClassExample.prototype.detectMouseOver = function (wcX, wcY, leftClick) {
     var posEcho = wcX.toFixed(2).toString() + " " + wcY.toFixed(2).toString() + " :";
     var overObj = "Nothing";
     
-    this.mXfSq.getXform().setPosition(wcX, wcY);
-    
-    var wcPos = [wcX, wcY];
-    // 1. We will detect the based rotating head
-    var parentXf = this.mParent.getXform();
-    var parentMat = parentXf.getXform();
-    var parentPos = parentXf.getPosition();
-    this.mHeadSq.getXform().setPosition(parentPos[0], parentPos[1]);
-    if (this.withInBound(parentPos, wcPos)) {
-        overObj = "Parent Head";
-        if (leftClick){
-            this.drawManipulator = true;
-            this.moveManipulator(parentPos);           
-            if(this.mManipulator.getSceneNode() !== null &&
-                this.mManipulator.getSceneNode() !== this.mParent){
-                    this.mManipulator.removeSceneNode();
-                }
-            this.mManipulator.setSceneNode(this.mParent);
-        }
-    }
-
-    // 2. Left, lower arm, pulsing blue rectangle
-        var m = mat4.create();
-        var leftArmMat = this.mLeftChild.getXform().getXform(); // a matrix
-        mat4.multiply(m, parentMat, leftArmMat);
-
-        var pulsingBluePos = this.mLeftChild.getRenderableAt(4).getXform().getPosition();
-        var bluePosWC = vec2.fromValues(0, 0);
-
-        vec2.transformMat4(bluePosWC, pulsingBluePos, m);
-        this.mBlueSq.getXform().setPosition(bluePosWC[0], bluePosWC[1])
-        if (this.withInBound(bluePosWC, wcPos)) {
-            overObj = "Lower Arm Blue Square:";
-            if (leftClick){
-                this.drawManipulator = true;
-                this.moveManipulator(bluePosWC);
-                if(this.mManipulator.getSceneNode() !== null &&
-                        this.mManipulator.getSceneNode() !== this.mLeftChild){
-                    this.mManipulator.removeSceneNode();
-                }
-                this.mManipulator.setSceneNode(this.mLeftChild);
-            }
-        }
+//    this.mXfSq.getXform().setPosition(wcX, wcY);
 //    
-    // 3. Left, upper arm (tip) the rotating red square
-        m = mat4.create();  // <-- reuse the matrix
-        var topArmMat = this.mTopChild.getXform().getXform();
-        mat4.multiply(m, leftArmMat, topArmMat); // top first, then, left
-        mat4.multiply(m, parentMat, m);  // parent is last
-        
-        var rotateRedPos = this.mTopChild.getRenderableAt(1).getXform().getPosition();
-        var redPosWC = vec2.fromValues(0, 0);
-        
-        vec2.transformMat4(redPosWC, rotateRedPos, m);
-        this.mRedSq.getXform().setPosition(redPosWC[0], redPosWC[1]);
-        if (this.withInBound(redPosWC, wcPos)) {
-            overObj = "Top Red Rec:";
-            if (leftClick){
-                this.drawManipulator = true;
-                this.moveManipulator(redPosWC);
-                
-                if(this.mManipulator.getSceneNode() !== null &&
-                        this.mManipulator.getSceneNode() !== this.mTopChild){
-                    this.mManipulator.removeSceneNode();
-                }
-                this.mManipulator.setSceneNode(this.mTopChild);
-            }
-        }
-        
-        var mPos = this.mManipulator.getXform().getPosition();
-        if(this.withInBound([mPos[0], mPos[1] + 1], wcPos)){
-            overObj = "Rotation Knob";
-        }
-        else if(this.withInBound([mPos[0] + 1, mPos[1]], wcPos)){
-            overObj = "Scale Knob";
-        }  
+//    var wcPos = [wcX, wcY];
+//    // 1. We will detect the based rotating head
+//    var parentXf = this.mParent.getXform();
+//    var parentMat = parentXf.getXform();
+//    var parentPos = parentXf.getPosition();
+//    this.mHeadSq.getXform().setPosition(parentPos[0], parentPos[1]);
+//    if (this.withInBound(parentPos, wcPos)) {
+//        overObj = "Parent Head";
+//        if (leftClick){
+//            this.drawManipulator = true;
+//            this.moveManipulator(parentPos);           
+//            if(this.mManipulator.getSceneNode() !== null &&
+//                this.mManipulator.getSceneNode() !== this.mParent){
+//                    this.mManipulator.removeSceneNode();
+//                }
+//            this.mManipulator.setSceneNode(this.mParent);
+//        }
+//    }
+//
+//    // 2. Left, lower arm, pulsing blue rectangle
+//        var m = mat4.create();
+//        var leftArmMat = this.mLeftChild.getXform().getXform(); // a matrix
+//        mat4.multiply(m, parentMat, leftArmMat);
+//
+//        var pulsingBluePos = this.mLeftChild.getRenderableAt(4).getXform().getPosition();
+//        var bluePosWC = vec2.fromValues(0, 0);
+//
+//        vec2.transformMat4(bluePosWC, pulsingBluePos, m);
+//        this.mBlueSq.getXform().setPosition(bluePosWC[0], bluePosWC[1])
+//        if (this.withInBound(bluePosWC, wcPos)) {
+//            overObj = "Lower Arm Blue Square:";
+//            if (leftClick){
+//                this.drawManipulator = true;
+//                this.moveManipulator(bluePosWC);
+//                if(this.mManipulator.getSceneNode() !== null &&
+//                        this.mManipulator.getSceneNode() !== this.mLeftChild){
+//                    this.mManipulator.removeSceneNode();
+//                }
+//                this.mManipulator.setSceneNode(this.mLeftChild);
+//            }
+//        }
+////    
+//    // 3. Left, upper arm (tip) the rotating red square
+//        m = mat4.create();  // <-- reuse the matrix
+//        var topArmMat = this.mTopChild.getXform().getXform();
+//        mat4.multiply(m, leftArmMat, topArmMat); // top first, then, left
+//        mat4.multiply(m, parentMat, m);  // parent is last
+//        
+//        var rotateRedPos = this.mTopChild.getRenderableAt(1).getXform().getPosition();
+//        var redPosWC = vec2.fromValues(0, 0);
+//        
+//        vec2.transformMat4(redPosWC, rotateRedPos, m);
+//        this.mRedSq.getXform().setPosition(redPosWC[0], redPosWC[1]);
+//        if (this.withInBound(redPosWC, wcPos)) {
+//            overObj = "Top Red Rec:";
+//            if (leftClick){
+//                this.drawManipulator = true;
+//                this.moveManipulator(redPosWC);
+//                
+//                if(this.mManipulator.getSceneNode() !== null &&
+//                        this.mManipulator.getSceneNode() !== this.mTopChild){
+//                    this.mManipulator.removeSceneNode();
+//                }
+//                this.mManipulator.setSceneNode(this.mTopChild);
+//            }
+//        }
+//        
+//        var mPos = this.mManipulator.getXform().getPosition();
+//        if(this.withInBound([mPos[0], mPos[1] + 1], wcPos)){
+//            overObj = "Rotation Knob";
+//        }
+//        else if(this.withInBound([mPos[0] + 1, mPos[1]], wcPos)){
+//            overObj = "Scale Knob";
+//        }  
 //
       return posEcho + overObj;
 };

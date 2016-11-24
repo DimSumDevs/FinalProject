@@ -79,9 +79,15 @@ myModule.controller("MainCtrl", function ($scope) {
         $scope.mLastWCPosX = this.mView.mouseWCX(pixelPos[0]);
         $scope.mLastWCPosY = this.mView.mouseWCY(pixelPos[1]);
 
+
         //$scope.mMyWorld.setPositionOfSelected($scope.pixelToWc(pixelPos));
-        $scope.mMyWorld.manipulateSelected($scope.pixelToWc(pixelPos));
-        $scope.mMouseOver = $scope.mMyWorld.detectMouseOver($scope.mLastWCPosX, $scope.mLastWCPosY, (event.which === 1));
+        switch (event.which) {
+            case 1:
+                $scope.mMyWorld.manipulateSelected($scope.pixelToWc(pixelPos));
+        };
+        
+    //$scope.mMouseOver = $scope.mMyWorld.detectMouseOver($scope.mLastWCPosX, $scope.mLastWCPosY, (event.which === 1));
+
     };
 
     $scope.isMouseOnScaleKnob = false;
@@ -89,8 +95,8 @@ myModule.controller("MainCtrl", function ($scope) {
     $scope.isMouseOnTranslationKnob = false;
 
     $scope.knobPos = function (event) {
-        var scaleKnobIndex = $scope.mMouseOver.indexOf("Manipulator Scale Knob");
-        var rotationKnobIndex = $scope.mMouseOver.indexOf("Manipulator Rotation Knob");
+        var scaleKnobIndex = $scope.mMouseOver.indexOf("Scale Knob");
+        var rotationKnobIndex = $scope.mMouseOver.indexOf("Rotation Knob");
 
         if (scaleKnobIndex !== -1) {
             $scope.isMouseOnScaleKnob = true;
