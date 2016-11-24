@@ -11,10 +11,7 @@
 function Manipulator(shader) {
     SceneNode.call(this, shader, name, true);   // calling super class constructor
     
-    this.mScenenode = null;
-    this.mouseOnTranslate = false;
-    this.mouseOnRotation = false;
-    this.mouseOnScale = false;
+    this.mSceneNode = null;
     
     var xf = this.getXform();
     xf.setPivot(0, 0);
@@ -76,42 +73,23 @@ Manipulator.prototype.update = function () {
 
 // Check click scaleKnob or translateKnob or rotationKnob
 
-Manipulator.prototype.clickTranslateKnob = function () {
-    this.mouseOnTranslate = true;
-    this.mouseOnRotation = false;
-    this.mouseOnScale = false;
+Manipulator.prototype.getRotationPoint = function () {
+    return this.mRotationPoint;
 };
 
-Manipulator.prototype.clickScaleKnob = function () {
-    this.mouseOnTranslate = false;
-    this.mouseOnRotation = false;
-    this.mouseOnScale = true;
+Manipulator.prototype.getScalePoint = function () {
+    return this.mScalePoint;
 };
 
-Manipulator.prototype.clickRotationKnob = function () {
-    this.mouseOnTranslate = false;
-    this.mouseOnRotation = true;
-    this.mouseOnScale = false;
+Manipulator.prototype.setSceneNode = function (obj) {
+    this.mSceneNode = obj;
 };
 
-Manipulator.prototype.isMouseOnRotationKnob = function(){
-    return this.mouseOnRotation;
+Manipulator.prototype.getSceneNode = function () {
+    return this.mSceneNode;
 };
 
-Manipulator.prototype.isMouseOnScaleKnob = function(){
-    return this.mouseOnRotation;
+Manipulator.prototype.removeSceneNode = function () {
+    this.mSceneNode = null;
 };
-
-Manipulator.prototype.isMouseOnTranslateKnob = function(){
-    return this.mouseOnRotation;
-};
-
-Manipulator.prototype.checkAllKnob = function () {
-    this.mouseOnTranslate = false;
-    this.mouseOnRotation = false;
-    this.mouseOnScale = false;
-};
-
-
-
 

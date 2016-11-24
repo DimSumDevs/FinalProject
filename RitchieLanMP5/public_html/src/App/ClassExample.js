@@ -122,3 +122,36 @@ ClassExample.prototype.setPositionOfSelected = function(newPosition)
         this.mParent.setElementPosition(this.mSelected, newPosition[0], newPosition[1]);
     }
 };
+
+ClassExample.prototype.scaleSceneNode = function (newX, newY) {
+    if(this.mManipulator.getSceneNode() !== null){
+        var oldSize = this.mOldSizeOManipulatorForScale;
+        var dx = newX - this.mManipulator.getXform().getXPos();
+        var dy = newY - this.mManipulator.getXform().getYPos();
+        this.mManipulator.getSceneNode().getXform().setSize(oldSize[0] + dx, oldSize[1] + dy);
+    }
+
+};
+
+ClassExample.prototype.rotateSceneNode = function (newX, newY) {
+    if(this.mManipulator.getSceneNode() !== null){
+        var oldRotation = this.mOldRotationInRad;
+        
+        var dx = newX - this.mManipulator.getXform().getXPos();
+        var dy = newY - this.mManipulator.getXform().getYPos();
+        var sqrDist = Math.sqrt(dx*dx + dy*dy);
+        
+        if(this.mManipulator.getXform().getXPos() < newX && 
+                this.mManipulator.getXform().getYPos() < newY){
+            this.mManipulator.getSceneNode().getXform().setRotationInRad(oldRotation - sqrDist/3.14);
+        }
+        else{
+            this.mManipulator.getSceneNode().getXform().setRotationInRad(oldRotation + sqrDist/3.14);
+        }       
+    }
+};
+
+ClassExample.prototype.moveManipulator = function (wcPos) {
+    var mousePos = this.mManipulator.getXform();
+    mousePos.setPosition(wcPos[0], wcPos[1]);
+};
