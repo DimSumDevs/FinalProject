@@ -39,7 +39,7 @@ SceneNode.prototype.checkClick = function (x,y)
     {
         if(this.mSet[i].checkClick(localX, localY))
         {
-            return this.mSet[i];
+            return this.mSet[i].getXform();
         }
     }
     //check if the click is on a child
@@ -125,4 +125,34 @@ SceneNode.prototype.update = function()
     {
         this.mChildren[i].update();
     }
+};
+SceneNode.prototype.getRealPosition = function(Xform)
+{
+    var position = [0,0];
+    //check if the xform belongs to this
+    if(Xform == this.mXform)
+    {
+        position[0] = Xform.getXPos();
+        position[1] = Xform.getYPos();
+        return position;
+    }
+    
+    //check if it belongs to an element
+    for (var i = 0; i < this.mSet.length; i ++)
+    {
+        if(Xform == this.mSet[i].getXform())
+        {
+            position[0] = Xform.getXPos();
+            position[1] = Xform.getYPos();
+            return position;
+        }
+    }
+    
+    //check if it belongs to a child
+    for (var i = 0; i < this.mChildren.length; i ++)
+    {
+        return this.mChildren[i].getRealPosition(Xform);
+    }
+    //Xform did not belong to this, or any elements of mSet, and there are no children
+    return null;
 };

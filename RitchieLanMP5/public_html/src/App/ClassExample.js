@@ -63,6 +63,7 @@ ClassExample.prototype.draw = function (camera) {
 ClassExample.prototype.update = function () {
     
     //this.mParent.update();
+    this.getRealPositionOfSelected();
 };
 
 
@@ -88,4 +89,14 @@ ClassExample.prototype.checkClick = function(clickPos)
     this.mSelected = this.mParent.checkClick(clickPos[0], clickPos[1]);
         
 
+};
+ClassExample.prototype.getRealPositionOfSelected= function()
+{
+    if(this.mSelected !== null)
+    {
+        var realPos = this.mParent.getRealPosition(this.mSelected);
+        var realX = realPos[0];
+        var realY = realPos[1];
+        
+    }
 };
