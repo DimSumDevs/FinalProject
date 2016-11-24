@@ -31,6 +31,15 @@ function ClassExample() {
 //    // shapes in the parent
 //    var obj = new CircleRenderable(this.mConstColorShader);  // the base
 //    this.mParent.addToSet(obj);
+//    ClassExample.prototype.draw = function (camera) {
+//    camera.setupViewProjection();
+//
+//    this.mParent.draw(camera);
+//    this.mManipulator.draw(camera);
+//};
+    // shapes in the parent
+//    var obj = new CircleRenderable(this.mConstColorShader);  // the base
+//    this.mParent.addToSet(obj);
 //    obj.setColor([0.3, 0.3, 0.9, 1]);
 //    var xf = obj.getXform();
 //    xf.setSize(2.5, 2.5);
@@ -87,7 +96,7 @@ ClassExample.prototype.checkClick = function(clickPos)
     this.mSelected = null;
     //check the click, if it returns, set mSelected
     this.mSelected = this.mParent.checkClick(clickPos[0], clickPos[1]);
-        
+//    this.mSelected = this.mManipulator.checkClick(clickPos[0], clickPos[1]); 
 
 };
 ClassExample.prototype.getRealPositionOfSelected= function()

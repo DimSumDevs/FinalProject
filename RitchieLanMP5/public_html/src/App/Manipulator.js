@@ -10,7 +10,12 @@
 
 function Manipulator(shader) {
     SceneNode.call(this, shader, name, true);   // calling super class constructor
-
+    
+    this.mScenenode = null;
+    this.mouseOnTranslate = false;
+    this.mouseOnRotation = false;
+    this.mouseOnScale = false;
+    
     var xf = this.getXform();
     xf.setPivot(0, 0);
     
@@ -68,3 +73,45 @@ Manipulator.prototype.update = function () {
 //        this.mPulseRate = -this.mPulseRate;
     this.mXform.incRotationByDegree(1);
 };
+
+// Check click scaleKnob or translateKnob or rotationKnob
+
+Manipulator.prototype.clickTranslateKnob = function () {
+    this.mouseOnTranslate = true;
+    this.mouseOnRotation = false;
+    this.mouseOnScale = false;
+};
+
+Manipulator.prototype.clickScaleKnob = function () {
+    this.mouseOnTranslate = false;
+    this.mouseOnRotation = false;
+    this.mouseOnScale = true;
+};
+
+Manipulator.prototype.clickRotationKnob = function () {
+    this.mouseOnTranslate = false;
+    this.mouseOnRotation = true;
+    this.mouseOnScale = false;
+};
+
+Manipulator.prototype.isMouseOnRotationKnob = function(){
+    return this.mouseOnRotation;
+};
+
+Manipulator.prototype.isMouseOnScaleKnob = function(){
+    return this.mouseOnRotation;
+};
+
+Manipulator.prototype.isMouseOnTranslateKnob = function(){
+    return this.mouseOnRotation;
+};
+
+Manipulator.prototype.checkAllKnob = function () {
+    this.mouseOnTranslate = false;
+    this.mouseOnRotation = false;
+    this.mouseOnScale = false;
+};
+
+
+
+
