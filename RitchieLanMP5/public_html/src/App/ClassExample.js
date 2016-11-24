@@ -28,7 +28,6 @@ function ClassExample() {
 
 
 
-<<<<<<< HEAD
 //    // shapes in the parent
 //    var obj = new CircleRenderable(this.mConstColorShader);  // the base
 //    this.mParent.addToSet(obj);
