@@ -89,9 +89,13 @@ SceneNode.prototype.update = function()
         this.mChildren[i].update();
     }
 };
-SceneNode.prototype.checkClick = function (mat4)
+SceneNode.prototype.checkClick = function (parentMat, x ,y)
 {
-    mat4.multiply(mat4, mat4, this.mXform.getXform());
+    var xfMat = this.mXform.getXform();
+    if(parentMat !== null)
+    {
+        mat4.multiply(xfMat, parentMat, xfMat);
+    }
 //    var local = this.wcToLocal(x,y);
     
     //check if the click is on the pivot
@@ -99,7 +103,7 @@ SceneNode.prototype.checkClick = function (mat4)
     //check if the click is on an element
     for (var i = 0; i < this.mSet.length; i++)
     {
-        if(this.mSet[i].checkClick(mat4))
+        if(this.mSet[i].checkClick(xfMat, x, y))
         {
             return this.mSet[i];
         }
@@ -107,7 +111,7 @@ SceneNode.prototype.checkClick = function (mat4)
     //check if the click is on a child
     for (var i = 0; i < this.mChildren.length; i++)
     {
-        var childVal = this.mChildren[i].checkClick(mat4);
+        var childVal = this.mChildren[i].checkClick(xfMat, x, y);
         if(childVal !== null)
         {
             return childVal;

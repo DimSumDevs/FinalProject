@@ -29,8 +29,8 @@ Renderable.prototype.computeAndLoadModelXform = function (parentMat) {
     if (parentMat !== undefined)
         mat4.multiply(m, parentMat, m);
     this.mShader.loadObjectTransform(m);
-};
 
+};
 Renderable.prototype.getXform = function () { return this.mXform; };
 Renderable.prototype.setColor = function (color) { this.mColor = color; };
 Renderable.prototype.getColor = function () { return this.mColor; };

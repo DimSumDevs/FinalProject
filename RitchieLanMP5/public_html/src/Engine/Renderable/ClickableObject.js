@@ -44,10 +44,14 @@ ClickableObject.prototype.resetKnobSize = function()
 ClickableObject.prototype.getXform = function () { return this.myRenderable.getXform(); };
 ClickableObject.prototype.setColor = function (color) { this.myRenderable.setColor(color); };
 ClickableObject.prototype.getColor = function () { return this.myRenderable.getColor(); };
-ClickableObject.prototype.checkClick = function ( x, y)
+ClickableObject.prototype.checkClick = function (parentMat, x, y)
 {
-    var myX = this.myRenderable.getXform().getXPos();
-    var myY = this.myRenderable.getXform().getYPos();
+
+    var myXform = this.myRenderable.getXform().getXform();
+    mat4.multiply(myXform, parentMat, myXform);
+
+    var myX = myXform[12];
+    var myY = myXform[13];
     
     //compute disctance btween my X/Y and x/y
     var xDis = myX - x;
