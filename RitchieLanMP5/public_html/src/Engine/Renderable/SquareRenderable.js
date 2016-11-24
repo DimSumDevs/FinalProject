@@ -24,7 +24,7 @@ gEngine.Core.inheritPrototype(SquareRenderable, Renderable);
 SquareRenderable.prototype.draw = function (camera, parentMat) {
     var gl = gEngine.Core.getGL();
     this.mShader.activateShader(
-        gEngine.VertexBuffer.getGLVertexRef(),
+        gEngine.VertexBuffer.getSquareVertexRef(),
         this.mColor,        // this is defined in the super class!
         camera.getVPMatrix());  // always activate the shader first!
     this.computeAndLoadModelXform(parentMat);
