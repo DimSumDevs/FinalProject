@@ -53,8 +53,16 @@ ClickableObject.prototype.checkClick = function ( x, y)
     var xDis = myX - x;
     var yDis = myY - y;
     var distance = Math.sqrt((xDis * xDis) + (yDis * yDis));
-    
-    return(distance <= this.knobSize);
+    if(distance <= this.knobSize)
+    {
+        this.myKnob.setColor([0,0,0,1]);
+        return true;
+    }
+    else
+    {
+        this.myKnob.setColor([1,1,1,0]);
+        return false;
+    }
 };
 
 ClickableObject.prototype.draw = function (camera, parentMat)

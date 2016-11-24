@@ -19,10 +19,10 @@ function ClickableNode(shader, name, drawPivot) {
     // this is for debugging only: for drawing the pivot position
     this.mPivotPos = null;
     if ((drawPivot !== undefined) && (drawPivot === true)) {
-        this.mPivotPos = new SquareRenderable(shader);
+        this.mPivotPos = new CircleRenderable(shader);
         this.mPivotPos.setColor([1, 0, 0, 1]); // default color
         var xf = this.mPivotPos.getXform();
-        xf.setSize(0.2, 0.2); // always this size
+        xf.setSize(0.05, 0.05); // always this size
     }
 }
 ClickableNode.prototype.setName = function (n) { this.mName = n; };
@@ -66,9 +66,14 @@ ClickableNode.prototype.getChildAt = function (index) {
 //if those elements return false then call the function on children
 ClickableNode.prototype.checkClick = function (x,y)
 {
+    //get the local space of the coordinates, for example this node could be 
+    //at position 5,10 with a child at 0,0 so we need to pass 0,0 on to children
     var localX = (x - this.mXform.getXPos()) / this.mXform.getSize()[0];
     var localY = (y - this.mXform.getYPos()) / this.mXform.getSize()[1];
     
+    //check if the click is on the pivot
+    
+    //check if the click is on an element
     for (var i = 0; i < this.mSet.length; i++)
     {
         if(this.mSet[i].checkClick(localX, localY))
@@ -76,6 +81,7 @@ ClickableNode.prototype.checkClick = function (x,y)
             return this.mSet[i];
         }
     }
+    //check if the click is on a child
     for (var i = 0; i < this.mChildren.length; i++)
     {
         var childVal = this.mChildren.checkClick(localX, localY);

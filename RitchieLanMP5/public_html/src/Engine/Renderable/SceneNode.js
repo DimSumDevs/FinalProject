@@ -28,20 +28,24 @@ function SceneNode(shader, name, drawPivot) {
 }
 SceneNode.prototype.checkClick = function (x,y)
 {
+   //at position 5,10 with a child at 0,0 so we need to pass 0,0 on to children
     var localX = (x - this.mXform.getXPos()) / this.mXform.getSize()[0];
     var localY = (y - this.mXform.getYPos()) / this.mXform.getSize()[1];
     
+    //check if the click is on the pivot
+    
+    //check if the click is on an element
     for (var i = 0; i < this.mSet.length; i++)
     {
         if(this.mSet[i].checkClick(localX, localY))
         {
-            this.mSet[i].setColor([0,0,0,1]);
             return this.mSet[i];
         }
     }
+    //check if the click is on a child
     for (var i = 0; i < this.mChildren.length; i++)
     {
-        var childVal = this.mChildren.checkClick(localX, localY);
+        var childVal = this.mChildren[i].checkClick(localX, localY);
         if(childVal !== null)
         {
             return childVal;

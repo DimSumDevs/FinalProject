@@ -53,23 +53,25 @@ myModule.controller("MainCtrl", function ($scope) {
         $scope.mMyWorld.draw($scope.mView);
     };
 
-    $scope.serviceSelection = function () {
-        switch ($scope.mSelectedEcho) {
-        case $scope.eSelection[0].label:
-            $scope.mSelectedXform = $scope.mMyWorld.parentXform();
-            break;
-        case $scope.eSelection[1].label:
-            $scope.mSelectedXform = $scope.mMyWorld.leftChildXform();
-            break;
-        case $scope.eSelection[2].label:
-            $scope.mSelectedXform = $scope.mMyWorld.topChildXform();
-            break;
-//        case $scope.eSelection[3].label:
-//            $scope.mSelectedXform = $scope.mMyWorld.rightChildXform();
-//            break;
-        }
+    $scope.serviceSelection = function (event) {
+        
+        var eventPixelPos = [0,0];
+        eventPixelPos[0] = $scope.mCanvasMouse.getPixelXPos(event);
+        eventPixelPos[1] = $scope.mCanvasMouse.getPixelYPos(event);
+        
+        $scope.mMyWorld.checkClick($scope.pixelToWc(eventPixelPos));
     };
-
+    $scope.pixelToWc = function (pixelPos)
+    {
+        //note this is hard coded for this window and coordinate system
+        var wcPosition = [0,0];
+        var ratio = 800 / 15;
+        wcPosition[0] = (pixelPos[0] - 400) / ratio;
+        wcPosition[1] = ((pixelPos[1] - 300) / ratio) + 3;
+        
+        return wcPosition;
+    };
+    
     $scope.serviceMove = function (event) {
         var canvasX = $scope.mCanvasMouse.getPixelXPos(event);
         var canvasY = $scope.mCanvasMouse.getPixelYPos(event);
