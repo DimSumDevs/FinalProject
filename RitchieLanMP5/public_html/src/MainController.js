@@ -88,7 +88,7 @@ myModule.controller("MainCtrl", function ($scope) {
     $scope.isMouseOnTranslationKnob = false;
 
     $scope.knobPos = function (event) {
-        var scaleKnobIndex = $scope.mMouseOver.indexOf("Manipulator Rotation Knob");
+        var scaleKnobIndex = $scope.mMouseOver.indexOf("Manipulator Scale Knob");
         var rotationKnobIndex = $scope.mMouseOver.indexOf("Manipulator Rotation Knob");
 
         if (scaleKnobIndex !== -1) {

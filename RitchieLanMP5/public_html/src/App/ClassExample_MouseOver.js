@@ -91,10 +91,10 @@ ClassExample.prototype.detectMouseOver = function (wcX, wcY, leftClick) {
         
         var mPos = this.mManipulator.getXform().getPosition();
         if(this.withInBound([mPos[0], mPos[1] + 1], wcPos)){
-            overObj = "Manipulator Rotation Knob";
+            overObj = "Rotation Knob";
         }
         else if(this.withInBound([mPos[0] + 1, mPos[1]], wcPos)){
-            overObj = "Manipulator Scale Knob";
+            overObj = "Scale Knob";
         }  
 //
       return posEcho + overObj;

@@ -32,21 +32,21 @@ function ClassExample() {
     xf.setSize(1,1);
     
     this.mManipulator = new Manipulator(this.mConstColorShader);
-    var manipulatorXform = this.mManipulator.getXform()
+    var manipulatorXform = this.mManipulator.getXform();
     manipulatorXform.setPosition(5, 5);
     
     this.mOldSizeOManipulatorForScale = manipulatorXform.getSize();
     this.mOldRotationInRad = manipulatorXform.getRotationInRad();
 
 //    // shapes in the parent
-    var obj = new CircleRenderable(this.mConstColorShader);  // the base
-    this.mParent.addToSet(obj);
-    ClassExample.prototype.draw = function (camera) {
-    camera.setupViewProjection();
-
-    this.mParent.draw(camera);
-    this.mManipulator.draw(camera);
-};
+//    var obj = new CircleRenderable(this.mConstColorShader);  // the base
+//    this.mParent.addToSet(obj);
+//    ClassExample.prototype.draw = function (camera) {
+//    camera.setupViewProjection();
+//
+//    this.mParent.draw(camera);
+//    this.mManipulator.draw(camera);
+//};
 //     shapes in the parent
 //    var obj = new CircleRenderable(this.mConstColorShader);  // the base
 //    this.mParent.addToSet(obj);
@@ -140,17 +140,16 @@ ClassExample.prototype.scaleSceneNode = function (newX, newY) {
 ClassExample.prototype.rotateSceneNode = function (newX, newY) {
     if(this.mManipulator.getSceneNode() !== null){
         var oldRotation = this.mOldRotationInRad;
-        
         var dx = newX - this.mManipulator.getXform().getXPos();
         var dy = newY - this.mManipulator.getXform().getYPos();
-        var sqrDist = Math.sqrt(dx*dx + dy*dy);
+        var distance = Math.sqrt(dx*dx + dy*dy);
         
         if(this.mManipulator.getXform().getXPos() < newX && 
                 this.mManipulator.getXform().getYPos() < newY){
-            this.mManipulator.getSceneNode().getXform().setRotationInRad(oldRotation - sqrDist/Math.PI);
+            this.mManipulator.getSceneNode().getXform().setRotationInRad(oldRotation - distance/Math.PI);
         }
         else{
-            this.mManipulator.getSceneNode().getXform().setRotationInRad(oldRotation + sqrDist/Math.PI);
+            this.mManipulator.getSceneNode().getXform().setRotationInRad(oldRotation + distance/Math.PI);
         }       
     }
 };
