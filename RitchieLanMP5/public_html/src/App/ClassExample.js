@@ -16,6 +16,7 @@ function ClassExample() {
         "src/GLSLShaders/SimpleFS.glsl");    // Path to the simple FragmentShader
         
     this.mSelected = null;
+    this.mSelectedMatrix = null;
     this.manipulatorValue = 3;
     this.mParent = new Face(this.mConstColorShader, "Root", 0 , 3);
     var xf = this.mParent.getXform();
@@ -34,70 +35,30 @@ function ClassExample() {
     
     this.mManipulator = new Manipulator(this.mConstColorShader);
     var manipulatorXform = this.mManipulator.getXform();
-    manipulatorXform.setPosition(5, 5);
+    manipulatorXform.setPosition(0, 0);
     
     this.mOldSizeOManipulatorForScale = manipulatorXform.getSize();
     this.mOldRotationInRad = manipulatorXform.getRotationInRad();
-
-//    // shapes in the parent
-//    var obj = new CircleRenderable(this.mConstColorShader);  // the base
-//    this.mParent.addToSet(obj);
-//    ClassExample.prototype.draw = function (camera) {
-//    camera.setupViewProjection();
-//
-//    this.mParent.draw(camera);
-//    this.mManipulator.draw(camera);
-//};
-//     shapes in the parent
-//    var obj = new CircleRenderable(this.mConstColorShader);  // the base
-//    this.mParent.addToSet(obj);
-//    obj.setColor([0.3, 0.3, 0.9, 1]);
-//    var xf = obj.getXform();
-//    xf.setSize(2.5, 2.5);
-    
-//    obj = new CircleRenderable(this.mConstColorShader); // The head
-//    this.mParent.addToSet(obj);
-//    obj.setColor([0.9, 0.8, 0.8, 1]);
-//    xf = obj.getXform();
-//    xf.setSize(0.5, 0.5);
     
 }
-
-ClassExample.prototype.toggleHeadSpin = function () {
-    this.mHeadShouldSpin = !this.mHeadShouldSpin; };
-
-ClassExample.prototype.toggleChildUpdate = function () {
-    this.mChildShouldUpdate = !this.mChildShouldUpdate; };
-
-ClassExample.prototype.toggleArmRotate = function () {
-    this.mArmShouldRotate = !this.mArmShouldRotate; };
 
 ClassExample.prototype.draw = function (camera) {
     // Step F: Starts the drawing by activating the camera
     camera.setupViewProjection();
 
     this.mParent.draw(camera);
-    this.mManipulator.draw(camera);
+    if(this.mSelected !== null && this.mSelectedMatrix !== null)
+    {
+        this.mManipulator.draw(camera, this.mSelectedMatrix);
+    }
 };
 
 ClassExample.prototype.update = function () {
     
     //this.mParent.update();
-    this.getRealPositionOfSelected();
+    this.getMatrixOfSelected();
 };
 
-
-
-ClassExample.prototype.leftChildXform = function () {
-    return this.mLeftChild.getXform();
-};
-
-ClassExample.prototype.topChildXform = function () {
-    return this.mTopChild.getXform();
-};
-ClassExample.prototype.parentXform = function () {
-    return this.mParent.getXform();
-};
 ClassExample.prototype.checkClick = function(clickPos)
 {
 //    this.manipulatorValue = this.mManipulator.detect(clickPos[0], clickPos[1]);
@@ -126,15 +87,14 @@ ClassExample.prototype.manipulateSelected = function (newPosition)
         }
     }
 };
-ClassExample.prototype.getRealPositionOfSelected= function()
+ClassExample.prototype.getMatrixOfSelected= function()
 {
-    //this doesn't work if object is scaled
+    var selectedMatrix = null;
     if(this.mSelected !== null)
     {
-        var realPos = this.mParent.getRealPosition(this.mSelected);
-        var realX = realPos[0];
-        var realY = realPos[1];
+        selectedMatrix = this.mParent.getMatrix(this.mSelected, selectedMatrix);
     }
+    this.mSelectedMatrix = selectedMatrix;
 };
 ClassExample.prototype.setPositionOfSelected = function(x, y)
 {
@@ -144,17 +104,15 @@ ClassExample.prototype.setPositionOfSelected = function(x, y)
     }
 };
 
-ClassExample.prototype.scaleSceneNode = function (newX, newY) {
-    if(this.mManipulator.getSceneNode() !== null){
-        var oldSize = this.mOldSizeOManipulatorForScale;
-        var dx = newX - this.mManipulator.getXform().getXPos();
-        var dy = newY - this.mManipulator.getXform().getYPos();
-        this.mManipulator.getSceneNode().getXform().setSize(oldSize[0] + dx, oldSize[1] + dy);
-    }
+ClassExample.prototype.scaleSelected = function (newX, newY) 
+{
+    
+  
 
 };
 
-ClassExample.prototype.rotateSceneNode = function (newX, newY) {
+ClassExample.prototype.rotateSelected = function (newX, newY) 
+{
     if(this.mManipulator.getSceneNode() !== null){
         var oldRotation = this.mOldRotationInRad;
         var dx = newX - this.mManipulator.getXform().getXPos();

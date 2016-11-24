@@ -96,8 +96,6 @@ SceneNode.prototype.checkClick = function (parentMat, x ,y)
     {
         mat4.multiply(xfMat, parentMat, xfMat);
     }
-//    var local = this.wcToLocal(x,y);
-    
     //check if the click is on the pivot
     
     //check if the click is on an element
@@ -155,35 +153,38 @@ SceneNode.prototype.setElementPosition = function(object, x ,y)
     //
     return false;
 };
-SceneNode.prototype.getRealPosition = function(object)
+SceneNode.prototype.getMatrix = function(object, parentMat)
 {
-    //this doesn;t work right now if scaling has happened
-    var position = [0,0];
-    //check if the xform belongs to this
-    if(object === this)
+    var xfMat = this.mXform.getXform();
+    if(parentMat !== null)
     {
-        position[0] = object.getXform().getXPos();
-        position[1] = object.getXform().getYPos();
-        return position;
+        mat4.multiply(xfMat, parentMat, xfMat);
     }
+    //check if the object is the pivot
     
-    //check if it belongs to an element
-    for (var i = 0; i < this.mSet.length; i ++)
+    //check if the object is an element
+    for (var i = 0; i < this.mSet.length; i++)
     {
-        if(object === this.mSet[i])
+        var element = this.mSet[i];
+        if(element instanceof ClickableObject)
         {
-            position[0] = object.getXform().getXPos();
-            position[1] = object.getXform().getYPos();
-            return position;
+            if(element === object)
+            {
+                var elementM = element.getXform().getXform();
+                mat4.multiply(elementM, xfMat, elementM);
+                return elementM;
+            }
         }
     }
-    //check if it belongs to a child
-    for (var i = 0; i < this.mChildren.length; i ++)
+    //check if onject is a child
+    for (var i = 0; i < this.mChildren.length; i++)
     {
-        //this wont work for multiple children
-        return this.mChildren[i].getRealPosition(object);
+        var childVal = this.mChildren[i].getMatrix(object, parentMat);
+        if(childVal !== null)
+        {
+            return childVal;
+        }
     }
-    //Xform did not belong to this, or any elements of mSet, and there are no children
     return null;
 };
 SceneNode.prototype.wcToLocal = function(wcX, wcY)
