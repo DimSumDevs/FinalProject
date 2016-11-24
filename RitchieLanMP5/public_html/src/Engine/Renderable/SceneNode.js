@@ -117,8 +117,40 @@ SceneNode.prototype.checkClick = function (x,y)
     return null;
     
 };
+SceneNode.prototype.setElementPosition = function(xForm, x ,y)
+{
+    //at position 5,10 with a child at 0,0 so we need to pass 0,0 on to children
+    var local = this.wcToLocal(x,y);
+    //check this is the element
+    if(xForm == this.mXform)
+    {
+        xForm.setPosition(local[0], local[1]);
+        return true;
+    }
+    
+    //check if the click is on an element
+    for (var i = 0; i < this.mSet.length; i++)
+    {
+        if(xForm == this.mSet[i].getXform())
+        {
+           xForm.setPosition(local[0], local[1]);
+           return true;
+        }
+    }
+    //check if the click is on a child
+    for (var i = 0; i < this.mChildren.length; i++)
+    {
+        if(this.mChildren[i].setElementPosition(xForm, local[0], local[1]))
+        {
+            return true;
+        }
+    }
+    //
+    return false;
+};
 SceneNode.prototype.getRealPosition = function(Xform)
 {
+    //this doesn;t work right now if scaling has happened
     var position = [0,0];
     //check if the xform belongs to this
     if(Xform == this.mXform)
@@ -138,7 +170,6 @@ SceneNode.prototype.getRealPosition = function(Xform)
             return position;
         }
     }
-    
     //check if it belongs to a child
     for (var i = 0; i < this.mChildren.length; i ++)
     {
@@ -150,7 +181,7 @@ SceneNode.prototype.getRealPosition = function(Xform)
 SceneNode.prototype.wcToLocal = function(wcX, wcY)
 {
     var localCoordinates = [0,0];
-    
+    var xPos = this.mXform.getXPos();
     //at position 5,10 with a child at 0,0 so we need to pass 0,0 on to children
     var x = (wcX - this.mXform.getXPos()) / this.mXform.getSize()[0];
     var y  = (wcY - this.mXform.getYPos()) / this.mXform.getSize()[1];
@@ -158,12 +189,13 @@ SceneNode.prototype.wcToLocal = function(wcX, wcY)
     localCoordinates[0] = x;
     localCoordinates[1] = y;
     
+    //this is not working when the thing is rotated
     var xDis = x - this.mXform.getPivotXPos();
     var yDis = y - this.mXform.getPivotYPos();
     
     var radius = Math.sqrt( (xDis * xDis) + (yDis * yDis));
-    var thetaX = Math.acos(xDis/ radius) - this.mXform.getRotationInRad();
-    var thetaY = Math.asin(yDis / radius) - this.mXform.getRotationInRad();
+    var thetaX = Math.acos(xDis/ radius) + this.mXform.getRotationInRad();
+    var thetaY = Math.asin(yDis / radius) + this.mXform.getRotationInRad();
     
     localCoordinates[0] = radius* Math.cos(thetaX);
     localCoordinates[1] = radius* Math.sin(thetaY);

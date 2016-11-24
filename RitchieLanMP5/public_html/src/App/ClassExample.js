@@ -18,16 +18,20 @@ function ClassExample() {
     this.mManipulator.getXform().setPosition(5, 5);
         
     this.mSelected = null;
-    this.mParent = new SceneNode(this.mConstColorShader, "Root", true);
-    this.mLeftChild = new Face(this.mConstColorShader, "LeftGen 1",-4, 3);
-    var xf = this.mLeftChild.getXform();
+    this.mParent = new Face(this.mConstColorShader, "Root", 0 , 3);
+    var xf = this.mParent.getXform();
     xf.setSize(1.5,1.5);
-    xf.setRotationInRad(.5);
+    xf.setRotationInRad(0);
+    
+    this.mLeftChild = new Face(this.mConstColorShader, "Child 1",-5, 0);
+    var xf = this.mLeftChild.getXform();
+    xf.setSize(1,1);
+
     this.mParent.addAsChild(this.mLeftChild);
-    this.mTopChild = new Face(this.mConstColorShader, "LeftGen 2",3, 2); 
+    this.mTopChild = new Face(this.mConstColorShader, "Child 2",2, 1); 
     this.mLeftChild.addAsChild(this.mTopChild); 
     var xf = this.mTopChild.getXform();
-    xf.setSize(.5,.5);
+    xf.setSize(1,1);
 
 
 //    // shapes in the parent
@@ -73,7 +77,7 @@ ClassExample.prototype.draw = function (camera) {
 
 ClassExample.prototype.update = function () {
     
-//    this.mParent.update();
+    //this.mParent.update();
     this.getRealPositionOfSelected();
 };
 
@@ -103,6 +107,7 @@ ClassExample.prototype.checkClick = function(clickPos)
 };
 ClassExample.prototype.getRealPositionOfSelected= function()
 {
+    //this doesn't work if object is scaled
     if(this.mSelected !== null)
     {
         var realPos = this.mParent.getRealPosition(this.mSelected);
@@ -110,7 +115,10 @@ ClassExample.prototype.getRealPositionOfSelected= function()
         var realY = realPos[1];
     }
 };
-ClassExample.prototype.setPositionOfSelected = function(newX, newY)
+ClassExample.prototype.setPositionOfSelected = function(newPosition)
 {
-    
+    if(this.selected !== null)
+    {
+        this.mParent.setElementPosition(this.mSelected, newPosition[0], newPosition[1]);
+    }
 };

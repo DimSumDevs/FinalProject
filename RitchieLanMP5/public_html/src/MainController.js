@@ -73,10 +73,11 @@ myModule.controller("MainCtrl", function ($scope) {
     };
     
     $scope.serviceMove = function (event) {
-        var canvasX = $scope.mCanvasMouse.getPixelXPos(event);
-        var canvasY = $scope.mCanvasMouse.getPixelYPos(event);
-        $scope.mLastWCPosX = this.mView.mouseWCX(canvasX);
-        $scope.mLastWCPosY = this.mView.mouseWCY(canvasY);
-        $scope.mMouseOver = $scope.mMyWorld.detectMouseOver($scope.mLastWCPosX, $scope.mLastWCPosY, (event.which===1));
+        var pixelPos = [0,0];
+        pixelPos[0] = $scope.mCanvasMouse.getPixelXPos(event);
+        pixelPos[1] = $scope.mCanvasMouse.getPixelYPos(event);
+        $scope.mLastWCPosX = this.mView.mouseWCX(pixelPos[0]);
+        $scope.mLastWCPosY = this.mView.mouseWCY(pixelPos[1]);
+        $scope.mMyWorld.setPositionOfSelected($scope.pixelToWc(pixelPos))
     };
 });
