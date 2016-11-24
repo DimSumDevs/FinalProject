@@ -16,11 +16,11 @@ function ClassExample() {
         "src/GLSLShaders/SimpleFS.glsl");    // Path to the simple FragmentShader
         
     this.mSelected = null;
-    this.manipulatorValue;
+    this.manipulatorValue = 3;
     this.mParent = new Face(this.mConstColorShader, "Root", 0 , 3);
     var xf = this.mParent.getXform();
     xf.setSize(1,1);
-    xf.setRotationInRad(1);
+    xf.setRotationInRad(0);
     
     this.mLeftChild = new Face(this.mConstColorShader, "Child 1",-5, 0);
     var xf = this.mLeftChild.getXform();
@@ -100,7 +100,7 @@ ClassExample.prototype.parentXform = function () {
 };
 ClassExample.prototype.checkClick = function(clickPos)
 {
-    this.manipulatorValue = this.mManipulator.detect(clickPos[0], clickPos[1]);
+//    this.manipulatorValue = this.mManipulator.detect(clickPos[0], clickPos[1]);
     
     if(this.manipulatorValue !== -1)
     {
@@ -119,7 +119,7 @@ ClassExample.prototype.manipulateSelected = function (newPosition)
             case(2):
                 //rotate selected
             case(3):
-                this.setPositionOfSelected(newPosition);
+                this.setPositionOfSelected(newPosition[0], newPosition[1]);
                 break;
             case(4):
                 //scale selected
@@ -140,7 +140,7 @@ ClassExample.prototype.setPositionOfSelected = function(x, y)
 {
     if(this.mSelected !== null)
     {
-        this.mParent.setElementPosition(this.mSelected, newPosition[0], newPosition[1]);
+        this.mParent.setElementPosition(this.mSelected, x, y);
     }
 };
 
