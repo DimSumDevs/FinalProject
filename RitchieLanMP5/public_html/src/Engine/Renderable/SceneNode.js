@@ -103,9 +103,13 @@ SceneNode.prototype.checkClick = function (parentMat, x ,y)
     //check if the click is on an element
     for (var i = 0; i < this.mSet.length; i++)
     {
-        if(this.mSet[i].checkClick(xfMat, x, y))
+        var element = this.mSet[i];
+        if(element instanceof ClickableObject)
         {
-            return this.mSet[i];
+            if(element.checkClick(xfMat, x, y))
+            {
+                return element;
+            }
         }
     }
     //check if the click is on a child

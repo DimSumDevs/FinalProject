@@ -16,10 +16,11 @@ function ClassExample() {
         "src/GLSLShaders/SimpleFS.glsl");    // Path to the simple FragmentShader
         
     this.mSelected = null;
+    this.manipulatorValue;
     this.mParent = new Face(this.mConstColorShader, "Root", 0 , 3);
     var xf = this.mParent.getXform();
     xf.setSize(1,1);
-    xf.setRotationInRad(0);
+    xf.setRotationInRad(1);
     
     this.mLeftChild = new Face(this.mConstColorShader, "Child 1",-5, 0);
     var xf = this.mLeftChild.getXform();
@@ -99,14 +100,31 @@ ClassExample.prototype.parentXform = function () {
 };
 ClassExample.prototype.checkClick = function(clickPos)
 {
-    //create a mat4 to represent click position
-//    var tempXf = new transform();
-//    tempXf.setPosition(-clickPos[0], -clickPos[1]);
-    this.mSelected = null;
-    //check the click, if it returns, set mSelected
-    this.mSelected = this.mParent.checkClick(null, clickPos[0], clickPos[1]);
-//    this.mSelected = this.mManipulator.checkClick(clickPos[0], clickPos[1]); 
+    this.manipulatorValue = this.mManipulator.detect(clickPos[0], clickPos[1]);
+    
+    if(this.manipulatorValue !== -1)
+    {
+        this.mSelected = null;
+        //check the click, if it returns, set mSelected
+        this.mSelected = this.mParent.checkClick(null, clickPos[0], clickPos[1]);
+    }
 
+};
+ClassExample.prototype.manipulateSelected = function (newPosition)
+{
+    if(this.mSelected !== null)
+    {
+        switch (this.manipulatorValue)
+        {
+            case(2):
+                //rotate selected
+            case(3):
+                this.setPositionOfSelected(newPosition);
+                break;
+            case(4):
+                //scale selected
+        }
+    }
 };
 ClassExample.prototype.getRealPositionOfSelected= function()
 {
@@ -118,7 +136,7 @@ ClassExample.prototype.getRealPositionOfSelected= function()
         var realY = realPos[1];
     }
 };
-ClassExample.prototype.setPositionOfSelected = function(newPosition)
+ClassExample.prototype.setPositionOfSelected = function(x, y)
 {
     if(this.mSelected !== null)
     {

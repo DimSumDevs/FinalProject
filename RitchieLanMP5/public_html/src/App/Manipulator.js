@@ -32,7 +32,7 @@ function Manipulator(shader) {
     xf.setSize(0.07, 2);
     xf.setPosition(0, 1);
  
-    // create a red top
+    // create a rotate at 2
     obj = new ClickableObject(shader, true);  
     this.addToSet(obj);
     obj.setColor([0.7, 0.2, 0.2, 1]);
@@ -40,7 +40,7 @@ function Manipulator(shader) {
     xf.setSize(0.2, 0.2); 
     xf.setPosition(0, 2);
     
-    // create a red middle
+    // create a red translate at 3
     obj = new ClickableObject(shader, true); 
     this.addToSet(obj);
     obj.setColor([0.7, 0.2, 0.2, 1]);
@@ -48,7 +48,7 @@ function Manipulator(shader) {
     xf.setSize(0.2, 0.2); 
     xf.setPosition(0, 0);
      
-    // create a red right
+    // create a red scale at 4
     obj = new ClickableObject(shader, true); 
     this.addToSet(obj);
     obj.setColor([0.7, 0.2, 0.2, 1]);
@@ -91,3 +91,16 @@ Manipulator.prototype.removeSceneNode = function () {
     this.mSceneNode = null;
 };
 
+Manipulator.prototype.detect = function(x, y)
+{
+    var obj = this.checkClick(null, x,y);
+    for(var i = 2; i < this.mSet.length; i++)
+    {
+        if(obj === this.mSet[i]);
+        {
+            return i;
+        }
+    }
+    return -1;
+    
+};

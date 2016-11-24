@@ -79,7 +79,8 @@ myModule.controller("MainCtrl", function ($scope) {
         $scope.mLastWCPosX = this.mView.mouseWCX(pixelPos[0]);
         $scope.mLastWCPosY = this.mView.mouseWCY(pixelPos[1]);
 
-        $scope.mMyWorld.setPositionOfSelected($scope.pixelToWc(pixelPos));
+        //$scope.mMyWorld.setPositionOfSelected($scope.pixelToWc(pixelPos));
+        $scope.mMyWorld.manipulateSelected($scope.pixelToWc(pixelPos));
         $scope.mMouseOver = $scope.mMyWorld.detectMouseOver($scope.mLastWCPosX, $scope.mLastWCPosY, (event.which === 1));
     };
 
