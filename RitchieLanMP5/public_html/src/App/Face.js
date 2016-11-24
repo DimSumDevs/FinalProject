@@ -13,6 +13,7 @@ function Face(shader, name, xPivot, yPivot) {
 
     var xf = this.getXform();
     xf.setPosition(xPivot, yPivot);
+    xf.setPivot(0,0);
     
     // now create the children shapes
     var obj = new ClickableObject(shader, true);  // The another small plane

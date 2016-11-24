@@ -20,7 +20,7 @@ function ClassExample() {
     this.mSelected = null;
     this.mParent = new Face(this.mConstColorShader, "Root", 0 , 3);
     var xf = this.mParent.getXform();
-    xf.setSize(1.5,1.5);
+    xf.setSize(1,1);
     xf.setRotationInRad(0);
     
     this.mLeftChild = new Face(this.mConstColorShader, "Child 1",-5, 0);
@@ -117,7 +117,7 @@ ClassExample.prototype.getRealPositionOfSelected= function()
 };
 ClassExample.prototype.setPositionOfSelected = function(newPosition)
 {
-    if(this.selected !== null)
+    if(this.mSelected !== null)
     {
         this.mParent.setElementPosition(this.mSelected, newPosition[0], newPosition[1]);
     }

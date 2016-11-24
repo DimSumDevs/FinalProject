@@ -23,7 +23,7 @@ function SceneNode(shader, name, drawPivot) {
         this.mPivotPos = new CircleRenderable(shader);
         this.mPivotPos.setColor([1, 0, 0, 1]); // default color
         var xf = this.mPivotPos.getXform();
-        xf.setSize(0.05, 0.05); // always this size
+        xf.setSize(0.1, 0.1); // always this size
     }
 }
 SceneNode.prototype.setName = function (n) { this.mName = n; };
@@ -101,7 +101,7 @@ SceneNode.prototype.checkClick = function (x,y)
     {
         if(this.mSet[i].checkClick(local[0], local[1]))
         {
-            return this.mSet[i].getXform();
+            return this.mSet[i];
         }
     }
     //check if the click is on a child
@@ -113,34 +113,33 @@ SceneNode.prototype.checkClick = function (x,y)
             return childVal;
         }
     }
-    //
     return null;
     
 };
-SceneNode.prototype.setElementPosition = function(xForm, x ,y)
+SceneNode.prototype.setElementPosition = function(object, x ,y)
 {
     //at position 5,10 with a child at 0,0 so we need to pass 0,0 on to children
     var local = this.wcToLocal(x,y);
     //check this is the element
-    if(xForm == this.mXform)
+    if(object === this)
     {
-        xForm.setPosition(local[0], local[1]);
+        object.getXform().setPosition(local[0], local[1]);
         return true;
     }
     
     //check if the click is on an element
     for (var i = 0; i < this.mSet.length; i++)
     {
-        if(xForm == this.mSet[i].getXform())
+        if(object === this.mSet[i])
         {
-           xForm.setPosition(local[0], local[1]);
+           object.getXform().setPosition(local[0], local[1]);
            return true;
         }
     }
     //check if the click is on a child
     for (var i = 0; i < this.mChildren.length; i++)
     {
-        if(this.mChildren[i].setElementPosition(xForm, local[0], local[1]))
+        if(this.mChildren[i].setElementPosition(object, local[0], local[1]))
         {
             return true;
         }
@@ -148,32 +147,33 @@ SceneNode.prototype.setElementPosition = function(xForm, x ,y)
     //
     return false;
 };
-SceneNode.prototype.getRealPosition = function(Xform)
+SceneNode.prototype.getRealPosition = function(object)
 {
     //this doesn;t work right now if scaling has happened
     var position = [0,0];
     //check if the xform belongs to this
-    if(Xform == this.mXform)
+    if(object === this)
     {
-        position[0] = Xform.getXPos();
-        position[1] = Xform.getYPos();
+        position[0] = object.getXform().getXPos();
+        position[1] = object.getXform().getYPos();
         return position;
     }
     
     //check if it belongs to an element
     for (var i = 0; i < this.mSet.length; i ++)
     {
-        if(Xform == this.mSet[i].getXform())
+        if(object === this.mSet[i])
         {
-            position[0] = Xform.getXPos();
-            position[1] = Xform.getYPos();
+            position[0] = object.getXform().getXPos();
+            position[1] = object.getXform().getYPos();
             return position;
         }
     }
     //check if it belongs to a child
     for (var i = 0; i < this.mChildren.length; i ++)
     {
-        return this.mChildren[i].getRealPosition(Xform);
+        //this wont work for multiple children
+        return this.mChildren[i].getRealPosition(object);
     }
     //Xform did not belong to this, or any elements of mSet, and there are no children
     return null;
@@ -182,6 +182,7 @@ SceneNode.prototype.wcToLocal = function(wcX, wcY)
 {
     var localCoordinates = [0,0];
     var xPos = this.mXform.getXPos();
+    var yPos = this.mXform.getYPos();
     //at position 5,10 with a child at 0,0 so we need to pass 0,0 on to children
     var x = (wcX - this.mXform.getXPos()) / this.mXform.getSize()[0];
     var y  = (wcY - this.mXform.getYPos()) / this.mXform.getSize()[1];
@@ -190,14 +191,42 @@ SceneNode.prototype.wcToLocal = function(wcX, wcY)
     localCoordinates[1] = y;
     
     //this is not working when the thing is rotated
-    var xDis = x - this.mXform.getPivotXPos();
-    var yDis = y - this.mXform.getPivotYPos();
-    
-    var radius = Math.sqrt( (xDis * xDis) + (yDis * yDis));
-    var thetaX = Math.acos(xDis/ radius) + this.mXform.getRotationInRad();
-    var thetaY = Math.asin(yDis / radius) + this.mXform.getRotationInRad();
-    
-    localCoordinates[0] = radius* Math.cos(thetaX);
-    localCoordinates[1] = radius* Math.sin(thetaY);
+//    var xDis = x - this.mXform.getPivotXPos();
+//    var yDis = y - this.mXform.getPivotYPos();
+//    
+//    var radius = Math.sqrt( (xDis * xDis) + (yDis * yDis));
+//    var thetaX = Math.acos(xDis/ radius) + this.mXform.getRotationInRad();
+//    var thetaY = Math.asin(yDis / radius) + this.mXform.getRotationInRad();
+//    
+//    localCoordinates[0] = radius* Math.cos(thetaX);
+//    localCoordinates[1] = radius* Math.sin(thetaY);
     return localCoordinates;
+};
+SceneNode.prototype.findXform = function (xForm, mat4)
+{
+    //concatinate mat4 into local space
+    mat4.multiply(mat4, mat4, this.mXform.getXform());
+    //check for target xform
+       if(xForm == this.mXform)
+    {
+        return true;
+    }
+    
+    //check if the click is on an element
+    for (var i = 0; i < this.mSet.length; i++)
+    {
+        if(xForm == this.mSet[i].getXform())
+        {
+           return true;
+        }
+    }
+    //check if the click is on a child
+    for (var i = 0; i < this.mChildren.length; i++)
+    {
+        if(this.mChildren[i].findXform(xForm, local[0], local[1]))
+        {
+            return true;
+        }
+    }
+    
 };
