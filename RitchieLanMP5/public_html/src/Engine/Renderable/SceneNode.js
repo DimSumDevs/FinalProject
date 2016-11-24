@@ -89,17 +89,17 @@ SceneNode.prototype.update = function()
         this.mChildren[i].update();
     }
 };
-SceneNode.prototype.checkClick = function (x,y)
+SceneNode.prototype.checkClick = function (mat4)
 {
-   //at position 5,10 with a child at 0,0 so we need to pass 0,0 on to children
-    var local = this.wcToLocal(x,y);
+    mat4.multiply(mat4, mat4, this.mXform.getXform());
+//    var local = this.wcToLocal(x,y);
     
     //check if the click is on the pivot
     
     //check if the click is on an element
     for (var i = 0; i < this.mSet.length; i++)
     {
-        if(this.mSet[i].checkClick(local[0], local[1]))
+        if(this.mSet[i].checkClick(mat4))
         {
             return this.mSet[i];
         }
@@ -107,7 +107,7 @@ SceneNode.prototype.checkClick = function (x,y)
     //check if the click is on a child
     for (var i = 0; i < this.mChildren.length; i++)
     {
-        var childVal = this.mChildren[i].checkClick(local[0], local[1]);
+        var childVal = this.mChildren[i].checkClick(mat4);
         if(childVal !== null)
         {
             return childVal;
@@ -202,31 +202,33 @@ SceneNode.prototype.wcToLocal = function(wcX, wcY)
 //    localCoordinates[1] = radius* Math.sin(thetaY);
     return localCoordinates;
 };
-SceneNode.prototype.findXform = function (xForm, mat4)
+SceneNode.prototype.findObject = function (object, mat4)
 {
     //concatinate mat4 into local space
     mat4.multiply(mat4, mat4, this.mXform.getXform());
-    //check for target xform
-       if(xForm == this.mXform)
+    //check for target object
+       if(object === this)
     {
         return true;
     }
     
-    //check if the click is on an element
+    //check elements
     for (var i = 0; i < this.mSet.length; i++)
     {
-        if(xForm == this.mSet[i].getXform())
+        if(object == this.mSet[i])
         {
            return true;
         }
     }
-    //check if the click is on a child
+    //check children
     for (var i = 0; i < this.mChildren.length; i++)
     {
-        if(this.mChildren[i].findXform(xForm, local[0], local[1]))
+        var result = this.mChildren[i].findXform(object, mat4);
+        if(result === true)
         {
             return true;
         }
     }
+    return false;
     
 };

@@ -91,18 +91,17 @@ ClassExample.prototype.leftChildXform = function () {
     return this.mLeftChild.getXform();
 };
 
-
-
 ClassExample.prototype.topChildXform = function () {
     return this.mTopChild.getXform();
 };
-
-
 ClassExample.prototype.parentXform = function () {
     return this.mParent.getXform();
 };
 ClassExample.prototype.checkClick = function(clickPos)
 {
+    //create a mat4 to represent click position
+    var tempXf = new transform();
+    tempXf.setPosition(-clickPos[0], -clickPos[1]);
     this.mSelected = null;
     //check the click, if it returns, set mSelected
     this.mSelected = this.mParent.checkClick(clickPos[0], clickPos[1]);
