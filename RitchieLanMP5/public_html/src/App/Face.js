@@ -12,7 +12,7 @@ function Face(shader, name, xPivot, yPivot) {
     SceneNode.call(this, shader, name, true);   // calling super class constructor
 
     var xf = this.getXform();
-    xf.setPivot(xPivot, yPivot);
+    xf.setPosition(xPivot, yPivot);
     
     // now create the children shapes
     var obj = new ClickableObject(shader, true);  // The another small plane
@@ -20,21 +20,21 @@ function Face(shader, name, xPivot, yPivot) {
     obj.setColor([1, 1, 0, 1]);
     xf = obj.getXform();
     xf.setSize(1, 1);
-    xf.setPosition(xPivot, yPivot);
+    xf.setPosition(0, 0);
  
     obj = new ClickableObject(shader, true);  // The red eye right
     this.addToSet(obj);
     obj.setColor([0.7, .2, 0.2, 1]);
     xf = obj.getXform();
     xf.setSize(0.2, 0.2); // so that we can see the connecting point
-    xf.setPosition(0.4 + xPivot, .5 + yPivot);
+    xf.setPosition(0.4, .5);
     
     obj = new ClickableObject(shader, true);  // The red eye left
     this.addToSet(obj);
     obj.setColor([0.7, 0.2, 0.2, 1]);
     xf = obj.getXform();
     xf.setSize(0.2, 0.2); // so that we can see the connecting point
-    xf.setPosition(xPivot- 0.4, .5 + yPivot);
+    xf.setPosition(-0.4, .5);
     
     
     obj = new ClickableObject(shader, true); // mouth
@@ -42,7 +42,7 @@ function Face(shader, name, xPivot, yPivot) {
     obj.setColor([0, 0, 1, 1]);
     xf = obj.getXform();
     xf.setSize(0.5, 0.2); // so that we can see the connecting point
-    xf.setPosition(xPivot, -0.5 + yPivot);
+    xf.setPosition(0, -0.5);
     
 }
 gEngine.Core.inheritPrototype(Face, SceneNode);

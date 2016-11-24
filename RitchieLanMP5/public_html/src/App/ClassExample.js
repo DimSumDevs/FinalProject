@@ -19,13 +19,15 @@ function ClassExample() {
         
     this.mSelected = null;
     this.mParent = new SceneNode(this.mConstColorShader, "Root", true);
-    this.mLeftChild = new Face(this.mConstColorShader, "LeftGen 1",
-                            -4, 3);
+    this.mLeftChild = new Face(this.mConstColorShader, "LeftGen 1",-4, 3);
+    var xf = this.mLeftChild.getXform();
+    xf.setSize(1.5,1.5);
+    
     this.mParent.addAsChild(this.mLeftChild);
-    this.mTopChild = new Face(this.mConstColorShader, "LeftGen 2",
-                            -5, 5); 
+    this.mTopChild = new Face(this.mConstColorShader, "LeftGen 2",3, 2); 
     this.mLeftChild.addAsChild(this.mTopChild); 
-
+    var xf = this.mTopChild.getXform();
+    xf.setSize(.5,.5);
 
 
 //    // shapes in the parent
@@ -71,7 +73,7 @@ ClassExample.prototype.draw = function (camera) {
 
 ClassExample.prototype.update = function () {
     
-    //this.mParent.update();
+    this.mParent.update();
     this.getRealPositionOfSelected();
 };
 
@@ -106,6 +108,5 @@ ClassExample.prototype.getRealPositionOfSelected= function()
         var realPos = this.mParent.getRealPosition(this.mSelected);
         var realX = realPos[0];
         var realY = realPos[1];
-        
     }
 };
