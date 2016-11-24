@@ -71,8 +71,6 @@ Manipulator.prototype.update = function () {
     this.mXform.incRotationByDegree(1);
 };
 
-// Check click scaleKnob or translateKnob or rotationKnob
-
 Manipulator.prototype.getRotationPoint = function () {
     return this.mRotationPoint;
 };

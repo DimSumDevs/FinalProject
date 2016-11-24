@@ -14,8 +14,6 @@ function ClassExample() {
     this.mConstColorShader = new SimpleShader(
         "src/GLSLShaders/SimpleVS.glsl",      // Path to the VertexShader 
         "src/GLSLShaders/SimpleFS.glsl");    // Path to the simple FragmentShader
-    this.mManipulator = new Manipulator(this.mConstColorShader);
-    this.mManipulator.getXform().setPosition(5, 5);
         
     this.mSelected = null;
     this.mParent = new Face(this.mConstColorShader, "Root", 0 , 3);
@@ -32,24 +30,30 @@ function ClassExample() {
     this.mLeftChild.addAsChild(this.mTopChild); 
     var xf = this.mTopChild.getXform();
     xf.setSize(1,1);
-
+    
+    this.mManipulator = new Manipulator(this.mConstColorShader);
+    var manipulatorXform = this.mManipulator.getXform()
+    manipulatorXform.setPosition(5, 5);
+    
+    this.mOldSizeOManipulatorForScale = manipulatorXform.getSize();
+    this.mOldRotationInRad = manipulatorXform.getRotationInRad();
 
 //    // shapes in the parent
-//    var obj = new CircleRenderable(this.mConstColorShader);  // the base
-//    this.mParent.addToSet(obj);
-//    ClassExample.prototype.draw = function (camera) {
-//    camera.setupViewProjection();
-//
-//    this.mParent.draw(camera);
-//    this.mManipulator.draw(camera);
-//};
-    // shapes in the parent
+    var obj = new CircleRenderable(this.mConstColorShader);  // the base
+    this.mParent.addToSet(obj);
+    ClassExample.prototype.draw = function (camera) {
+    camera.setupViewProjection();
+
+    this.mParent.draw(camera);
+    this.mManipulator.draw(camera);
+};
+//     shapes in the parent
 //    var obj = new CircleRenderable(this.mConstColorShader);  // the base
 //    this.mParent.addToSet(obj);
 //    obj.setColor([0.3, 0.3, 0.9, 1]);
 //    var xf = obj.getXform();
 //    xf.setSize(2.5, 2.5);
-//    
+    
 //    obj = new CircleRenderable(this.mConstColorShader); // The head
 //    this.mParent.addToSet(obj);
 //    obj.setColor([0.9, 0.8, 0.8, 1]);
@@ -143,10 +147,10 @@ ClassExample.prototype.rotateSceneNode = function (newX, newY) {
         
         if(this.mManipulator.getXform().getXPos() < newX && 
                 this.mManipulator.getXform().getYPos() < newY){
-            this.mManipulator.getSceneNode().getXform().setRotationInRad(oldRotation - sqrDist/3.14);
+            this.mManipulator.getSceneNode().getXform().setRotationInRad(oldRotation - sqrDist/Math.PI);
         }
         else{
-            this.mManipulator.getSceneNode().getXform().setRotationInRad(oldRotation + sqrDist/3.14);
+            this.mManipulator.getSceneNode().getXform().setRotationInRad(oldRotation + sqrDist/Math.PI);
         }       
     }
 };

@@ -37,7 +37,6 @@ function Face(shader, name, xPivot, yPivot) {
     xf.setSize(0.2, 0.2); // so that we can see the connecting point
     xf.setPosition(-0.4, .5);
     
-    
     obj = new ClickableObject(shader, true); // mouth
     this.addToSet(obj);
     obj.setColor([0, 0, 1, 1]);
