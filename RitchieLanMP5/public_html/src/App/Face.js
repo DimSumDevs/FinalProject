@@ -16,28 +16,28 @@ function Face(shader, name, xPivot, yPivot) {
     xf.setPivot(0,0);
     
     // now create the children shapes
-    var obj = new ClickableObject(shader, true);  // The another small plane
+    var obj = new ClickableObject(shader, false);  // The another small plane
     this.addToSet(obj);
     obj.setColor([1, 1, 0, 1]);
     xf = obj.getXform();
     xf.setSize(1, 1);
     xf.setPosition(0, 0);
  
-    obj = new ClickableObject(shader, true);  // The red eye right
+    obj = new ClickableObject(shader, false);  // The red eye right
     this.addToSet(obj);
     obj.setColor([0.7, .2, 0.2, 1]);
     xf = obj.getXform();
     xf.setSize(0.2, 0.2); // so that we can see the connecting point
     xf.setPosition(0.4, .5);
     
-    obj = new ClickableObject(shader, true);  // The red eye left
+    obj = new ClickableObject(shader, false);  // The red eye left
     this.addToSet(obj);
     obj.setColor([0.7, 0.2, 0.2, 1]);
     xf = obj.getXform();
     xf.setSize(0.2, 0.2); // so that we can see the connecting point
     xf.setPosition(-0.4, .5);
     
-    obj = new ClickableObject(shader, true); // mouth
+    obj = new ClickableObject(shader, false); // mouth
     this.addToSet(obj);
     obj.setColor([0, 0, 1, 1]);
     xf = obj.getXform();

@@ -102,7 +102,7 @@ ClassExample.prototype.setPositionOfSelected = function(x, y)
 {
     if(this.mSelected !== null)
     {
-        this.mParent.setElementPosition(this.mSelected, x, y);
+        this.mParent.setElementPosition(this.mSelected, null, x, y);
     }
 };
 

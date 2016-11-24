@@ -96,7 +96,18 @@ SceneNode.prototype.checkClick = function (parentMat, x ,y)
     {
         mat4.multiply(xfMat, parentMat, xfMat);
     }
+    var myXform = this.mXform.getXform();
     //check if the click is on the pivot
+    var myX = xfMat[12];
+    var myY = xfMat[13];
+    //compute disctance btween my X/Y and x/y
+    var xDis = myX - x;
+    var yDis = myY - y;
+    var distance = Math.sqrt((xDis * xDis) + (yDis * yDis));
+    if(distance < .1)
+    {
+        return this;
+    }
     
     //check if the click is on an element
     for (var i = 0; i < this.mSet.length; i++)
@@ -122,30 +133,41 @@ SceneNode.prototype.checkClick = function (parentMat, x ,y)
     return null;
     
 };
-SceneNode.prototype.setElementPosition = function(object, x ,y)
+SceneNode.prototype.setElementPosition = function(object, parentMat, x ,y)
 {
-    //at position 5,10 with a child at 0,0 so we need to pass 0,0 on to children
-    var local = this.wcToLocal(x,y);
+    var xfMat = this.mXform.getXform();
+    if(parentMat !== null)
+    {
+        mat4.multiply(xfMat, parentMat, xfMat);
+    }
+    
     //check this is the element
     if(object === this)
     {
-        object.getXform().setPosition(local[0], local[1]);
+        //get the difference
+        var xDif = x - xfMat[12];
+        var yDif = y - xfMat[13];
+        var pos = this.mXform.getPosition();
+        pos[0] += xDif;
+        pos[1] += yDif;
+        this.mXform.setPosition(pos[0], pos[1]);
         return true;
     }
     
     //check if the click is on an element
     for (var i = 0; i < this.mSet.length; i++)
     {
-        if(object === this.mSet[i])
-        {
-           object.getXform().setPosition(local[0], local[1]);
-           return true;
-        }
+        //add function to clickable object
+//        if(object === this.mSet[i])
+//        {
+//           object.getXform().setPosition(local[0], local[1]);
+//           return true;
+//        }
     }
     //check if the click is on a child
     for (var i = 0; i < this.mChildren.length; i++)
     {
-        if(this.mChildren[i].setElementPosition(object, local[0], local[1]))
+        if(this.mChildren[i].setElementPosition(object, xfMat, x, y))
         {
             return true;
         }
@@ -161,6 +183,10 @@ SceneNode.prototype.getMatrix = function(object, parentMat)
         mat4.multiply(xfMat, parentMat, xfMat);
     }
     //check if the object is the pivot
+    if(this === object)
+    {
+        return xfMat;
+    }
     
     //check if the object is an element
     for (var i = 0; i < this.mSet.length; i++)
@@ -179,7 +205,7 @@ SceneNode.prototype.getMatrix = function(object, parentMat)
     //check if onject is a child
     for (var i = 0; i < this.mChildren.length; i++)
     {
-        var childVal = this.mChildren[i].getMatrix(object, parentMat);
+        var childVal = this.mChildren[i].getMatrix(object, xfMat);
         if(childVal !== null)
         {
             return childVal;
