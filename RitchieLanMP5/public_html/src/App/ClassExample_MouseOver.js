@@ -78,7 +78,7 @@ ClassExample.prototype.detectMouseOver = function (wcX, wcY, leftClick) {
         if (this.withInBound(redPosWC, wcPos)) {
             overObj = "Top Red Rec:";
             if (leftClick){
-                this.vmShouldDrawDirectManipulator = true;
+                this.drawManipulator = true;
                 this.moveManipulator(redPosWC);
                 
                 if(this.mManipulator.getSceneNode() !== null &&
