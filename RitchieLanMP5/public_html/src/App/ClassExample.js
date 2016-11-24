@@ -22,7 +22,7 @@ function ClassExample() {
     this.mLeftChild = new Face(this.mConstColorShader, "LeftGen 1",-4, 3);
     var xf = this.mLeftChild.getXform();
     xf.setSize(1.5,1.5);
-    
+    xf.setRotationInRad(.5);
     this.mParent.addAsChild(this.mLeftChild);
     this.mTopChild = new Face(this.mConstColorShader, "LeftGen 2",3, 2); 
     this.mLeftChild.addAsChild(this.mTopChild); 
@@ -73,7 +73,7 @@ ClassExample.prototype.draw = function (camera) {
 
 ClassExample.prototype.update = function () {
     
-    this.mParent.update();
+//    this.mParent.update();
     this.getRealPositionOfSelected();
 };
 
@@ -109,4 +109,8 @@ ClassExample.prototype.getRealPositionOfSelected= function()
         var realX = realPos[0];
         var realY = realPos[1];
     }
+};
+ClassExample.prototype.setPositionOfSelected = function(newX, newY)
+{
+    
 };
