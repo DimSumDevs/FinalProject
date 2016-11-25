@@ -54,13 +54,15 @@ ClassExample.prototype.draw = function (camera) {
     }
 };
 
-ClassExample.prototype.update = function () {
+ClassExample.prototype.update = function (click) {
     
     if(this.animate)
     {
         this.mParent.update(1);
     }
+
     this.getMatrixOfSelected();
+    
 };
 
 ClassExample.prototype.checkClick = function(clickPos)
