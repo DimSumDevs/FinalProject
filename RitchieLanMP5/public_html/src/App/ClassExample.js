@@ -65,7 +65,8 @@ ClassExample.prototype.checkClick = function(clickPos)
     {
         this.mSelected = this.mParent.checkClick(null, clickPos[0], clickPos[1]);
     }
-    else
+    this.getMatrixOfSelected();
+    if(this.mSelected !== null && this.mSelectedMatrix !== null)
     {
         this.manipulatorValue = this.mManipulator.detect(this.mSelectedMatrix, clickPos[0], clickPos[1]);
     }
