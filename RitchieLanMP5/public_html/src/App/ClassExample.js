@@ -21,7 +21,7 @@ function ClassExample() {
     this.mParent = new Face(this.mConstColorShader, "Root", 0 , 3);
     var xf = this.mParent.getXform();
     xf.setSize(1.2,1.2);
-    xf.setRotationInRad(1);
+    xf.setRotationInRad(0);
     
     this.mLeftChild = new Face(this.mConstColorShader, "Child 1",-5, 0);
     var xf = this.mLeftChild.getXform();

@@ -158,12 +158,7 @@ SceneNode.prototype.setElementPosition = function(object, parentMat, x ,y)
         //add function to clickable object
         if(object === this.mSet[i])
         {
-           var xDif = x - xfMat[12];
-           var yDif = y - xfMat[13];
-           var pos = object.getXform().getPosition();
-           pos[0] += xDif;
-           pos[1] += yDif;
-           object.getXform().setPosition(pos[0], pos[1]);
+           this.mSet[i].setObjectPosition(xfMat, x, y);
            return true;
         }
     }

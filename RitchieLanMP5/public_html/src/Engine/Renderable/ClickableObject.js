@@ -90,7 +90,19 @@ ClickableObject.prototype.draw = function (camera, parentMat)
          //but before drawing.
     }
 };
-ClickableObject.protorype.update = function()
+ClickableObject.prototype.update = function()
 {
     //do animated things like spin around
+};
+ClickableObject.prototype.setObjectPosition = function(parentMat, x, y)
+{
+    var xfMat = this.getXform().getXform();
+    mat4.multiply(xfMat, parentMat, xfMat);
+    
+    var xDif = x - xfMat[12];
+    var yDif = y - xfMat[13];
+    var pos = this.getXform().getPosition();
+    pos[0] += xDif;
+    pos[1] += yDif;
+    this.getXform().setPosition(pos[0], pos[1]);
 };
