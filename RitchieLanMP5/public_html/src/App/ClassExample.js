@@ -14,6 +14,7 @@ function ClassExample() {
     this.mConstColorShader = new SimpleShader(
         "src/GLSLShaders/SimpleVS.glsl",      // Path to the VertexShader 
         "src/GLSLShaders/SimpleFS.glsl");    // Path to the simple FragmentShader
+    this.animate = false;
     this.mOldX = null;
     this.mSelected = null;
     this.mSelectedMatrix = null;
@@ -55,7 +56,10 @@ ClassExample.prototype.draw = function (camera) {
 
 ClassExample.prototype.update = function () {
     
-    //this.mParent.update(1);
+    if(this.animate)
+    {
+        this.mParent.update(1);
+    }
     this.getMatrixOfSelected();
 };
 
@@ -160,3 +164,7 @@ ClassExample.prototype.moveManipulator = function (wcPos) {
     var mousePos = this.mManipulator.getXform();
     mousePos.setPosition(wcPos[0], wcPos[1]);
 };
+ClassExample.prototype.toggle = function()
+{
+    !this.animate;
+}
