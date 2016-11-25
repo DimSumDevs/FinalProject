@@ -9,7 +9,7 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function Manipulator(shader) {
-    SceneNode.call(this, shader, name, true);   // calling super class constructor
+    SceneNode.call(this, shader, name, false);   // calling super class constructor
     
     this.mSceneNode = null;
     
@@ -35,7 +35,7 @@ function Manipulator(shader) {
     //  rotate at 2
     obj = new ClickableObject(shader, true);  
     this.addToSet(obj);
-    obj.setColor([0.7, 0.2, 0.2, 1]);
+    obj.setColor([0.2, 0.7, 0.2, 1]);
     xf = obj.getXform();
     xf.setSize(0.2, 0.2); 
     xf.setPosition(0, 2);
@@ -51,7 +51,7 @@ function Manipulator(shader) {
     // scale at 4
     obj = new ClickableObject(shader, true); 
     this.addToSet(obj);
-    obj.setColor([0.7, 0.2, 0.2, 1]);
+    obj.setColor([0.2, 0.2, 0.7, 1]);
     xf = obj.getXform();
     xf.setSize(0.2, 0.2); 
     xf.setPosition(2, 0);
@@ -93,6 +93,11 @@ Manipulator.prototype.removeSceneNode = function () {
 
 Manipulator.prototype.detect = function(parentMat, x, y)
 {
+    for (var i = 2; i< 5; i ++)
+    {
+        this.mSet[i].myKnob.setColor([1,1,1,1]);
+    }
+    
     var obj = this.checkClick(parentMat, x,y);
     if (obj === null)
     {
@@ -100,14 +105,16 @@ Manipulator.prototype.detect = function(parentMat, x, y)
     }
     if(obj === this)
     {
+        this.mSet[3].myKnob.setColor([0,0,0,1]);
         return 3;
     }
-    for(var i = 2; i < this.mSet.length; i++)
+    if(obj.getXform().getYPos() > 1)
     {
-        if(obj === this.mSet[i]);
-        {
-            return i;
-        }
+        return 2;
+    }
+    else
+    {
+        return 4;
     }
     return -1;
     

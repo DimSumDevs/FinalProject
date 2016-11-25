@@ -14,7 +14,7 @@ function ClassExample() {
     this.mConstColorShader = new SimpleShader(
         "src/GLSLShaders/SimpleVS.glsl",      // Path to the VertexShader 
         "src/GLSLShaders/SimpleFS.glsl");    // Path to the simple FragmentShader
-
+    this.mOldX = null;
     this.mSelected = null;
     this.mSelectedMatrix = null;
     this.manipulatorValue = 0;
@@ -61,6 +61,7 @@ ClassExample.prototype.update = function () {
 
 ClassExample.prototype.checkClick = function(clickPos)
 {
+    this.mOldx = null;
     if(this.mSelected === null)
     {
         this.mSelected = this.mParent.checkClick(null, clickPos[0], clickPos[1]);
@@ -84,15 +85,16 @@ ClassExample.prototype.manipulateSelected = function (newPosition)
         switch (this.manipulatorValue)
         {
             case(2):
-                this.rotateSelected(newPosition[0], newPosition[1]);
+                this.rotateSelected(newPosition[0]);
                 break;
             case(3):
                 this.setPositionOfSelected(newPosition[0], newPosition[1]);
                 break;
             case(4):
-                //scale selected
+                this.scaleSelected(newPosition[0]);
                 break;
         }
+        this.mOldx = null;
     }
 };
 ClassExample.prototype.getMatrixOfSelected= function()
@@ -114,30 +116,44 @@ ClassExample.prototype.setPositionOfSelected = function(x, y)
     }
 };
 
-ClassExample.prototype.scaleSelected = function (newX, newY) 
+ClassExample.prototype.scaleSelected = function (newX) 
 {
     
-  
+  if(this.mOldX !== null)
+      {
+          var xDif = newX - this.mOldX;
+          //hack
+          if(xDif > .05)
+          {
+              xDif = .05;
+          }
+          if(xDif < -.05)
+          {
+              xDif = -.05;
+          }
+          this.mSelected.getXform().incSizeBy(xDif);
+      }
+      this.mOldX = newX;
 
 };
 
-ClassExample.prototype.rotateSelected = function (newX, newY) 
+ClassExample.prototype.rotateSelected = function (newX) 
 {
-    
-//    if(this.mManipulator.getSceneNode() !== null){
-//        var oldRotation = this.mOldRotationInRad;
-//        var dx = newX - this.mManipulator.getXform().getXPos();
-//        var dy = newY - this.mManipulator.getXform().getYPos();
-//        var distance = Math.sqrt(dx*dx + dy*dy);
-//        
-//        if(this.mManipulator.getXform().getXPos() < newX && 
-//                this.mManipulator.getXform().getYPos() < newY){
-//            this.mManipulator.getSceneNode().getXform().setRotationInRad(oldRotation - distance/Math.PI);
-//        }
-//        else{
-//            this.mManipulator.getSceneNode().getXform().setRotationInRad(oldRotation + distance/Math.PI);
-//        }       
-//    }
+      if(this.mOldX !== null)
+      {
+          var xDif = newX - this.mOldX;
+          //hack
+          if(xDif > .05)
+          {
+              xDif = .05;
+          }
+          if(xDif < -.05)
+          {
+              xDif = -.05;
+          }
+          this.mSelected.getXform().incRotationByRad(-xDif);
+      }
+      this.mOldX = newX;
 };
 
 ClassExample.prototype.moveManipulator = function (wcPos) {

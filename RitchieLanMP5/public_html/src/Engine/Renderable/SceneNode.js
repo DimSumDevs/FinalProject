@@ -211,7 +211,4 @@ SceneNode.prototype.getMatrix = function(object, parentMat)
     }
     return null;
 };
-SceneNode.prototype.rotateElement = function(object, amount)
-{
-    
-};
+
