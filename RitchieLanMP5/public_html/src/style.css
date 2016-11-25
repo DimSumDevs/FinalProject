@@ -10,4 +10,14 @@ and open the template in the editor.
 body {
     background-image: url("PIA18461.jpg");
     background-size: cover;
+
 };
+
+.myspace {
+    text-align: center;
+
+}
+h1 {
+    color: white;
+    text-align: center;
+}

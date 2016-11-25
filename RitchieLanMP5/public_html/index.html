@@ -35,7 +35,7 @@
         <script type="text/javascript" src="src/GUI/CSS450Slider.js"></script>
         <script type="text/javascript" src="src/GUI/CSS450Xform.js"></script>
         <script type="text/javascript" src="src/GUI/CanvasMouseSupport.js"></script>
-        
+
         <!-- My application code -->
         <script type="text/javascript" src="src/MainController.js"></script> 
         <script type="text/javascript" src="src/App/ClassExample.js"></script> 
@@ -45,37 +45,32 @@
     </head>
 
     <body
-         ng-app="appMyExample" 
-         ng-controller="MainCtrl">
+        ng-app="appMyExample" 
+        ng-controller="MainCtrl">
+
+        <div class="mySpace"> 
+
+            <css-timer id="idMainControllerTimer"
+                       interval="40"
+                       timeron="true"
+                       callback="mainTimerHandler"></css-timer>
+
+            <br>
+
+            <h1>Smiling Face</h1> 
+            <br>
+            <canvas             
+                ng-mousemove="serviceMove($event)"
+                ng-mousedown="serviceSelection($event); knobPos($event)"
+                ng-mouseup =" serviceRelease($event)"
+                id="GLCanvas" width="800" height="600"
+                style="cursor:pointer;">
+                <!-- GLCanvas is the area we will draw in: a 640x480 area. -->
+                Your browser does not support the HTML5 canvas.
+                <!-- this message will show only if WebGL clearing failed -->
+            </canvas>
+        </div>
         
-    <css-timer id="idMainControllerTimer"
-               interval="40"
-               timeron="true"
-               callback="mainTimerHandler"></css-timer>
-               
-    <br>
-    <css-xform model="mSelectedXform"> </css-xform>
-    <div style="display: inline-block">
-        Draw Control Points: <input type="checkbox" ng-model="mMyWorld.vmShouldDrawControl"><br>
-        Mouse Over: <input type="text" ng-model="mMouseOver" size=50 readonly><br>
-        
-        <label ng-repeat="myOp in eSelection">
-        {{myOp.label}}<input type="radio" 
-                    value={{myOp.label}}
-                    ng-model="$parent.mSelectedEcho"
-                    ng-click="serviceSelection($event)"> &nbsp;
-        </label>
-    </div>
-        <br>
-        <canvas             
-            ng-mousemove="serviceMove($event)"
-            ng-mousedown="serviceSelection($event); knobPos($event)"
-            ng-mouseup =" serviceRelease($event)"
-            id="GLCanvas" width="800" height="600">
-            <!-- GLCanvas is the area we will draw in: a 640x480 area. -->
-            Your browser does not support the HTML5 canvas.
-            <!-- this message will show only if WebGL clearing failed -->
-        </canvas>
-                   
+
     </body>
 </html>
