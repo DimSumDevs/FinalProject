@@ -91,9 +91,17 @@ Manipulator.prototype.removeSceneNode = function () {
     this.mSceneNode = null;
 };
 
-Manipulator.prototype.detect = function(x, y)
+Manipulator.prototype.detect = function(parentMat, x, y)
 {
-    var obj = this.checkClick(null, x,y);
+    var obj = this.checkClick(parentMat, x,y);
+    if (obj === null)
+    {
+        return -1;
+    }
+    if(obj === this)
+    {
+        return 3;
+    }
     for(var i = 2; i < this.mSet.length; i++)
     {
         if(obj === this.mSet[i]);

@@ -82,12 +82,9 @@ SceneNode.prototype.draw = function (aCamera, parentMat) {
         this.mPivotPos.draw(aCamera, parentMat);
     }
 };
-SceneNode.prototype.update = function()
+SceneNode.prototype.update = function( speed)
 {
-    for (var i = 0; i < this.mChildren.length; i++)
-    {
-        this.mChildren[i].update();
-    }
+
 };
 SceneNode.prototype.checkClick = function (parentMat, x ,y)
 {
@@ -98,6 +95,7 @@ SceneNode.prototype.checkClick = function (parentMat, x ,y)
     }
     var myXform = this.mXform.getXform();
     //check if the click is on the pivot
+    
     var myX = xfMat[12];
     var myY = xfMat[13];
     //compute disctance btween my X/Y and x/y
@@ -109,7 +107,7 @@ SceneNode.prototype.checkClick = function (parentMat, x ,y)
         return this;
     }
     
-    //check if the click is on an element
+//    check if the click is on an element
     for (var i = 0; i < this.mSet.length; i++)
     {
         var element = this.mSet[i];
@@ -158,11 +156,16 @@ SceneNode.prototype.setElementPosition = function(object, parentMat, x ,y)
     for (var i = 0; i < this.mSet.length; i++)
     {
         //add function to clickable object
-//        if(object === this.mSet[i])
-//        {
-//           object.getXform().setPosition(local[0], local[1]);
-//           return true;
-//        }
+        if(object === this.mSet[i])
+        {
+           var xDif = x - xfMat[12];
+           var yDif = y - xfMat[13];
+           var pos = object.getXform().getPosition();
+           pos[0] += xDif;
+           pos[1] += yDif;
+           object.getXform().setPosition(pos[0], pos[1]);
+           return true;
+        }
     }
     //check if the click is on a child
     for (var i = 0; i < this.mChildren.length; i++)
@@ -213,57 +216,7 @@ SceneNode.prototype.getMatrix = function(object, parentMat)
     }
     return null;
 };
-SceneNode.prototype.wcToLocal = function(wcX, wcY)
+SceneNode.prototype.rotateElement = function(object, amount)
 {
-    var localCoordinates = [0,0];
-    var xPos = this.mXform.getXPos();
-    var yPos = this.mXform.getYPos();
-    //at position 5,10 with a child at 0,0 so we need to pass 0,0 on to children
-    var x = (wcX - this.mXform.getXPos()) / this.mXform.getSize()[0];
-    var y  = (wcY - this.mXform.getYPos()) / this.mXform.getSize()[1];
-    
-    localCoordinates[0] = x;
-    localCoordinates[1] = y;
-    
-    //this is not working when the thing is rotated
-//    var xDis = x - this.mXform.getPivotXPos();
-//    var yDis = y - this.mXform.getPivotYPos();
-//    
-//    var radius = Math.sqrt( (xDis * xDis) + (yDis * yDis));
-//    var thetaX = Math.acos(xDis/ radius) + this.mXform.getRotationInRad();
-//    var thetaY = Math.asin(yDis / radius) + this.mXform.getRotationInRad();
-//    
-//    localCoordinates[0] = radius* Math.cos(thetaX);
-//    localCoordinates[1] = radius* Math.sin(thetaY);
-    return localCoordinates;
-};
-SceneNode.prototype.findObject = function (object, mat4)
-{
-    //concatinate mat4 into local space
-    mat4.multiply(mat4, mat4, this.mXform.getXform());
-    //check for target object
-       if(object === this)
-    {
-        return true;
-    }
-    
-    //check elements
-    for (var i = 0; i < this.mSet.length; i++)
-    {
-        if(object == this.mSet[i])
-        {
-           return true;
-        }
-    }
-    //check children
-    for (var i = 0; i < this.mChildren.length; i++)
-    {
-        var result = this.mChildren[i].findXform(object, mat4);
-        if(result === true)
-        {
-            return true;
-        }
-    }
-    return false;
     
 };

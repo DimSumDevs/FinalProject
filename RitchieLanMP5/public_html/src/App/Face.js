@@ -47,7 +47,11 @@ function Face(shader, name, xPivot, yPivot) {
 }
 gEngine.Core.inheritPrototype(Face, SceneNode);
 
-Face.prototype.update = function () 
+Face.prototype.update = function (speed) 
 {
-    this.mXform.incRotationByDegree(1);
+    this.mXform.incRotationByDegree(speed);
+    for (var i = 0; i < this.mChildren.length; i++)
+    {
+        this.mChildren[i].update(speed * 2);
+    }
 };

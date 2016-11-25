@@ -17,11 +17,11 @@ function ClassExample() {
 
     this.mSelected = null;
     this.mSelectedMatrix = null;
-    this.manipulatorValue = 3;
+    this.manipulatorValue = 0;
     this.mParent = new Face(this.mConstColorShader, "Root", 0 , 3);
     var xf = this.mParent.getXform();
-    xf.setSize(1,1);
-    xf.setRotationInRad(0);
+    xf.setSize(1.2,1.2);
+    xf.setRotationInRad(1);
     
     this.mLeftChild = new Face(this.mConstColorShader, "Child 1",-5, 0);
     var xf = this.mLeftChild.getXform();
@@ -55,19 +55,24 @@ ClassExample.prototype.draw = function (camera) {
 
 ClassExample.prototype.update = function () {
     
-    //this.mParent.update();
+    //this.mParent.update(1);
     this.getMatrixOfSelected();
 };
 
 ClassExample.prototype.checkClick = function(clickPos)
 {
-    this.manipulatorValue = this.mManipulator.detect(clickPos[0], clickPos[1]);
+    if(this.mSelected === null)
+    {
+        this.mSelected = this.mParent.checkClick(null, clickPos[0], clickPos[1]);
+    }
+    else
+    {
+        this.manipulatorValue = this.mManipulator.detect(this.mSelectedMatrix, clickPos[0], clickPos[1]);
+    }
     
-    if(this.manipulatorValue !== -1)
+    if(this.manipulatorValue === -1)
     {
         this.mSelected = null;
-        //check the click, if it returns, set mSelected
-        this.mSelected = this.mParent.checkClick(null, clickPos[0], clickPos[1]);
     }
 
 };
@@ -78,12 +83,14 @@ ClassExample.prototype.manipulateSelected = function (newPosition)
         switch (this.manipulatorValue)
         {
             case(2):
-                //rotate selected
+                this.rotateSelected(newPosition[0], newPosition[1]);
+                break;
             case(3):
                 this.setPositionOfSelected(newPosition[0], newPosition[1]);
                 break;
             case(4):
                 //scale selected
+                break;
         }
     }
 };
@@ -115,20 +122,21 @@ ClassExample.prototype.scaleSelected = function (newX, newY)
 
 ClassExample.prototype.rotateSelected = function (newX, newY) 
 {
-    if(this.mManipulator.getSceneNode() !== null){
-        var oldRotation = this.mOldRotationInRad;
-        var dx = newX - this.mManipulator.getXform().getXPos();
-        var dy = newY - this.mManipulator.getXform().getYPos();
-        var distance = Math.sqrt(dx*dx + dy*dy);
-        
-        if(this.mManipulator.getXform().getXPos() < newX && 
-                this.mManipulator.getXform().getYPos() < newY){
-            this.mManipulator.getSceneNode().getXform().setRotationInRad(oldRotation - distance/Math.PI);
-        }
-        else{
-            this.mManipulator.getSceneNode().getXform().setRotationInRad(oldRotation + distance/Math.PI);
-        }       
-    }
+    
+//    if(this.mManipulator.getSceneNode() !== null){
+//        var oldRotation = this.mOldRotationInRad;
+//        var dx = newX - this.mManipulator.getXform().getXPos();
+//        var dy = newY - this.mManipulator.getXform().getYPos();
+//        var distance = Math.sqrt(dx*dx + dy*dy);
+//        
+//        if(this.mManipulator.getXform().getXPos() < newX && 
+//                this.mManipulator.getXform().getYPos() < newY){
+//            this.mManipulator.getSceneNode().getXform().setRotationInRad(oldRotation - distance/Math.PI);
+//        }
+//        else{
+//            this.mManipulator.getSceneNode().getXform().setRotationInRad(oldRotation + distance/Math.PI);
+//        }       
+//    }
 };
 
 ClassExample.prototype.moveManipulator = function (wcPos) {
