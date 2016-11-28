@@ -4,15 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group name="450Examples"/>
         <group>
-            <file>file:/Users/lanfuli/NetBeansProjects/CSS450MP5/RitchieLanMP5/public_html/src/Engine/Renderable/SceneNode.js</file>
-            <file>file:/Users/lanfuli/NetBeansProjects/CSS450MP5/RitchieLanMP5/public_html/src/App/Manipulator.js</file>
-            <file>file:/Users/lanfuli/NetBeansProjects/CSS450MP5/RitchieLanMP5/public_html/src/Engine/Renderable/ClickableObject.js</file>
-            <file>file:/Users/lanfuli/NetBeansProjects/CSS450MP5/RitchieLanMP5/public_html/src/App/ClassExample_MouseOver.js</file>
-            <file>file:/Users/lanfuli/NetBeansProjects/CSS450MP5/RitchieLanMP5/public_html/src/App/ClassExample.js</file>
-            <file>file:/Users/lanfuli/NetBeansProjects/CSS450MP5/RitchieLanMP5/public_html/src/MainController.js</file>
-            <file>file:/Users/lanfuli/NetBeansProjects/CSS450MP5/RitchieLanMP5/public_html/src/App/Face.js</file>
-            <file>file:/Users/lanfuli/NetBeansProjects/CSS450MP5/RitchieLanMP5/public_html/src/Engine/Renderable/MeshRenderable.js</file>
-            <file>file:/Users/lanfuli/NetBeansProjects/CSS450MP5/RitchieLanMP5/public_html/src/Engine/Renderable/ClickableNode.js</file>
+            <file>file:/Users/lanfuli/Documents/CSS450/FinalProject/RitchieLanMP5/public_html/src/App/ClassExample.js</file>
+            <file>file:/Users/lanfuli/Documents/CSS450/FinalProject/RitchieLanMP5/public_html/src/spaceCartoon.jpg</file>
+            <file>file:/Users/lanfuli/Documents/CSS450/FinalProject/RitchieLanMP5/public_html/index.html</file>
+            <file>file:/Users/lanfuli/Documents/CSS450/FinalProject/RitchieLanMP5/public_html/src/style.css</file>
+            <file>file:/Users/lanfuli/Documents/CSS450/FinalProject/RitchieLanMP5/public_html/src/Engine/Camera/Camera.js</file>
         </group>
     </open-files>
 </project-private>
