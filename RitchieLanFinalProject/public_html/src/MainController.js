@@ -36,11 +36,16 @@ myModule.controller("MainCtrl", function ($scope) {
     $scope.mMouseOver = "Nothing";
     $scope.mLastWCPosX = 0;
     $scope.mLastWCPosY = 0;
-
+    $scope.wcCenterX = 0;
+    $scope.wcCenterY = 0;
+    $scope.wcWidth = 50;
+    $scope.pixelWidth = 1000;
+    $scope.pixelHeight = 750;
+    
     $scope.mView = new Camera(
-            [0, 3], // wc Center
-            15, // wc Wdith
-            [0, 0, 800, 600]);  // viewport: left, bottom, width, height
+            [$scope.wcCenterX, $scope.wcCenterY], // wc Center
+            $scope.wcWidth, // wc Wdith
+            [0, 0, $scope.pixelWidth, $scope.pixelHeight]);  // viewport: left, bottom, width, height
 
     $scope.mainTimerHandler = function () {
         // 1. update the world
@@ -65,9 +70,9 @@ myModule.controller("MainCtrl", function ($scope) {
     {
         //note this is hard coded for this window and coordinate system
         var wcPosition = [0, 0];
-        var ratio = 800 / 15;
-        wcPosition[0] = (pixelPos[0] - 400) / ratio;
-        wcPosition[1] = ((pixelPos[1] - 300) / ratio) + 3;
+        var ratio = $scope.pixelWidth / $scope.wcWidth;
+        wcPosition[0] = (pixelPos[0] - ($scope.pixelWidth / 2)) / ratio + $scope.wcCenterX;
+        wcPosition[1] = ((pixelPos[1] - ($scope.pixelHeight / 2)) / ratio) + $scope.wcCenterY;
 
         return wcPosition;
     };

@@ -14,25 +14,30 @@ function ClassExample() {
     this.mConstColorShader = new SimpleShader(
         "src/GLSLShaders/SimpleVS.glsl",      // Path to the VertexShader 
         "src/GLSLShaders/SimpleFS.glsl");    // Path to the simple FragmentShader
-    this.animate = false;
+    this.animate = true;
     this.mOldX = null;
     this.mSelected = null;
     this.mSelectedMatrix = null;
     this.manipulatorValue = 0;
-    this.mParent = new Face(this.mConstColorShader, "Root", 0 , 3);
+    
+    this.mParent = new System(this.mConstColorShader, "Root", 0 , 0);
     var xf = this.mParent.getXform();
-    xf.setSize(1.2,1.2);
+    xf.setSize(3,3);
     xf.setRotationInRad(0);
     
-    this.mLeftChild = new Face(this.mConstColorShader, "Child 1",-5, 0);
+    this.mLeftChild = new System(this.mConstColorShader, "Child 1",5, Math.PI / 2);
+//    this.mLeftChild.setAnimated(false);
+    this.mLeftChild.setColor([.8,.2,.2,1]);
     var xf = this.mLeftChild.getXform();
-    xf.setSize(1,1);
+    xf.setSize(.5,.5);
 
     this.mParent.addAsChild(this.mLeftChild);
-    this.mTopChild = new Face(this.mConstColorShader, "Child 2",2, 1); 
+    this.mTopChild = new System(this.mConstColorShader, "Child 2",3, 0); 
+    this.mTopChild.setSpeed(8);
+    this.mTopChild.setColor([.2,.2,.8,1]);
     this.mLeftChild.addAsChild(this.mTopChild); 
     var xf = this.mTopChild.getXform();
-    xf.setSize(1,1);
+    xf.setSize(.5,.5);
     
     this.mManipulator = new Manipulator(this.mConstColorShader);
     var manipulatorXform = this.mManipulator.getXform();
@@ -54,34 +59,34 @@ ClassExample.prototype.draw = function (camera) {
     }
 };
 
-ClassExample.prototype.update = function (click) {
+ClassExample.prototype.update = function () {
     
-    if(this.animate)
+    if(this.mParent !== null)
     {
-        this.mParent.update(1);
+        this.mParent.update();
     }
 
-    this.getMatrixOfSelected();
+//    this.getMatrixOfSelected();
     
 };
 
 ClassExample.prototype.checkClick = function(clickPos)
 {
-    this.mOldx = null;
-    if(this.mSelected === null)
-    {
-        this.mSelected = this.mParent.checkClick(null, clickPos[0], clickPos[1]);
-    }
-    this.getMatrixOfSelected();
-    if(this.mSelected !== null && this.mSelectedMatrix !== null)
-    {
-        this.manipulatorValue = this.mManipulator.detect(this.mSelectedMatrix, clickPos[0], clickPos[1]);
-    }
-    
-    if(this.manipulatorValue === -1)
-    {
-        this.mSelected = null;
-    }
+//    this.mOldx = null;
+//    if(this.mSelected === null)
+//    {
+//        this.mSelected = this.mParent.checkClick(null, clickPos[0], clickPos[1]);
+//    }
+//    this.getMatrixOfSelected();
+//    if(this.mSelected !== null && this.mSelectedMatrix !== null)
+//    {
+//        this.manipulatorValue = this.mManipulator.detect(this.mSelectedMatrix, clickPos[0], clickPos[1]);
+//    }
+//    
+//    if(this.manipulatorValue === -1)
+//    {
+//        this.mSelected = null;
+//    }
 
 };
 ClassExample.prototype.manipulateSelected = function (newPosition)
