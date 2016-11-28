@@ -25,18 +25,25 @@ function ClassExample() {
     xf.setSize(3,3);
     xf.setRotationInRad(0);
     
-    this.mLeftChild = new System(this.mConstColorShader, "Child 1",5, Math.PI / 2);
+    this.mLeftChild = new System(this.mConstColorShader, "Child 1",5,0);
 //    this.mLeftChild.setAnimated(false);
     this.mLeftChild.setColor([.8,.2,.2,1]);
     var xf = this.mLeftChild.getXform();
     xf.setSize(.5,.5);
-
     this.mParent.addAsChild(this.mLeftChild);
+    
     this.mTopChild = new System(this.mConstColorShader, "Child 2",3, 0); 
     this.mTopChild.setSpeed(8);
     this.mTopChild.setColor([.2,.2,.8,1]);
     this.mLeftChild.addAsChild(this.mTopChild); 
     var xf = this.mTopChild.getXform();
+    xf.setSize(.5,.5);
+    
+    this.mNew = new System(this.mConstColorShader, "Child 3",4.5, 0); 
+    this.mNew.setSpeed(-7);
+    this.mNew.setColor([.2,.8,.2,1]);
+    this.mLeftChild.addAsChild(this.mNew); 
+    var xf = this.mNew.getXform();
     xf.setSize(.5,.5);
     
     this.mManipulator = new Manipulator(this.mConstColorShader);

@@ -72,3 +72,8 @@ System.prototype.setSpeed = function(speed)
 {
     this.speed = speed;
 };
+System.prototype.addChild = function(radius, theta, speed)
+{
+    
+    
+};

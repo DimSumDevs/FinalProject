@@ -82,7 +82,7 @@ SceneNode.prototype.draw = function (aCamera, parentMat) {
         this.mPivotPos.draw(aCamera, parentMat);
     }
 };
-SceneNode.prototype.update = function( speed)
+SceneNode.prototype.update = function()
 {
 
 };
