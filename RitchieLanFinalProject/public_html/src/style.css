@@ -7,9 +7,28 @@ and open the template in the editor.
     Created on : Nov 24, 2016, 4:05:41 PM
     Author     : lanfuli
 */
+@import "compass/css3";
+
+@import url(http://fonts.googleapis.com/css?family=Share+Tech+Mono);
+
+
+body{
+  background: black;
+}
+
+svg{
+  width: 900px;
+  height: 120px;
+  display: block;
+  position: relative;
+  overflow: hidden; 
+  margin: 0 auto;
+
+}
+
 * {
 
-    font-family: 'Lato', sans-serif;
+/*    font-family: 'Lato', sans-serif;*/
 }
 
 body {

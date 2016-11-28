@@ -18,7 +18,7 @@ function System(shader, name, oribtDistance, initialTheta) {
     // now create the children shapes
     var obj = new CircleRenderable(shader, false);  // The planet for this system
     this.addToSet(obj);
-    obj.setColor([1, 1, 0, 1]);
+    obj.setColor([253/255, 184/255, 19/255, 0.9]);
     var xf = obj.getXform();
     xf.setSize(1, 1);
     xf.setPosition(0, 0);

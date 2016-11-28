@@ -30,6 +30,7 @@ myModule.controller("MainCtrl", function ($scope) {
 
     // this is the model
     $scope.mMyWorld = new ClassExample();
+    $scope.mySystem = new System();
 //    $scope.mSelectedXform = $scope.mMyWorld.parentXform();
     $scope.mSelectedEcho = $scope.eSelection[0].label;
 

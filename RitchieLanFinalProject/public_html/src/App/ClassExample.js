@@ -9,12 +9,11 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function ClassExample() {
-    
-
+    var speed = -8;
     this.mConstColorShader = new SimpleShader(
         "src/GLSLShaders/SimpleVS.glsl",      // Path to the VertexShader 
         "src/GLSLShaders/SimpleFS.glsl");    // Path to the simple FragmentShader
-    this.animate = true;
+    this.animate = false;
     this.mOldX = null;
     this.mSelected = null;
     this.mSelectedMatrix = null;
@@ -33,7 +32,7 @@ function ClassExample() {
     this.mParent.addAsChild(this.mLeftChild);
     
     this.mTopChild = new System(this.mConstColorShader, "Child 2",3, 0); 
-    this.mTopChild.setSpeed(8);
+    this.mTopChild.setSpeed(speed);
     this.mTopChild.setColor([.2,.2,.8,1]);
     this.mLeftChild.addAsChild(this.mTopChild); 
     var xf = this.mTopChild.getXform();
@@ -54,6 +53,7 @@ function ClassExample() {
     this.mOldRotationInRad = manipulatorXform.getRotationInRad();
     
 }
+
 
 ClassExample.prototype.draw = function (camera) {
     // Step F: Starts the drawing by activating the camera
@@ -115,6 +115,7 @@ ClassExample.prototype.manipulateSelected = function (newPosition)
         this.mOldx = null;
     }
 };
+
 ClassExample.prototype.getMatrixOfSelected= function()
 {
     var selectedMatrix = null;
@@ -178,7 +179,8 @@ ClassExample.prototype.moveManipulator = function (wcPos) {
     var mousePos = this.mManipulator.getXform();
     mousePos.setPosition(wcPos[0], wcPos[1]);
 };
+
 ClassExample.prototype.toggle = function()
 {
-    !this.animate;
+    this.animate;
 }
