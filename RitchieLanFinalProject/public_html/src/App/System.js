@@ -11,9 +11,10 @@
 function System(shader, name, oribtDistance, initialTheta) {
     SceneNode.call(this, shader, name, false);   // calling super class constructor
     this.speed = 10/ oribtDistance;
+    this.originalTheta = initialTheta;
     this.theta = initialTheta;
     this.radius = oribtDistance;
-    this.animated = true;
+    this.animated = false;
     
     // now create the children shapes
     var obj = new CircleRenderable(shader, false);  // The planet for this system
@@ -25,7 +26,6 @@ function System(shader, name, oribtDistance, initialTheta) {
     
 }
 gEngine.Core.inheritPrototype(System, SceneNode);
-
 System.prototype.update = function () 
 {
     //first check that theta is not 0, if it is then this system should be a star
@@ -52,28 +52,107 @@ System.prototype.update = function ()
         this.mChildren[i].update();
     }
 };
-System.prototype.setColor= function (color)
+
+System.prototype.getColor = function(){return this.mSet[0].getColor();};
+System.prototype.setColor= function (color){this.mSet[0].setColor(color);};
+System.prototype.getDistance = function(){return this.radius;};
+System.prototype.setDistance = function(distance){
+    if(this.radius !== 0 && distance !== 0)
+    {this.radius = distance;}};
+System.prototype.setSize = function(size){this.mSet[0].getXform().setSize(size, size);};
+System.prototype.setAnimated = function(value){this.animated = value;};
+System.prototype.getSpeed = function(){return this.speed;};
+System.prototype.setSpeed = function(speed){this.speed = speed;};
+
+System.prototype.addChild = function(shader, color)
 {
-    this.mSet[0].setColor(color);
+    var newOrbitDistance = this.radius / 2;
+    var newSpeed = this.speed * 2;
+    var newTheta = this.theta;
+    var newName = "My Child";
+    var newChild = new System(shader, newName, newOrbitDistance, newTheta);
+    newChild.setSpeed(newSpeed);
+    newChild.setColor(color);
+    
+    this.addAsChild(newChild);
+    
 };
-System.prototype.setDistance = function(distance)
+System.prototype.rCheckClick = function (parentMat, x ,y)
 {
-    this.radius = distance;
+    var xfMat = this.mXform.getXform();
+    if(parentMat !== null && parentMat !== undefined)
+    {
+        mat4.multiply(xfMat, parentMat, xfMat);
+    }
+    var myXform = this.mXform.getXform();
+    
+    //check if the click is on this systems planet
+    var planetRadius = this.mSet[0].getXform().getSize()[0];
+    var myX = xfMat[12];
+    var myY = xfMat[13];
+    //compute disctance btween my X/Y and x/y
+    var xDis = myX - x;
+    var yDis = myY - y;
+    var distance = Math.sqrt((xDis * xDis) + (yDis * yDis));
+    if(distance < planetRadius)
+    {
+        return this;
+    }
+    //check if the click is on a child
+    for (var i = 0; i < this.mChildren.length; i++)
+    {
+        var childVal = this.mChildren[i].checkClick(xfMat, x, y);
+        if(childVal !== null)
+        {
+            return childVal;
+        }
+    }
+    return null;  
 };
-System.prototype.setSize = function(size)
+SceneNode.prototype.rGetMatrix = function(object, parentMat)
 {
-    this.mSet[i].getXform().setSize(size, size);
+    var xfMat = this.mXform.getXform();
+    if(parentMat !== null)
+    {
+        mat4.multiply(xfMat, parentMat, xfMat);
+    }
+    //check if this is the target object
+    if(this === object)
+    {
+        return xfMat;
+    }
+    //check if object is a child
+    for (var i = 0; i < this.mChildren.length; i++)
+    {
+        var childVal = this.mChildren[i].getMatrix(object, xfMat);
+        if(childVal !== null)
+        {
+            return childVal;
+        }
+    }
+    return null;
 };
-System.prototype.setAnimated = function(value)
-{
-    this.animated = value;
-};
-System.prototype.setSpeed = function(speed)
-{
-    this.speed = speed;
-};
-System.prototype.addChild = function(radius, theta, speed)
+System.prototype.rSetDistanceFromPosition = function(parentMat, x, y)
 {
     
-    
+};
+System.prototype.rSetAnimated = function(animated)
+{
+    this.animated = animated;
+    for(var i = 0; i <this.mChildren.length; i ++)
+    {
+        this.mChildren[i].rSetAnimated(animated);
+    }
+};
+System.prototype.rGetRealSize = function(object, parentMat)
+{};
+System.prototype.rSetColorFromDistanceFromSun = function (parentMat)
+{};
+System.prototype.rReset = function()
+{
+    this.theta = this.originalTheta;
+    for(var i = 0; i< this.mChildren.length; i++)
+    {
+        this.mChildren[i].rReset();
+    }
 };

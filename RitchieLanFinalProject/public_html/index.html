@@ -174,8 +174,9 @@
 
     <br>
     <div class="operator">
-        <button ng-click="$scope.cleanCanvas()">Restart Game</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button>Pause Game</button>
+        <button ng-click =" resetPositions()">Reset</button>
+        <button ng-click="clearCanvas()">Clear All</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button ng-click = "toggleAnimated()">Play/Pause</button>
         <p>Speed &nbsp;&nbsp;<input type="range" min="0" max="14" value="0" step="1" onchange="$scope.mMyWorld" />
     </div>
     <canvas          

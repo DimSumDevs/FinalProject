@@ -180,7 +180,7 @@ SceneNode.prototype.getMatrix = function(object, parentMat)
     {
         mat4.multiply(xfMat, parentMat, xfMat);
     }
-    //check if the object is the pivot
+    //check if this is the target object
     if(this === object)
     {
         return xfMat;
@@ -200,7 +200,7 @@ SceneNode.prototype.getMatrix = function(object, parentMat)
             }
         }
     }
-    //check if onject is a child
+    //check if object is a child
     for (var i = 0; i < this.mChildren.length; i++)
     {
         var childVal = this.mChildren[i].getMatrix(object, xfMat);

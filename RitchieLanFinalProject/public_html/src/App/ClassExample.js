@@ -13,7 +13,7 @@ function ClassExample() {
     this.mConstColorShader = new SimpleShader(
         "src/GLSLShaders/SimpleVS.glsl",      // Path to the VertexShader 
         "src/GLSLShaders/SimpleFS.glsl");    // Path to the simple FragmentShader
-    this.animate = false;
+    this.animated = false;
     this.mOldX = null;
     this.mSelected = null;
     this.mSelectedMatrix = null;
@@ -21,18 +21,16 @@ function ClassExample() {
     
     this.mParent = new System(this.mConstColorShader, "Root", 0 , 0);
     var xf = this.mParent.getXform();
-    xf.setSize(3,3);
-    xf.setRotationInRad(0);
+    xf.setSize(2,2);
     
     this.mLeftChild = new System(this.mConstColorShader, "Child 1",5,0);
-//    this.mLeftChild.setAnimated(false);
     this.mLeftChild.setColor([.8,.2,.2,1]);
     var xf = this.mLeftChild.getXform();
     xf.setSize(.5,.5);
     this.mParent.addAsChild(this.mLeftChild);
     
     this.mTopChild = new System(this.mConstColorShader, "Child 2",3, 0); 
-    this.mTopChild.setSpeed(speed);
+    this.mTopChild.setSpeed(8);
     this.mTopChild.setColor([.2,.2,.8,1]);
     this.mLeftChild.addAsChild(this.mTopChild); 
     var xf = this.mTopChild.getXform();
@@ -44,6 +42,29 @@ function ClassExample() {
     this.mLeftChild.addAsChild(this.mNew); 
     var xf = this.mNew.getXform();
     xf.setSize(.5,.5);
+    
+    this.mNewTwo = new System(this.mConstColorShader, "Child 3",2, 0); 
+    this.mNewTwo.setSpeed(-8);
+    this.mNewTwo.setColor([.8,.2,.8,1]);
+    this.mLeftChild.addAsChild(this.mNewTwo); 
+    var xf = this.mNewTwo.getXform();
+    xf.setSize(.5,.5);
+    
+//    var theta = 0;
+//    var distance = 2;
+//    var speed = 1;
+//    for(var i = 0; i< 10; i++)
+//    {
+//        this.mNew = new System(this.mConstColorShader, "child", distance, theta);
+//        this.mNew.setSize(.5);
+//        this.mNew.setSpeed(speed);
+//        this.mParent.addAsChild(this.mNew);
+//        
+//        speed += .5;
+//        //theta += Math.PI;
+//        distance += 1;
+//        //speed = 0 - speed;
+//    }
     
     this.mManipulator = new Manipulator(this.mConstColorShader);
     var manipulatorXform = this.mManipulator.getXform();
@@ -98,22 +119,22 @@ ClassExample.prototype.checkClick = function(clickPos)
 };
 ClassExample.prototype.manipulateSelected = function (newPosition)
 {
-    if(this.mSelected !== null)
-    {
-        switch (this.manipulatorValue)
-        {
-            case(2):
-                this.rotateSelected(newPosition[0]);
-                break;
-            case(3):
-                this.setPositionOfSelected(newPosition[0], newPosition[1]);
-                break;
-            case(4):
-                this.scaleSelected(newPosition[0]);
-                break;
-        }
-        this.mOldx = null;
-    }
+//    if(this.mSelected !== null)
+//    {
+//        switch (this.manipulatorValue)
+//        {
+//            case(2):
+//                this.rotateSelected(newPosition[0]);
+//                break;
+//            case(3):
+//                this.setPositionOfSelected(newPosition[0], newPosition[1]);
+//                break;
+//            case(4):
+//                this.scaleSelected(newPosition[0]);
+//                break;
+//        }
+//        this.mOldx = null;
+//    }
 };
 
 ClassExample.prototype.getMatrixOfSelected= function()
@@ -129,50 +150,50 @@ ClassExample.prototype.getMatrixOfSelected= function()
 ClassExample.prototype.setPositionOfSelected = function(x, y)
 
 {
-    if(this.mSelected !== null)
-    {
-        this.mParent.setElementPosition(this.mSelected, null, x, y);
-    }
+//    if(this.mSelected !== null)
+//    {
+//        this.mParent.setElementPosition(this.mSelected, null, x, y);
+//    }
 };
 
 ClassExample.prototype.scaleSelected = function (newX) 
 {
     
-  if(this.mOldX !== null)
-      {
-          var xDif = newX - this.mOldX;
-          //hack
-          if(xDif > .05)
-          {
-              xDif = .05;
-          }
-          if(xDif < -.05)
-          {
-              xDif = -.05;
-          }
-          this.mSelected.getXform().incSizeBy(xDif);
-      }
-      this.mOldX = newX;
+//  if(this.mOldX !== null)
+//      {
+//          var xDif = newX - this.mOldX;
+//          //hack
+//          if(xDif > .05)
+//          {
+//              xDif = .05;
+//          }
+//          if(xDif < -.05)
+//          {
+//              xDif = -.05;
+//          }
+//          this.mSelected.getXform().incSizeBy(xDif);
+//      }
+//      this.mOldX = newX;
 
 };
 
 ClassExample.prototype.rotateSelected = function (newX) 
 {
-      if(this.mOldX !== null)
-      {
-          var xDif = newX - this.mOldX;
-          //hack
-          if(xDif > .05)
-          {
-              xDif = .05;
-          }
-          if(xDif < -.05)
-          {
-              xDif = -.05;
-          }
-          this.mSelected.getXform().incRotationByRad(-xDif);
-      }
-      this.mOldX = newX;
+//      if(this.mOldX !== null)
+//      {
+//          var xDif = newX - this.mOldX;
+//          //hack
+//          if(xDif > .05)
+//          {
+//              xDif = .05;
+//          }
+//          if(xDif < -.05)
+//          {
+//              xDif = -.05;
+//          }
+//          this.mSelected.getXform().incRotationByRad(-xDif);
+//      }
+//      this.mOldX = newX;
 };
 
 ClassExample.prototype.moveManipulator = function (wcPos) {
@@ -180,7 +201,12 @@ ClassExample.prototype.moveManipulator = function (wcPos) {
     mousePos.setPosition(wcPos[0], wcPos[1]);
 };
 
-ClassExample.prototype.toggle = function()
+ClassExample.prototype.toggleAnimated = function()
 {
-    this.animate;
-}
+    this.animated = !this.animated;
+    this.mParent.rSetAnimated(this.animated);
+};
+ClassExample.prototype.reset= function()
+{
+    this.mParent.rReset();
+};
