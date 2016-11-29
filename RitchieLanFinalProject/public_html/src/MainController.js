@@ -103,4 +103,8 @@ myModule.controller("MainCtrl", function ($scope) {
     {
         $scope.mMyWorld.reset();
     };
+    $scope.addChildSystem = function()
+    {
+        this.mMyWorld.addChildToSelected();
+    };
 });

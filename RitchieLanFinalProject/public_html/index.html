@@ -149,7 +149,7 @@
 	</defs>
 
 <g>
-	<text x="0" y="100">Solar SYSTEM</text>
+	<text x="-50" y="100">SOLAR ORBITER</text>
 </g>
 </svg>
 
@@ -174,13 +174,16 @@
 
     <br>
     <div class="operator">
-        <button ng-click =" resetPositions()">Reset</button>
+        <button ng-click ="resetPositions()">Reset</button>
         <button ng-click="clearCanvas()">Clear All</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <button ng-click = "toggleAnimated()">Play/Pause</button>
-        <p>Speed &nbsp;&nbsp;<input type="range" min="0" max="14" value="0" step=".1" ng-model="selectedSpeed">
-            <input type="text" min ="-25" max="25" value="1" step=".5" ng-model ="selectedSpeed" style="width:35px;">
+        <p>Speed &nbsp;&nbsp;<input type="range" min="-15" max="15" value="1" step=".1" ng-model="selectedSpeed">
+            <input type="text" min ="-15" max="15" value="1" step=".1" ng-model ="selectedSpeed" style="width:35px;">
         <br>
-            
+        <p>Scale &nbsp;&nbsp;<input type="range" min=".2" max="5" value="1" step=".1" ng-model="selectedScale">
+            <input type="text" min =".2" max="5" value="1" step=".1" ng-model ="selectedScale" style="width:35px;">
+        <br>
+        <button ng-click="addChildSystem()"> Add Child</button>
     </div>
     <canvas          
         ng-mousemove="serviceMove($event)"

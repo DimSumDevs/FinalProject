@@ -59,21 +59,33 @@ System.prototype.getDistance = function(){return this.radius;};
 System.prototype.setDistance = function(distance){
     if(this.radius !== 0 && distance !== 0)
     {this.radius = distance;}};
-System.prototype.setSize = function(size){this.mSet[0].getXform().setSize(size, size);};
-System.prototype.getSize = function(){return this.mSet[0].getXform().getSize()[0];};
+System.prototype.setPlanetSize = function(size){this.mSet[0].getXform().setSize(size, size);};
+System.prototype.getPlanetSize = function(){return this.mSet[0].getXform().getSize()[0];};
+System.prototype.setScale = function(scale){this.mXform.setSize(scale,scale);};
+System.prototype.getScale = function(){return this.mXform.getSize()[0];};
 System.prototype.setAnimated = function(value){this.animated = value;};
 System.prototype.getSpeed = function(){return this.speed;};
 System.prototype.setSpeed = function(speed){this.speed = speed;};
+System.prototype.setTheta = function(theta){this.theta = theta;};
 
 System.prototype.addChild = function(shader, color)
 {
-    var newOrbitDistance = this.radius / 2;
+    var newOrbitDistance = 3;
     var newSpeed = this.speed * 2;
-    var newTheta = this.theta;
+    
+        if(this.radius === 0)
+    {
+        newOrbitDistance = 3;
+        newSpeed = 4;
+    }
     var newName = "My Child";
-    var newChild = new System(shader, newName, newOrbitDistance, newTheta);
+    var newChild = new System(shader, newName, newOrbitDistance, this.originalTheta);
+    newChild.setTheta(this.theta);
     newChild.setSpeed(newSpeed);
     newChild.setColor(color);
+    var newScale = this.getScale();
+    newChild.setScale(.5);
+    newChild.setAnimated(this.animated);
     
     this.addAsChild(newChild);
     

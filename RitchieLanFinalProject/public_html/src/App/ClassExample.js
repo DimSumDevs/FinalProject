@@ -25,8 +25,7 @@ function ClassExample() {
     
     
     this.mParent = new System(this.mConstColorShader, "Root", 0 , 0);
-    var xf = this.mParent.getXform();
-    xf.setSize(2,2);
+    this.mParent.setScale(2);
     
     this.mLeftChild = new System(this.mConstColorShader, "Child 1",5,0);
     this.mLeftChild.setColor([.8,.2,.2,1]);
@@ -219,6 +218,9 @@ ClassExample.prototype.toggleAnimated = function()
 ClassExample.prototype.reset= function()
 {
     this.mParent.rReset();
+    this.mParent.rSetAnimated(false);
+    this.animated = false;
+    
 };
 ClassExample.prototype.updateFromView = function(speed, distance, scale, planetSize)
 {
@@ -226,7 +228,7 @@ ClassExample.prototype.updateFromView = function(speed, distance, scale, planetS
     {
         this.mSelected.setSpeed(speed);
         //this doesn't work, need to set the real distance: this.mParent.setDistance(distance);
-        this.mSelected.setSize(scale);
+        this.mSelected.setScale(scale);
     }
 };
 ClassExample.prototype.getSelectedSpeed = function()
@@ -245,11 +247,19 @@ ClassExample.prototype.getSelectedScale = function()
 {
     if(this.mSelected !== null)
     {
-        return this.mSelected.getSize();
+        return this.mSelected.getScale();
     }
 };
 ClassExample.prototype.getSelectedPlanetSize = function()
 {
     if(this.mSelected !== null)
     {}
+};
+ClassExample.prototype.addChildToSelected = function()
+{
+    this.mSelected.addChild(this.mConstColorShader, this.randomColor());
+};
+ClassExample.prototype.randomColor = function()
+{
+    return [Math.random(), Math.random(), Math.random(), 1];
 };
