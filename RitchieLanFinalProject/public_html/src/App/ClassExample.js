@@ -9,15 +9,20 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function ClassExample() {
-    var speed = -8;
     this.mConstColorShader = new SimpleShader(
         "src/GLSLShaders/SimpleVS.glsl",      // Path to the VertexShader 
         "src/GLSLShaders/SimpleFS.glsl");    // Path to the simple FragmentShader
     this.animated = false;
     this.mOldX = null;
-    this.mSelected = null;
+    this.mOldY = null;
     this.mSelectedMatrix = null;
     this.manipulatorValue = 0;
+    
+    this.mSelected = null;
+    this.mHighlighter = new CircleRenderable(this.mConstColorShader);
+    var xf = this.mHighlighter.getXform();
+    xf.setSize(1.2,1.2);
+    
     
     this.mParent = new System(this.mConstColorShader, "Root", 0 , 0);
     var xf = this.mParent.getXform();
@@ -70,21 +75,21 @@ function ClassExample() {
     var manipulatorXform = this.mManipulator.getXform();
     manipulatorXform.setPosition(0, 0);
     
-    this.mOldSizeOManipulatorForScale = manipulatorXform.getSize();
-    this.mOldRotationInRad = manipulatorXform.getRotationInRad();
-    
 }
-
 
 ClassExample.prototype.draw = function (camera) {
     // Step F: Starts the drawing by activating the camera
     camera.setupViewProjection();
-
-    this.mParent.draw(camera);
     if(this.mSelected !== null && this.mSelectedMatrix !== null)
     {
-        this.mManipulator.draw(camera, this.mSelectedMatrix);
+        this.mHighlighter.draw(camera, this.mSelectedMatrix);
     }
+    this.mParent.draw(camera);
+    
+//    if(this.mSelected !== null && this.mSelectedMatrix !== null)
+//    {
+//        this.mManipulator.draw(camera, this.mSelectedMatrix);
+//    }
 };
 
 ClassExample.prototype.update = function () {
@@ -93,24 +98,29 @@ ClassExample.prototype.update = function () {
     {
         this.mParent.update();
     }
-
-//    this.getMatrixOfSelected();
+    if(this.mSelected !== null)
+    {
+        this.getMatrixOfSelected();
+    }
     
 };
 
 ClassExample.prototype.checkClick = function(clickPos)
 {
-//    this.mOldx = null;
+    this.mSelected = this.mParent.rCheckClick(null,null, clickPos[0], clickPos[1]);
+    if(this.mSelected !== null)
+    {
+        this.getMatrixOfSelected();
+    }
 //    if(this.mSelected === null)
 //    {
-//        this.mSelected = this.mParent.checkClick(null, clickPos[0], clickPos[1]);
+//        this.mSelected = this.mParent.rCheckClick(null, clickPos[0], clickPos[1]);
 //    }
 //    this.getMatrixOfSelected();
 //    if(this.mSelected !== null && this.mSelectedMatrix !== null)
 //    {
 //        this.manipulatorValue = this.mManipulator.detect(this.mSelectedMatrix, clickPos[0], clickPos[1]);
 //    }
-//    
 //    if(this.manipulatorValue === -1)
 //    {
 //        this.mSelected = null;
@@ -209,4 +219,37 @@ ClassExample.prototype.toggleAnimated = function()
 ClassExample.prototype.reset= function()
 {
     this.mParent.rReset();
+};
+ClassExample.prototype.updateFromView = function(speed, distance, scale, planetSize)
+{
+    if(this.mSelected !== null)
+    {
+        this.mSelected.setSpeed(speed);
+        //this doesn't work, need to set the real distance: this.mParent.setDistance(distance);
+        this.mSelected.setSize(scale);
+    }
+};
+ClassExample.prototype.getSelectedSpeed = function()
+{
+    if(this.mSelected !== null)
+    {
+        return this.mSelected.getSpeed();
+    }
+};
+ClassExample.prototype.getSelectedDistance = function()
+{
+   if(this.mSelected !== null)
+   {}
+};
+ClassExample.prototype.getSelectedScale = function()
+{
+    if(this.mSelected !== null)
+    {
+        return this.mSelected.getSize();
+    }
+};
+ClassExample.prototype.getSelectedPlanetSize = function()
+{
+    if(this.mSelected !== null)
+    {}
 };

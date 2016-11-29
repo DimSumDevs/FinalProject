@@ -20,22 +20,15 @@ myModule.controller("MainCtrl", function ($scope) {
     gEngine.Core.initializeWebGL('GLCanvas');
     $scope.mCanvasMouse = new CanvasMouseSupport('GLCanvas');
 
-    // Radio button selection support
-    $scope.eSelection = [
-        {label: "Parent"},
-        {label: "LeftChild"},
-        {label: "TopChild"}
-//        {label: "RightChild"},
-    ];
-
     // this is the model
     $scope.mMyWorld = new ClassExample();
-//    $scope.mSelectedXform = $scope.mMyWorld.parentXform();
-    $scope.mSelectedEcho = $scope.eSelection[0].label;
 
-    $scope.mMouseOver = "Nothing";
-    $scope.mLastWCPosX = 0;
-    $scope.mLastWCPosY = 0;
+    //variables for the selected object
+    $scope.selectedSpeed;
+    $scope.selectedScale;
+    $scope.selectedPlanetSize;
+    $scope.selectedOrbitDistance;
+    
     $scope.wcCenterX = 0;
     $scope.wcCenterY = 0;
     $scope.wcWidth = 50;
@@ -49,8 +42,9 @@ myModule.controller("MainCtrl", function ($scope) {
 
     $scope.mainTimerHandler = function () {
         // 1. update the world
+        $scope.updateModelFromView();
         $scope.mMyWorld.update();
-
+        $scope.updateViewFromModel();
         // Step E: Clear the canvas
         gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1]);        // Clear the canvas
         //
@@ -65,6 +59,7 @@ myModule.controller("MainCtrl", function ($scope) {
         eventPixelPos[1] = $scope.mCanvasMouse.getPixelYPos(event);
 
         $scope.mMyWorld.checkClick($scope.pixelToWc(eventPixelPos));
+        $scope.updateViewFromModel();
     };
     $scope.pixelToWc = function (pixelPos)
     {
@@ -76,46 +71,27 @@ myModule.controller("MainCtrl", function ($scope) {
 
         return wcPosition;
     };
-
     $scope.serviceMove = function (event) {
         var pixelPos = [0, 0];
         pixelPos[0] = $scope.mCanvasMouse.getPixelXPos(event);
         pixelPos[1] = $scope.mCanvasMouse.getPixelYPos(event);
-        $scope.mLastWCPosX = this.mView.mouseWCX(pixelPos[0]);
-        $scope.mLastWCPosY = this.mView.mouseWCY(pixelPos[1]);
-
-
-        //$scope.mMyWorld.setPositionOfSelected($scope.pixelToWc(pixelPos));
+       
         switch (event.which) {
             case 1:
                 $scope.mMyWorld.manipulateSelected($scope.pixelToWc(pixelPos));
         };
-        
-    //$scope.mMouseOver = $scope.mMyWorld.detectMouseOver($scope.mLastWCPosX, $scope.mLastWCPosY, (event.which === 1));
-
     };
-
-    $scope.isMouseOnScaleKnob = false;
-    $scope.isMouseOnRotationKnob = false;
-    $scope.isMouseOnTranslationKnob = false;
-
-    $scope.knobPos = function (event) {
-        var scaleKnobIndex = $scope.mMouseOver.indexOf("Scale Knob");
-        var rotationKnobIndex = $scope.mMouseOver.indexOf("Rotation Knob");
-
-        if (scaleKnobIndex !== -1) {
-            $scope.isMouseOnScaleKnob = true;
-            $scope.isMouseOnRotationKnob = false;
-            $scope.isMouseOnTranslationKnob = false;
-        } else if (rotationKnobIndex !== -1) {
-            $scope.isMouseOnScaleKnob = false;
-            $scope.isMouseOnTranslationKnob = false;
-            $scope.isMouseOnRotationKnob = true;
-        } else {
-            $scope.isMouseOnScaleKnob = false;
-            $scope.isMouseOnRotationKnob = false;
-            $scope.isMouseOnTranslationKnob = true;
-        }
+    $scope.updateModelFromView = function()
+    {
+        this.mMyWorld.updateFromView($scope.selectedSpeed, $scope.selectedOrbitDistance, 
+        $scope.selectedScale, $scope.selectedPlanetSize);
+    };
+    $scope.updateViewFromModel = function()
+    {
+        $scope.selectedSpeed = $scope.mMyWorld.getSelectedSpeed();
+        $scope.selectedScale = $scope.mMyWorld.getSelectedScale();
+        $scope.selectedPlanetSize;
+        $scope.selectedOrbitDistance;
     };
     $scope.clearCanvas = function()
     {};

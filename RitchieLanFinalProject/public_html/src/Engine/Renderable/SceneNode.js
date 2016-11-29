@@ -86,7 +86,7 @@ SceneNode.prototype.update = function()
 {
 
 };
-SceneNode.prototype.checkClick = function (parentMat, x ,y)
+SceneNode.prototype.checkClick = function (parentMat, parentScale, x ,y)
 {
     var xfMat = this.mXform.getXform();
     if(parentMat !== null)

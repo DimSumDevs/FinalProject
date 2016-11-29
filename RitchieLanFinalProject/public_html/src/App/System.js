@@ -60,6 +60,7 @@ System.prototype.setDistance = function(distance){
     if(this.radius !== 0 && distance !== 0)
     {this.radius = distance;}};
 System.prototype.setSize = function(size){this.mSet[0].getXform().setSize(size, size);};
+System.prototype.getSize = function(){return this.mSet[0].getXform().getSize()[0];};
 System.prototype.setAnimated = function(value){this.animated = value;};
 System.prototype.getSpeed = function(){return this.speed;};
 System.prototype.setSpeed = function(speed){this.speed = speed;};
@@ -77,15 +78,19 @@ System.prototype.addChild = function(shader, color)
     this.addAsChild(newChild);
     
 };
-System.prototype.rCheckClick = function (parentMat, x ,y)
+System.prototype.rCheckClick = function (parentMat,parentScale, x ,y)
 {
     var xfMat = this.mXform.getXform();
+    var realScale = this.mXform.getSize()[0];
+    
     if(parentMat !== null && parentMat !== undefined)
     {
         mat4.multiply(xfMat, parentMat, xfMat);
     }
-    var myXform = this.mXform.getXform();
-    
+    if(parentScale !== null)
+    {
+        realScale *= parentScale;
+    }
     //check if the click is on this systems planet
     var planetRadius = this.mSet[0].getXform().getSize()[0];
     var myX = xfMat[12];
@@ -94,14 +99,14 @@ System.prototype.rCheckClick = function (parentMat, x ,y)
     var xDis = myX - x;
     var yDis = myY - y;
     var distance = Math.sqrt((xDis * xDis) + (yDis * yDis));
-    if(distance < planetRadius)
+    if(distance < planetRadius * realScale)
     {
         return this;
     }
     //check if the click is on a child
     for (var i = 0; i < this.mChildren.length; i++)
     {
-        var childVal = this.mChildren[i].checkClick(xfMat, x, y);
+        var childVal = this.mChildren[i].rCheckClick(xfMat,realScale, x, y);
         if(childVal !== null)
         {
             return childVal;
