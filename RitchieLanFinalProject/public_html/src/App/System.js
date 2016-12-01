@@ -79,8 +79,8 @@ System.prototype.addChild = function(shader, color)
         newSpeed = 4;
     }
     var newName = "My Child";
-    var newChild = new System(shader, newName, newOrbitDistance, this.originalTheta);
-    newChild.setTheta(this.theta);
+    var newChild = new System(shader, newName, newOrbitDistance, this.theta);
+    newChild.setTheta(this.originalTheta);
     newChild.setSpeed(newSpeed);
     newChild.setColor(color);
     var newScale = this.getScale();
@@ -153,6 +153,66 @@ System.prototype.rSetDistanceFromPosition = function(parentMat, x, y)
 {
     
 };
+System.prototype.rGetRealDistance = function(object, parentMat)
+{
+    var xfMat = this.mXform.getXform();
+    if(parentMat !== null)
+    {
+        mat4.multiply(xfMat, parentMat, xfMat);
+        if(object === this)
+        {
+            var myX = xfMat[12];
+            var myY = xfMat[13];
+            var parentX = parentMat[12];
+            var parentY = parentMat[13];
+            //compute disctance btween my X/Y and x/y
+            var xDis = myX - parentX;
+            var yDis = myY - parentY;
+            var distance = Math.sqrt((xDis * xDis) + (yDis * yDis));
+            return distance;
+        }
+    }
+    //check if the click is on a child
+    for (var i = 0; i < this.mChildren.length; i++)
+    {
+        var childVal = this.mChildren[i].rGetRealDistance(object, xfMat);
+        if(childVal !== 0)
+        {
+            return childVal;
+        }
+    }
+    return 0;  
+};
+System.prototype.rSetRealDistance = function(object, parentMat, distance)
+{
+    var xfMat = this.mXform.getXform();
+    if(parentMat !== null)
+    {
+        mat4.multiply(xfMat, parentMat, xfMat);
+        if(object === this)
+        {
+            var myX = xfMat[12];
+            var myY = xfMat[13];
+            var parentX = parentMat[12];
+            var parentY = parentMat[13];
+            //compute disctance btween my X/Y and x/y
+            var xDis = myX - parentX;
+            var yDis = myY - parentY;
+            var distance = Math.sqrt((xDis * xDis) + (yDis * yDis));
+            return distance;
+        }
+    }
+    //check if the click is on a child
+    for (var i = 0; i < this.mChildren.length; i++)
+    {
+        var childVal = this.mChildren[i].rGetRealDistance(object, xfMat);
+        if(childVal !== 0)
+        {
+            return childVal;
+        }
+    }
+    return 0;  
+};
 System.prototype.rSetAnimated = function(animated)
 {
     this.animated = animated;
@@ -161,10 +221,70 @@ System.prototype.rSetAnimated = function(animated)
         this.mChildren[i].rSetAnimated(animated);
     }
 };
-System.prototype.rGetRealSize = function(object, parentMat)
+System.prototype.rGetRealScale = function(object, parentMat)
 {};
-System.prototype.rSetColorFromDistanceFromSun = function (parentMat)
-{};
+System.prototype.rSetColorFromDistanceFromSun = function (parentMat, maxDistance)
+{
+    //make sure the max idstance is divisible by 3
+    if(maxDistance % 3 !== 0)
+    {
+        maxDistance -= (maxDistance % 3);
+    }
+    var xfMat = this.mXform.getXform();
+    if(parentMat !== null && parentMat !== undefined)
+    {
+        mat4.multiply(xfMat, parentMat, xfMat);
+        
+        var xDis = xfMat[12];
+        var yDis = xfMat[13];
+        var distance = Math.sqrt((xDis * xDis) + (yDis * yDis));
+    
+        var section = (maxDistance / 6);    
+        var redVal = 0;
+        var greenVal = 0;
+        var blueVal = 0;
+        if(distance < (section * 1))
+        {
+            redVal = 1;
+            greenVal = (distance % section) / section;
+        }
+        else if(distance < (section * 2))
+        {
+            greenVal = 1;
+            redVal = 1 - (distance % section) / section;
+        }
+        else if(distance < (section * 3))
+        {
+            greenVal = 1;
+            blueVal = (distance % section) / section;
+        }
+        else if(distance < (section * 4))
+        {
+            blueVal = 1;
+            greenVal = 1 - (distance % section) / section;
+        }
+        else if(distance < (section * 5))
+        {
+            blueVal = 1;
+            redVal = (distance % section) / section;
+        }
+        else if(distance < (section * 6))
+        {
+            redVal = 1;
+            blueVal = 1 - (distance % section) / section;
+        }
+        else
+        {
+            redVal = 1;
+        }
+        this.setColor([redVal, greenVal, blueVal, 1]);
+    }
+    
+    for(var i = 0; i <this.mChildren.length; i ++)
+    {
+        this.mChildren[i].rSetColorFromDistanceFromSun(xfMat, maxDistance);
+    }
+};
 System.prototype.rReset = function()
 {
     this.theta = this.originalTheta;

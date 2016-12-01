@@ -28,9 +28,10 @@ function ClassExample() {
     this.mParent.setScale(2);
     
     this.mLeftChild = new System(this.mConstColorShader, "Child 1",5,0);
+    this.mLeftChild.setSpeed(2);
     this.mLeftChild.setColor([.8,.2,.2,1]);
     var xf = this.mLeftChild.getXform();
-    xf.setSize(.5,.5);
+    xf.setSize(1,1);
     this.mParent.addAsChild(this.mLeftChild);
     
     this.mTopChild = new System(this.mConstColorShader, "Child 2",3, 0); 
@@ -41,7 +42,7 @@ function ClassExample() {
     xf.setSize(.5,.5);
     
     this.mNew = new System(this.mConstColorShader, "Child 3",4.5, 0); 
-    this.mNew.setSpeed(-7);
+    this.mNew.setSpeed(-4);
     this.mNew.setColor([.2,.8,.2,1]);
     this.mLeftChild.addAsChild(this.mNew); 
     var xf = this.mNew.getXform();
@@ -49,7 +50,7 @@ function ClassExample() {
     
     this.mNewTwo = new System(this.mConstColorShader, "Child 3",2, 0); 
     this.mNewTwo.setSpeed(-8);
-    this.mNewTwo.setColor([.8,.2,.8,1]);
+    this.mNewTwo.setColor([.5,0,.5,1]);
     this.mLeftChild.addAsChild(this.mNewTwo); 
     var xf = this.mNewTwo.getXform();
     xf.setSize(.5,.5);
@@ -102,7 +103,7 @@ ClassExample.prototype.update = function () {
     {
         this.getMatrixOfSelected();
     }
-    
+    this.scaleColorByDistance();
 };
 
 ClassExample.prototype.checkClick = function(clickPos)
@@ -112,19 +113,6 @@ ClassExample.prototype.checkClick = function(clickPos)
     {
         this.getMatrixOfSelected();
     }
-//    if(this.mSelected === null)
-//    {
-//        this.mSelected = this.mParent.rCheckClick(null, clickPos[0], clickPos[1]);
-//    }
-//    this.getMatrixOfSelected();
-//    if(this.mSelected !== null && this.mSelectedMatrix !== null)
-//    {
-//        this.manipulatorValue = this.mManipulator.detect(this.mSelectedMatrix, clickPos[0], clickPos[1]);
-//    }
-//    if(this.manipulatorValue === -1)
-//    {
-//        this.mSelected = null;
-//    }
 
 };
 ClassExample.prototype.manipulateSelected = function (newPosition)
@@ -242,7 +230,9 @@ ClassExample.prototype.getSelectedSpeed = function()
 ClassExample.prototype.getSelectedDistance = function()
 {
    if(this.mSelected !== null)
-   {}
+   {
+       return Math.round(this.mParent.rGetRealDistance(this.mSelected, null, null)* 10) / 10;
+   }
 };
 ClassExample.prototype.getSelectedScale = function()
 {
@@ -263,4 +253,8 @@ ClassExample.prototype.addChildToSelected = function()
 ClassExample.prototype.randomColor = function()
 {
     return [Math.random(), Math.random(), Math.random(), 1];
+};
+ClassExample.prototype.scaleColorByDistance = function()
+{
+    this.mParent.rSetColorFromDistanceFromSun(null, 21);
 };

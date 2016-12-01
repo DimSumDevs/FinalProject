@@ -91,7 +91,7 @@ myModule.controller("MainCtrl", function ($scope) {
         $scope.selectedSpeed = $scope.mMyWorld.getSelectedSpeed();
         $scope.selectedScale = $scope.mMyWorld.getSelectedScale();
         $scope.selectedPlanetSize;
-        $scope.selectedOrbitDistance;
+        $scope.selectedOrbitDistance = $scope.mMyWorld.getSelectedDistance();
     };
     $scope.clearCanvas = function()
     {};
