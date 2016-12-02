@@ -28,6 +28,7 @@ myModule.controller("MainCtrl", function ($scope) {
     $scope.selectedScale;
     $scope.selectedPlanetSize;
     $scope.selectedOrbitDistance;
+    $scope.selectedTheta;
     
     $scope.wcCenterX = 0;
     $scope.wcCenterY = 0;
@@ -84,7 +85,7 @@ myModule.controller("MainCtrl", function ($scope) {
     $scope.updateModelFromView = function()
     {
         this.mMyWorld.updateFromView($scope.selectedSpeed, $scope.selectedOrbitDistance, 
-        $scope.selectedScale, $scope.selectedPlanetSize);
+        $scope.selectedScale, $scope.selectedPlanetSize, $scope.selectedTheta);
     };
     $scope.updateViewFromModel = function()
     {
@@ -92,6 +93,7 @@ myModule.controller("MainCtrl", function ($scope) {
         $scope.selectedScale = $scope.mMyWorld.getSelectedScale();
         $scope.selectedPlanetSize;
         $scope.selectedOrbitDistance = $scope.mMyWorld.getSelectedDistance();
+        $scope.selectedTheta = $scope.mMyWorld.getSelectedThetaInPI();
     };
     $scope.clearCanvas = function()
     {};

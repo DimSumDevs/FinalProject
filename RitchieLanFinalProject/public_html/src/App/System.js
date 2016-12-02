@@ -67,6 +67,9 @@ System.prototype.setAnimated = function(value){this.animated = value;};
 System.prototype.getSpeed = function(){return this.speed;};
 System.prototype.setSpeed = function(speed){this.speed = speed;};
 System.prototype.setTheta = function(theta){this.theta = theta;};
+System.prototype.getInitialTheta = function(){return this.originalTheta;};
+System.prototype.setInitialTheta = function(theta){
+    this.originalTheta = theta;if(this.animated === false){this.theta = this.originalTheta;}};
 
 System.prototype.addChild = function(shader, color)
 {
@@ -153,29 +156,21 @@ System.prototype.rSetDistanceFromPosition = function(parentMat, x, y)
 {
     
 };
-System.prototype.rGetRealDistance = function(object, parentMat)
+System.prototype.rGetRealDistance = function(object, parentScale)
 {
-    var xfMat = this.mXform.getXform();
-    if(parentMat !== null)
+    var myScale = this.mXform.getSize()[0];
+    if(parentScale !== null)
     {
-        mat4.multiply(xfMat, parentMat, xfMat);
-        if(object === this)
+        myScale *= parentScale;
+        if(this === object)
         {
-            var myX = xfMat[12];
-            var myY = xfMat[13];
-            var parentX = parentMat[12];
-            var parentY = parentMat[13];
-            //compute disctance btween my X/Y and x/y
-            var xDis = myX - parentX;
-            var yDis = myY - parentY;
-            var distance = Math.sqrt((xDis * xDis) + (yDis * yDis));
-            return distance;
+            return this.radius * parentScale;
         }
     }
-    //check if the click is on a child
+    //check if the selected object is a child
     for (var i = 0; i < this.mChildren.length; i++)
     {
-        var childVal = this.mChildren[i].rGetRealDistance(object, xfMat);
+        var childVal = this.mChildren[i].rGetRealDistance(object, myScale);
         if(childVal !== 0)
         {
             return childVal;
@@ -183,35 +178,28 @@ System.prototype.rGetRealDistance = function(object, parentMat)
     }
     return 0;  
 };
-System.prototype.rSetRealDistance = function(object, parentMat, distance)
+System.prototype.rSetRealDistance = function(object, parentScale, distance)
 {
-    var xfMat = this.mXform.getXform();
-    if(parentMat !== null)
+    var myScale = this.mXform.getSize()[0];
+    if(parentScale !== null)
     {
-        mat4.multiply(xfMat, parentMat, xfMat);
-        if(object === this)
+        myScale *= parentScale;
+        if(this === object)
         {
-            var myX = xfMat[12];
-            var myY = xfMat[13];
-            var parentX = parentMat[12];
-            var parentY = parentMat[13];
-            //compute disctance btween my X/Y and x/y
-            var xDis = myX - parentX;
-            var yDis = myY - parentY;
-            var distance = Math.sqrt((xDis * xDis) + (yDis * yDis));
-            return distance;
+            this.setDistance(distance / parentScale);
+            return true ;
         }
     }
-    //check if the click is on a child
+    //check if the selected object is a child
     for (var i = 0; i < this.mChildren.length; i++)
     {
-        var childVal = this.mChildren[i].rGetRealDistance(object, xfMat);
-        if(childVal !== 0)
+        var childVal = this.mChildren[i].rSetRealDistance(object, myScale, distance);
+        if(childVal)
         {
-            return childVal;
+            return true;
         }
     }
-    return 0;  
+    return false;  
 };
 System.prototype.rSetAnimated = function(animated)
 {

@@ -211,13 +211,14 @@ ClassExample.prototype.reset= function()
     this.animated = false;
     
 };
-ClassExample.prototype.updateFromView = function(speed, distance, scale, planetSize)
+ClassExample.prototype.updateFromView = function(speed, distance, scale, planetSize, thetaInPI)
 {
     if(this.mSelected !== null)
     {
         this.mSelected.setSpeed(speed);
-        //this doesn't work, need to set the real distance: this.mParent.setDistance(distance);
+        this.mParent.rSetRealDistance(this.mSelected, null, distance);
         this.mSelected.setScale(scale);
+        this.mSelected.setInitialTheta(thetaInPI * Math.PI);
     }
 };
 ClassExample.prototype.getSelectedSpeed = function()
@@ -231,7 +232,7 @@ ClassExample.prototype.getSelectedDistance = function()
 {
    if(this.mSelected !== null)
    {
-       return Math.round(this.mParent.rGetRealDistance(this.mSelected, null, null)* 10) / 10;
+       return this.mParent.rGetRealDistance(this.mSelected, null, null);
    }
 };
 ClassExample.prototype.getSelectedScale = function()
@@ -245,10 +246,20 @@ ClassExample.prototype.getSelectedPlanetSize = function()
 {
     if(this.mSelected !== null)
     {}
+}; 
+ClassExample.prototype.getSelectedThetaInPI = function()
+{
+    if(this.mSelected !== null)
+    {
+        return this.mSelected.getInitialTheta() / Math.PI;
+    }
 };
 ClassExample.prototype.addChildToSelected = function()
 {
-    this.mSelected.addChild(this.mConstColorShader, this.randomColor());
+    if(this.mSelected !== null)
+    {
+        this.mSelected.addChild(this.mConstColorShader, this.randomColor());
+    }
 };
 ClassExample.prototype.randomColor = function()
 {
