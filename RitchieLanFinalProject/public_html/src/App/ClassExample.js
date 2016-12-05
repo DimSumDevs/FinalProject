@@ -34,12 +34,12 @@ function ClassExample() {
     xf.setSize(1,1);
     this.mParent.addAsChild(this.mLeftChild);
     
-    this.mTopChild = new System(this.mConstColorShader, "Child 2",3, 0); 
-    this.mTopChild.setSpeed(8);
-    this.mTopChild.setColor([.2,.2,.8,1]);
-    this.mLeftChild.addAsChild(this.mTopChild); 
-    var xf = this.mTopChild.getXform();
-    xf.setSize(.5,.5);
+//    this.mTopChild = new System(this.mConstColorShader, "Child 2",3, 0); 
+//    this.mTopChild.setSpeed(8);
+//    this.mTopChild.setColor([.2,.2,.8,1]);
+//    this.mLeftChild.addAsChild(this.mTopChild); 
+//    var xf = this.mTopChild.getXform();
+//    xf.setSize(.5,.5);
     
     this.mNew = new System(this.mConstColorShader, "Child 3",4.5, 0); 
     this.mNew.setSpeed(-4);
@@ -48,12 +48,12 @@ function ClassExample() {
     var xf = this.mNew.getXform();
     xf.setSize(.5,.5);
     
-    this.mNewTwo = new System(this.mConstColorShader, "Child 3",2, 0); 
-    this.mNewTwo.setSpeed(-8);
-    this.mNewTwo.setColor([.5,0,.5,1]);
-    this.mLeftChild.addAsChild(this.mNewTwo); 
-    var xf = this.mNewTwo.getXform();
-    xf.setSize(.5,.5);
+//    this.mNewTwo = new System(this.mConstColorShader, "Child 3",2, 0); 
+//    this.mNewTwo.setSpeed(-8);
+//    this.mNewTwo.setColor([.5,0,.5,1]);
+//    this.mLeftChild.addAsChild(this.mNewTwo); 
+//    var xf = this.mNewTwo.getXform();
+//    xf.setSize(.5,.5);
     
 //    var theta = 0;
 //    var distance = 2;

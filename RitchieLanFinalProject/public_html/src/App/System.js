@@ -73,22 +73,35 @@ System.prototype.setInitialTheta = function(theta){
 
 System.prototype.addChild = function(shader, color)
 {
+    // set a default orbit distance
     var newOrbitDistance = 3;
     var newSpeed = this.speed * 2;
-    
-        if(this.radius === 0)
+    //Check if this is the sun / parent
+    if(this.radius === 0)
     {
-        newOrbitDistance = 3;
         newSpeed = 4;
     }
+    //create new child object
     var newName = "My Child";
     var newChild = new System(shader, newName, newOrbitDistance, this.theta);
+    
+    //Check if this object has other children, if so model the new child after the
+    //last child added
+    if(this.mChildren.length > 0)
+    {
+        var lastChild = this.mChildren[this.mChildren.length - 1];
+        newChild.setSpeed(lastChild.getSpeed());
+        newChild.setScale(lastChild.getScale());
+        newChild.setDistance(lastChild.getDistance());
+    }
+    else
+    {
+        newChild.setSpeed(newSpeed);
+        newChild.setScale(.5);
+    }
     newChild.setTheta(this.originalTheta);
-    newChild.setSpeed(newSpeed);
-    newChild.setColor(color);
-    var newScale = this.getScale();
-    newChild.setScale(.5);
     newChild.setAnimated(this.animated);
+    newChild.setColor(color);
     
     this.addAsChild(newChild);
     
