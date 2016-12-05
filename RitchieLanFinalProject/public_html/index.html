@@ -39,6 +39,7 @@
 
         <!-- My application code -->
         <script type="text/javascript" src="src/MainController.js"></script> 
+        <script type="text/javascript" src="src/jseyes.js"></script> 
         <script type="text/javascript" src="src/App/ClassExample.js"></script> 
         <script type="text/javascript" src="src/App/ClassExample_MouseOver.js"></script> 
         <script type="text/javascript" src="src/App/System.js"></script> 
@@ -154,10 +155,10 @@
 </svg>
 
 
-        <audio controls autoplay hidden="hidden">
+<!--        <audio controls autoplay hidden="hidden">
           <source src="src/Heathens.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
-        </audio>
+        </audio>-->
 
             <br>
 <!--            <input type="checkbox" name="activitmPartent" ng-click="$scope.mMyWorld.taggle()">
@@ -171,14 +172,23 @@
                timeron="true"
                callback="mainTimerHandler"></css-timer>
 
-
+<audio id="buttonClickSound" src="src/buttonClickSound.mp3"></audio>
     <br>
     <div class="operator">
+<!--
         <button ng-click ="resetPositions()">Reset</button>
         <button ng-click="clearCanvas()">Clear All</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <button ng-click = "toggleAnimated()">Play/Pause</button>
         <p>Speed &nbsp;&nbsp;<input type="range" min="-25" max="25" value="1" step="1" ng-model="selectedSpeed">
-            <input type="text" min ="-25" max="25" value="1" step="1" ng-model ="selectedSpeed" style="width:35px;">
+            <input type="text" min ="-25" max="25" value="1" step="1" ng-model ="selectedSpeed" style="width:35px;">-->
+
+        <button onclick="document.getElementById('buttonClickSound').play()" ng-click ="resetPositions()">Reset</button>
+        <button onclick="document.getElementById('buttonClickSound').play()" ng-click="clearCanvas()">Clear All</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button onclick="document.getElementById('buttonClickSound').play()" ng-click = "toggleAnimated()">Play/Pause</button>
+        <p>Speed &nbsp;&nbsp;<input type="range" min="-15" max="15" value="1" step=".1" ng-model="selectedSpeed">
+            <input type="text" min ="-15" max="15" value="1" step=".1" ng-model ="selectedSpeed" style="width:35px;">
+        <br>
+
         <p>Scale &nbsp;&nbsp;<input type="range" min=".2" max="5" value="1" step=".1" ng-model="selectedScale">
             <input type="text" min =".2" max="5" value="1" step=".1" ng-model ="selectedScale" style="width:35px;">
         <p>Orbit Distance &nbsp;&nbsp;<input type="range" min=".5" max="20" value="1" step=".5" ng-model="selectedOrbitDistance">
@@ -187,7 +197,7 @@
         <p>Starting Position (In PI radians) &nbsp;&nbsp;<input type="range" min="0" max="2" value="0" step=".05" ng-model="selectedTheta">
             <input type="text" min ="0" max="2" value="0" step=".05" ng-model ="selectedTheta" style="width:35px;">
         <br>
-        <button ng-click="addChildSystem()"> Add Child</button>
+        <button onclick="document.getElementById('buttonClickSound').play()" ng-click="addChildSystem()"> Add Child</button>
     </div>
     <canvas          
         ng-mousemove="serviceMove($event)"
@@ -199,7 +209,6 @@
         Your browser does not support the HTML5 canvas.
         <!-- this message will show only if WebGL clearing failed -->
     </canvas>
-
 
 
 </body>

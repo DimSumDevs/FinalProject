@@ -32,14 +32,36 @@ myModule.controller("MainCtrl", function ($scope) {
     
     $scope.wcCenterX = 0;
     $scope.wcCenterY = 0;
-    $scope.wcWidth = 50;
+    $scope.wcWidth = 100;
     $scope.pixelWidth = 1000;
     $scope.pixelHeight = 750;
+    
+    $scope.mSmallViewWCWidth = 200;
+    $scope.mSmallViewport = [100, 200, 200, 200];
+    $scope.mSmallViewWCCenter = [500, 400];
     
     $scope.mView = new Camera(
             [$scope.wcCenterX, $scope.wcCenterY], // wc Center
             $scope.wcWidth, // wc Wdith
             [0, 0, $scope.pixelWidth, $scope.pixelHeight]);  // viewport: left, bottom, width, height
+
+    $scope.setSmallViewWC = function () {
+        $scope.mSmallView.setWCWidth(parseInt($scope.mSmallViewWCWidth));
+    };
+
+    $scope.setSmallViewWCCenter = function () {
+        $scope.mSmallView.setWCCenter(
+            parseInt($scope.mSmallViewWCCenter[0]),
+            parseInt($scope.mSmallViewWCCenter[1])
+        );
+    };
+    
+    $scope.mSmallView = new Camera(
+                [0, 0],// wc Center
+                10, // wc width
+                [0, 600, 150, 150]);    // viewport: left, bottom, width, height
+    $scope.mSmallView.setBackgroundColor([0, 0, 0, 0.4]);
+
 
     $scope.mainTimerHandler = function () {
         // 1. update the world
@@ -51,6 +73,7 @@ myModule.controller("MainCtrl", function ($scope) {
         //
         // $scope.mMyWorld.update();
         $scope.mMyWorld.draw($scope.mView);
+        $scope.mMyWorld.draw($scope.mSmallView);
     };
 
     $scope.serviceSelection = function (event) {
