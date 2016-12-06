@@ -165,9 +165,22 @@ SceneNode.prototype.rGetMatrix = function(object, parentMat)
     }
     return null;
 };
-System.prototype.rSetDistanceFromPosition = function(parentMat, x, y)
+System.prototype.rSetDistanceFromPosition = function(object, parentMat, x, y)
 {
-    
+//    var xfMat = this.mXform.getXform();
+//    if(parentMat !== null)
+//    {
+//        var xfMat = this.mXform.getXform();
+//        //check if this object is the target object
+//        if(this === object)
+//        {
+//            mat4.multiply(xfMat, parentMat, xfMat);
+//            var myX = xfMat[12];
+//            var myY = xfMat[13];
+//            
+//            var xDif = myX - x
+//        }
+//    }
 };
 System.prototype.rGetRealDistance = function(object, parentScale)
 {

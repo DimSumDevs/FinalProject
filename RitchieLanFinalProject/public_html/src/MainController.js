@@ -104,6 +104,7 @@ myModule.controller("MainCtrl", function ($scope) {
             case 1:
                 $scope.mMyWorld.manipulateSelected($scope.pixelToWc(pixelPos));
         };
+        $scope.updateViewFromModel();
     };
     $scope.updateModelFromView = function()
     {

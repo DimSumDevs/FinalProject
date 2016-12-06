@@ -17,58 +17,24 @@ function Manipulator(shader) {
     xf.setPivot(0, 0);
     
     // Create horizontal line
-    var obj = new SquareRenderable(shader, true);   
+    var obj = new SquareRenderable(shader);   
     this.addToSet(obj);
     obj.setColor([0, 0, 0, 1]);
     xf = obj.getXform();
-    xf.setSize(2, 0.07);
-    xf.setPosition(1, 0);
- 
-    // Create vertical line
-    obj = new SquareRenderable(shader, true); 
-    this.addToSet(obj);
-    obj.setColor([0, 0, 0, 1]);
-    xf = obj.getXform();
-    xf.setSize(0.07, 2);
-    xf.setPosition(0, 1);
- 
-    //  rotate at 2
-    obj = new ClickableObject(shader, true);  
-    this.addToSet(obj);
-    obj.setColor([0.2, 0.7, 0.2, 1]);
-    xf = obj.getXform();
-    xf.setSize(0.2, 0.2); 
-    xf.setPosition(0, 2);
-    
-    // translate at 3
-    obj = new ClickableObject(shader, true); 
-    this.addToSet(obj);
-    obj.setColor([0.7, 0.2, 0.2, 1]);
-    xf = obj.getXform();
-    xf.setSize(0.2, 0.2); 
-    xf.setPosition(0, 0);
+    xf.setSize(2.5, 0.14);
+    xf.setPosition(1.25, 0);
      
     // scale at 4
-    obj = new ClickableObject(shader, true); 
+    obj = new CircleRenderable(shader); 
     this.addToSet(obj);
-    obj.setColor([0.2, 0.2, 0.7, 1]);
+    obj.setColor([1, 1, 1, 1]);
     xf = obj.getXform();
-    xf.setSize(0.2, 0.2); 
-    xf.setPosition(2, 0);
+    xf.setSize(0.4, 0.4); 
+    xf.setPosition(2.25, 0);
 }
 gEngine.Core.inheritPrototype(Manipulator, SceneNode);
 
 Manipulator.prototype.update = function () {
-    // index-1 is the red-top
-//    var xf = this.getRenderableAt(1).getXform();
-//    xf.incRotationByDegree(this.mRotateRate);
-//    
-//    // index-4 is the blue circle
-//    xf = this.getRenderableAt(4).getXform();
-//    xf.incSizeBy(this.mPulseRate);
-//    if (xf.getWidth() > 0.7 || xf.getWidth() < 0.4)
-//        this.mPulseRate = -this.mPulseRate;
-    this.mXform.incRotationByDegree(1);
 };
 
 Manipulator.prototype.getRotationPoint = function () {
@@ -91,31 +57,8 @@ Manipulator.prototype.removeSceneNode = function () {
     this.mSceneNode = null;
 };
 
-Manipulator.prototype.detect = function(parentMat, x, y)
+Manipulator.prototype.detectClick = function(parentMat, x, y)
 {
-    for (var i = 2; i< 5; i ++)
-    {
-        this.mSet[i].myKnob.setColor([1,1,1,1]);
-    }
     
-    var obj = this.checkClick(parentMat, x,y);
-    if (obj === null)
-    {
-        return -1;
-    }
-    if(obj === this)
-    {
-        this.mSet[3].myKnob.setColor([0,0,0,1]);
-        return 3;
-    }
-    if(obj.getXform().getYPos() > 1)
-    {
-        return 2;
-    }
-    else
-    {
-        return 4;
-    }
-    return -1;
     
 };
