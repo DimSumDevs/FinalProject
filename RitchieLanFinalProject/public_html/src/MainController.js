@@ -51,14 +51,14 @@ myModule.controller("MainCtrl", function ($scope) {
 
     $scope.setSmallViewWCCenter = function () {
         $scope.mSmallView.setWCCenter(
-            parseInt($scope.mSmallViewWCCenter[0]),
-            parseInt($scope.mSmallViewWCCenter[1])
+            ($scope.mSmallViewWCCenter[0]),
+            ($scope.mSmallViewWCCenter[1])
         );
     };
     
     $scope.mSmallView = new Camera(
                 [0, 0],// wc Center
-                10, // wc width
+                15, // wc width
                 [0, 600, 150, 150]);    // viewport: left, bottom, width, height
     $scope.mSmallView.setBackgroundColor([0, 0, 0, 0.4]);
 
@@ -73,6 +73,7 @@ myModule.controller("MainCtrl", function ($scope) {
         //
         // $scope.mMyWorld.update();
         $scope.mMyWorld.draw($scope.mView);
+        $scope.updateSmallView();
         $scope.mMyWorld.draw($scope.mSmallView);
     };
 
@@ -94,6 +95,13 @@ myModule.controller("MainCtrl", function ($scope) {
         wcPosition[1] = ((pixelPos[1] - ($scope.pixelHeight / 2)) / ratio) + $scope.wcCenterY;
 
         return wcPosition;
+    };
+    $scope.wcToPixel = function(wcPos)
+    {
+        var pixelPosition = [0,0];
+        var ratio = $scope.pixelWidth / $scope.wcWidth;
+        pixelPosition[0] = ((wcPos[0] + $scope.wcCenter.X) * ratio) + $scope.pixelWidth / 2;
+        pixelPosition[1] = ((wcPos[1] + $scope.wcCenter.Y) * ratio) + $scope.pixelHeight / 2;
     };
     $scope.serviceMove = function (event) {
         var pixelPos = [0, 0];
@@ -118,6 +126,12 @@ myModule.controller("MainCtrl", function ($scope) {
         $scope.selectedPlanetSize;
         $scope.selectedOrbitDistance = $scope.mMyWorld.getSelectedDistance();
         $scope.selectedTheta = $scope.mMyWorld.getSelectedThetaInPI();
+        
+    };
+    $scope.updateSmallView = function()
+    {
+        $scope.mSmallViewWCCenter = $scope.mMyWorld.getSelectedWcPos();
+        $scope.setSmallViewWCCenter();
     };
     $scope.clearCanvas = function()
     {};

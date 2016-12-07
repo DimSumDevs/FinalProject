@@ -213,6 +213,18 @@ ClassExample.prototype.getSelectedThetaInPI = function()
         return this.mSelected.getInitialTheta() / Math.PI;
     }
 };
+ClassExample.prototype.getSelectedWcPos = function ()
+{
+    if(this.mSelectedMatrix !== null && this.mSelected !== null)
+    {
+        var wcPos = [this.mSelectedMatrix[12], this.mSelectedMatrix[13]];
+        return wcPos;
+    }
+    else
+    {
+        return [0,0];
+    }
+};
 ClassExample.prototype.addChildToSelected = function()
 {
     if(this.mSelected !== null)
