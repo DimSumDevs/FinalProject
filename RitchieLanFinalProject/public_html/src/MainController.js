@@ -47,7 +47,7 @@ myModule.controller("MainCtrl", function ($scope) {
             [$scope.wcCenterX, $scope.wcCenterY], // wc Center
             $scope.wcWidth, // wc Wdith
             [0, 0, $scope.pixelWidth, $scope.pixelHeight]);  // viewport: left, bottom, width, height
-
+    $scope.mView.setBackgroundColor([.1, .1, .1, .9]);
     $scope.setSmallViewWC = function () {
         $scope.mSmallView.setWCWidth(parseInt($scope.mSmallViewWCWidth));
     };
@@ -63,7 +63,7 @@ myModule.controller("MainCtrl", function ($scope) {
                 [0, 0],// wc Center
                 15, // wc width
                 [0, 600, 150, 150]);    // viewport: left, bottom, width, height
-    $scope.mSmallView.setBackgroundColor([0, 0, 0, 0.4]);
+    $scope.mSmallView.setBackgroundColor([.15, .15, .15, 0.9]);
 
 
     $scope.mainTimerHandler = function () {
