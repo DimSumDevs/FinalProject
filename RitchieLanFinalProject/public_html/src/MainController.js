@@ -161,6 +161,6 @@ myModule.controller("MainCtrl", function ($scope) {
     };
     //color picker function
     $scope.$on("colorpicker-selected", function () {
-    
+        $scope.mMyWorld.setObjColor($scope.mColor);
     });
 });

@@ -7,7 +7,6 @@
 /* find out more about jslint: http://www.jslint.com/help.html */
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
-
 function System(shader, name, oribtDistance, initialTheta, initialColor) {
     SceneNode.call(this, shader, name, false);   // calling super class constructor
     this.speed = 10/ oribtDistance;
@@ -23,11 +22,29 @@ function System(shader, name, oribtDistance, initialTheta, initialColor) {
     var obj = new CircleRenderable(shader, false);  // The planet for this system
     this.addToSet(obj);
     obj.setColor(initialColor);
+//    obj.setColorByHex(initialColor, obj.getColor());
     var xf = obj.getXform();
     xf.setSize(1, 1);
     xf.setPosition(0, 0);
     
+    this.objColor = obj;
+    
 }
+
+System.prototype.setColorByHex = function (hex, c) {
+    var inInt = parseInt(hex.substring(1), 16);  // to get rid of "#"
+    var r = (inInt >> 16) & 255;
+    var g = (inInt >> 8) & 255;
+    var b = inInt & 255;
+    c[0] = r / 255.0;
+    c[1] = g / 255.0;
+    c[2] = b / 255.0;
+};
+
+System.prototype.setCurrentObjColor = function (hex) {
+    this.setColorByHex(hex, this.objColor.getColor());
+};
+
 gEngine.Core.inheritPrototype(System, SceneNode);
 System.prototype.update = function () 
 {
