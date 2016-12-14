@@ -4,6 +4,7 @@
         <title>Example 7.3: Position of Objects in WC</title>
         <link rel ="icon" type ="image/x-icon" href="./assets/favicon.png">
         <link rel="stylesheet" href="src/style.css">
+        <link rel="stylesheet" href="src/style.scss">
         <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,700" rel="stylesheet">
         <!-- the following says there are javascript source code contained in 
              the external source files
@@ -14,7 +15,7 @@
         <script type="text/javascript" src="src/lib/webgl-obj-loader.js"></script>
         <link rel="stylesheet" href="src/lib/css/colorpicker.css"/>
         <script type="text/javascript" src="src/lib/bootstrap-colorpicker-module.min.js"></script>
-                <!-- use with permission from https://github.com/buberdds/angular-bootstrap-colorpicker -->
+        <!-- use with permission from https://github.com/buberdds/angular-bootstrap-colorpicker -->
 
         <!-- Engine code: Graphics Support -->
         <!-- Core of Engine -->
@@ -55,157 +56,173 @@
         ng-app="appMyExample" 
         ng-controller="MainCtrl">
         <audio controls loop>
-          <source src="assets/MusicBox.ogg" type="video/ogg">
-        Your browser does not support the audio element.
+            <source src="assets/MusicBox.ogg" type="video/ogg">
+            Your browser does not support the audio element.
         </audio>
-<svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-	 width="600px" height="100px" viewBox="0 0 600 100">
-<style type="text/css">
+        <svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+             width="600px" height="100px" viewBox="0 0 600 100">
+        <style type="text/css">
 
-<![CDATA[
+            <![CDATA[
 
-	text {
-		filter: url(#filter);
-		fill: white;
-    	font-family: 'Share Tech Mono', sans-serif;
-    	font-size: 100px;
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
-     		}
-]]>
-</style>
-	<defs>
+            text {
+                filter: url(#filter);
+                fill: white;
+                font-family: 'Share Tech Mono', sans-serif;
+                font-size: 100px;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+            ]]>
+        </style>
+        <defs>
 
-		<filter id="filter">
-<!--		    <feFlood flood-color="black" result="black" />-->
-		    <feFlood flood-color="red" result="flood1" />
-		    <feFlood flood-color="limegreen" result="flood2" />
-			<feOffset in="SourceGraphic" dx="3" dy="0" result="off1a"/>
-			<feOffset in="SourceGraphic" dx="2" dy="0" result="off1b"/>
-			<feOffset in="SourceGraphic" dx="-3" dy="0" result="off2a"/>
-			<feOffset in="SourceGraphic" dx="-2" dy="0" result="off2b"/>
-		    <feComposite in="flood1" in2="off1a" operator="in"  result="comp1" />
-		    <feComposite in="flood2" in2="off2a" operator="in" result="comp2" />
+    <filter id="filter">
+        <!--		    <feFlood flood-color="black" result="black" />-->
+        <feFlood flood-color="red" result="flood1" />
+        <feFlood flood-color="limegreen" result="flood2" />
+        <feOffset in="SourceGraphic" dx="3" dy="0" result="off1a"/>
+        <feOffset in="SourceGraphic" dx="2" dy="0" result="off1b"/>
+        <feOffset in="SourceGraphic" dx="-3" dy="0" result="off2a"/>
+        <feOffset in="SourceGraphic" dx="-2" dy="0" result="off2b"/>
+        <feComposite in="flood1" in2="off1a" operator="in"  result="comp1" />
+        <feComposite in="flood2" in2="off2a" operator="in" result="comp2" />
 
- 		  	<feMerge x="0" width="100%" result="merge1">
-				<feMergeNode in = "black" />
-				<feMergeNode in = "comp1" />
-				<feMergeNode in = "off1b" />
+        <feMerge x="0" width="100%" result="merge1">
+            <feMergeNode in = "black" />
+            <feMergeNode in = "comp1" />
+            <feMergeNode in = "off1b" />
 
-				<animate 
-					attributeName="y" 
-		    		id = "y"
-		    		dur ="4s"
-		    		
-		    		values = '104px; 104px; 30px; 105px; 30px; 2px; 2px; 50px; 40px; 105px; 105px; 20px; 6ßpx; 40px; 104px; 40px; 70px; 10px; 30px; 104px; 102px'
+            <animate 
+                attributeName="y" 
+                id = "y"
+                dur ="4s"
 
-		    		keyTimes = '0; 0.362; 0.368; 0.421; 0.440; 0.477; 0.518; 0.564; 0.593; 0.613; 0.644; 0.693; 0.721; 0.736; 0.772; 0.818; 0.844; 0.894; 0.925; 0.939; 1'
+                values = '104px; 104px; 30px; 105px; 30px; 2px; 2px; 50px; 40px; 105px; 105px; 20px; 6ßpx; 40px; 104px; 40px; 70px; 10px; 30px; 104px; 102px'
 
-		    		repeatCount = "indefinite" />
- 
-				<animate attributeName="height" 
-		    		id = "h" 
-		    		dur ="4s"
-		    		
-		    		values = '10px; 0px; 10px; 30px; 50px; 0px; 10px; 0px; 0px; 0px; 10px; 50px; 40px; 0px; 0px; 0px; 40px; 30px; 10px; 0px; 50px'
+                keyTimes = '0; 0.362; 0.368; 0.421; 0.440; 0.477; 0.518; 0.564; 0.593; 0.613; 0.644; 0.693; 0.721; 0.736; 0.772; 0.818; 0.844; 0.894; 0.925; 0.939; 1'
 
-		    		keyTimes = '0; 0.362; 0.368; 0.421; 0.440; 0.477; 0.518; 0.564; 0.593; 0.613; 0.644; 0.693; 0.721; 0.736; 0.772; 0.818; 0.844; 0.894; 0.925; 0.939; 1'
+                repeatCount = "indefinite" />
 
-		    		repeatCount = "indefinite" />
-		    </feMerge>
- 			
+            <animate attributeName="height" 
+                     id = "h" 
+                     dur ="4s"
 
- 			<feMerge x="0" width="100%" y="60px" height="65px" result="merge2">
-				<feMergeNode in = "black" />
-				<feMergeNode in = "comp2" />
-				<feMergeNode in = "off2b" />
+                     values = '10px; 0px; 10px; 30px; 50px; 0px; 10px; 0px; 0px; 0px; 10px; 50px; 40px; 0px; 0px; 0px; 40px; 30px; 10px; 0px; 50px'
 
-				<animate attributeName="y" 
-		    		id = "y"
-		    		dur ="4s"
-		    		values = '103px; 104px; 69px; 53px; 42px; 104px; 78px; 89px; 96px; 100px; 67px; 50px; 96px; 66px; 88px; 42px; 13px; 100px; 100px; 104px;' 
+                     keyTimes = '0; 0.362; 0.368; 0.421; 0.440; 0.477; 0.518; 0.564; 0.593; 0.613; 0.644; 0.693; 0.721; 0.736; 0.772; 0.818; 0.844; 0.894; 0.925; 0.939; 1'
 
-		    		keyTimes = '0; 0.055; 0.100; 0.125; 0.159; 0.182; 0.202; 0.236; 0.268; 0.326; 0.357; 0.400; 0.408; 0.461; 0.493; 0.513; 0.548; 0.577; 0.613; 1'
+                     repeatCount = "indefinite" />
+        </feMerge>
 
- 		    		repeatCount = "indefinite" />
- 
-				<animate attributeName="height" 
-		    		id = "h"
-		    		dur = "4s"
-					
-					values = '0px; 0px; 0px; 16px; 16px; 12px; 12px; 0px; 0px; 5px; 10px; 22px; 33px; 11px; 0px; 0px; 10px'
 
-		    		keyTimes = '0; 0.055; 0.100; 0.125; 0.159; 0.182; 0.202; 0.236; 0.268; 0.326; 0.357; 0.400; 0.408; 0.461; 0.493; 0.513;  1'
-		    		 
-		    		repeatCount = "indefinite" />
-		    </feMerge>
-			
-		 	<feMerge>
- 				<feMergeNode in="SourceGraphic" />	
+        <feMerge x="0" width="100%" y="60px" height="65px" result="merge2">
+            <feMergeNode in = "black" />
+            <feMergeNode in = "comp2" />
+            <feMergeNode in = "off2b" />
 
-				<feMergeNode in="merge1" /> 
- 			<feMergeNode in="merge2" />
+            <animate attributeName="y" 
+                     id = "y"
+                     dur ="4s"
+                     values = '103px; 104px; 69px; 53px; 42px; 104px; 78px; 89px; 96px; 100px; 67px; 50px; 96px; 66px; 88px; 42px; 13px; 100px; 100px; 104px;' 
 
-		    </feMerge>
-	    </filter>
+                     keyTimes = '0; 0.055; 0.100; 0.125; 0.159; 0.182; 0.202; 0.236; 0.268; 0.326; 0.357; 0.400; 0.408; 0.461; 0.493; 0.513; 0.548; 0.577; 0.613; 1'
 
-	</defs>
+                     repeatCount = "indefinite" />
 
-<g>
-	<text x="-50" y="100">SOLAR ORBITER</text>
-</g>
-</svg>
+            <animate attributeName="height" 
+                     id = "h"
+                     dur = "4s"
 
-            <br>
-<!--            <input type="checkbox" name="activitmPartent" ng-click="$scope.mMyWorld.taggle()">
-            <h1>Smiling Face</h1> -->
-            <br>
-        </div>
-        
+                     values = '0px; 0px; 0px; 16px; 16px; 12px; 12px; 0px; 0px; 5px; 10px; 22px; 33px; 11px; 0px; 0px; 10px'
+
+                     keyTimes = '0; 0.055; 0.100; 0.125; 0.159; 0.182; 0.202; 0.236; 0.268; 0.326; 0.357; 0.400; 0.408; 0.461; 0.493; 0.513;  1'
+
+                     repeatCount = "indefinite" />
+        </feMerge>
+
+        <feMerge>
+            <feMergeNode in="SourceGraphic" />	
+
+            <feMergeNode in="merge1" /> 
+            <feMergeNode in="merge2" />
+
+        </feMerge>
+    </filter>
+
+    </defs>
+
+    <g>
+    <text x="-50" y="100">SOLAR ORBITER</text>
+    </g>
+    </svg>
+
+    <br>
+    <!--            <input type="checkbox" name="activitmPartent" ng-click="$scope.mMyWorld.taggle()">
+                <h1>Smiling Face</h1> -->
+    <br>
+</div>
 <!--    <css-xform model="mSelectedXform"> </css-xform>-->
-    <css-timer id="idMainControllerTimer"
-               interval="40"
-               timeron="true"
-               callback="mainTimerHandler"></css-timer>
+<css-timer id="idMainControllerTimer"
+           interval="40"
+           timeron="true"
+           callback="mainTimerHandler"></css-timer>
 
 <audio id="buttonClickSound" src="assets/buttonClickSound.mp3"></audio>
-    <br>
-    <div class="operator">
-<!--
-        <button ng-click ="resetPositions()">Reset</button>
-        <button ng-click="clearCanvas()">Clear All</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button ng-click = "toggleAnimated()">Play/Pause</button>
-        <p>Speed &nbsp;&nbsp;<input type="range" min="-25" max="25" value="1" step="1" ng-model="selectedSpeed">
-            <input type="text" min ="-25" max="25" value="1" step="1" ng-model ="selectedSpeed" style="width:35px;">-->
+<br>
+<div class="operator" id="c3" style="display:inline-block; float: right; overflow: hidden;" >
+    <!--
+            <button ng-click ="resetPositions()">Reset</button>
+            <button ng-click="clearCanvas()">Clear All</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button ng-click = "toggleAnimated()">Play/Pause</button>
+            <p>Speed &nbsp;&nbsp;<input type="range" min="-25" max="25" value="1" step="1" ng-model="selectedSpeed">
+                <input type="text" min ="-25" max="25" value="1" step="1" ng-model ="selectedSpeed" style="width:35px;">-->
 
-        <button onclick="document.getElementById('buttonClickSound').play()" ng-click ="resetPositions()">Reset</button>
-        <button onclick="document.getElementById('buttonClickSound').play()" ng-click="clearCanvas()">Clear All</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button onclick="document.getElementById('buttonClickSound').play()" ng-click = "toggleAnimated()">Play/Pause</button>
-        <p>Speed &nbsp;&nbsp;<input type="range" min="-15" max="15" value="1" step=".1" ng-model="selectedSpeed">
-            <input type="text" min ="-15" max="15" value="1" step=".1" ng-model ="selectedSpeed" style="width:35px;">
+    <!--    <button onclick="document.getElementById('buttonClickSound').play()" ng-click ="resetPositions()">Reset</button>-->
+    <button onclick="document.getElementById('buttonClickSound').play()" ng-click="clearCanvas()">Clear All</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <!--        <button onclick="document.getElementById('buttonClickSound').play()" ng-click = "toggleAnimated()">Play/Pause</button>-->
+    <p>Speed 
+        <br><input type="range" min="-15" max="15" value="1" step=".1" ng-model="selectedSpeed">
+        <input type="text" min ="-15" max="15" value="1" step=".1" ng-model ="selectedSpeed" style="width:35px;">
         <br>
 
-        <p>Scale &nbsp;&nbsp;<input type="range" min=".2" max="20" value="1" step=".1" ng-model="selectedScale">
-            <input type="text" min =".2" max="20" value="1" step=".1" ng-model ="selectedScale" style="width:35px;">
-        <p>Orbit Distance &nbsp;&nbsp;<input type="range" min=".5" max="40" value="1" step=".5" ng-model="selectedOrbitDistance">
-            <input type="text" min =".5" max="40" value="1" step=".5" ng-model ="selectedOrbitDistance" style="width:35px;">
+    <p>Scale <br><input type="range" min=".2" max="20" value="1" step=".1" ng-model="selectedScale">
+        <input type="text" min =".2" max="20" value="1" step=".1" ng-model ="selectedScale" style="width:35px;">
+    <p>Orbit Distance <br><input type="range" min=".5" max="40" value="1" step=".5" ng-model="selectedOrbitDistance">
+        <input type="text" min =".5" max="40" value="1" step=".5" ng-model ="selectedOrbitDistance" style="width:35px;">
         <br>
-        <p>Starting Position (In PI radians) &nbsp;&nbsp;<input type="range" min="0" max="2" value="0" step=".05" ng-model="selectedTheta">
-            <input type="text" min ="0" max="2" value="0" step=".05" ng-model ="selectedTheta" style="width:35px;">
+    <p>Starting Position (In PI radians) <br><input type="range" min="0" max="2" value="0" step=".05" ng-model="selectedTheta">
+        <input type="text" min ="0" max="2" value="0" step=".05" ng-model ="selectedTheta" style="width:35px;">
         <br>
         <button onclick="document.getElementById('buttonClickSound').play()" ng-click="addChildSystem()"> Add Child</button>
         <br>Sherbert Mode
         <input type ="checkbox" ng-click="toggleColorMode()">
         <br>Trails
         <input type ="checkbox" ng-click="toggleTrails()">
-        <div>
-            Color: <input colorpicker type="text" 
-                                  ng-model="mColor" 
-                                  size="6"
-                                  style="background-color:{{mColor}}"
-                                  >
-                </div>
+    <div>
+        Color: <input colorpicker type="text" 
+                      ng-model="mColor" 
+                      size="6"
+                      style="background-color:{{mColor}}"
+                      >
     </div>
+
+</div>
+<div id="c1" style="display:inline-block; float: left;">
+    <table>
+
+        <tr>
+            <td><div class="button" onclick="document.getElementById('buttonClickSound').play()" ng-click = "toggleAnimated()" >
+                    <div class="outer"><div class="height"><div class="inner">Play/Pause</div></div></div></div></td>
+
+        </tr>
+        <tr>
+            <td><div class="button" onclick="document.getElementById('buttonClickSound').play()" ng-click ="resetPositions()" >
+                    <div class="outer"><div class="height"><div class="inner">Reset</div></div></div></div>  </td>
+        </tr>
+    </table>  
+</div>
+<div id="c2" style="display:inline-block; margin-left: -170px;">
     <canvas          
         ng-mousemove="serviceMove($event)"
         ng-mousedown="serviceSelection($event); knobPos($event)"
@@ -216,7 +233,8 @@
         Your browser does not support the HTML5 canvas.
         <!-- this message will show only if WebGL clearing failed -->
     </canvas>
+</div>
 
-
+}
 </body>
 </html>
