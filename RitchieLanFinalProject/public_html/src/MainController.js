@@ -155,7 +155,10 @@ myModule.controller("MainCtrl", function ($scope) {
     {
         this.mMyWorld.toggleColorMode();
     };
-    
+    $scope.toggleTrails = function()
+    {
+        this.mMyWorld.toggleTrails();
+    };
     //color picker function
     $scope.$on("colorpicker-selected", function () {
     

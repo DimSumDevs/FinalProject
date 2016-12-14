@@ -16,6 +16,8 @@ function System(shader, name, oribtDistance, initialTheta, initialColor) {
     this.radius = oribtDistance;
     this.animated = false;
     this.originalColor = initialColor;
+    this.lastTrail = null;
+    this.trailThreshhold = 1;
     
     // now create the children shapes
     var obj = new CircleRenderable(shader, false);  // The planet for this system
@@ -71,7 +73,9 @@ System.prototype.setTheta = function(theta){this.theta = theta;};
 System.prototype.getInitialTheta = function(){return this.originalTheta;};
 System.prototype.resetColor = function(){this.mSet[0].setColor(this.originalColor);};
 System.prototype.setInitialTheta = function(theta){
-    this.originalTheta = theta;if(this.animated === false){this.theta = this.originalTheta;}};
+    this.originalTheta = theta;
+    
+};
 
 System.prototype.addChild = function(shader, color)
 {
@@ -85,7 +89,7 @@ System.prototype.addChild = function(shader, color)
     }
     //create new child object
     var newName = "My Child";
-    var newChild = new System(shader, newName, newOrbitDistance, this.theta, color);
+    var newChild = new System(shader, newName, newOrbitDistance, this.originalTheta, color);
     
     //Check if this object has other children, if so model the new child after the
     //last child added
@@ -99,7 +103,7 @@ System.prototype.addChild = function(shader, color)
     else
     {
         newChild.setSpeed(newSpeed);
-        newChild.setScale(.5);
+        newChild.setScale(1);
     }
     newChild.setTheta(this.originalTheta);
     newChild.setAnimated(this.animated);
@@ -358,6 +362,7 @@ System.prototype.rSetColorFromDistanceFromSun = function (parentMat, maxDistance
 System.prototype.rReset = function()
 {
     this.theta = this.originalTheta;
+    this.lastTrail = null;
     for(var i = 0; i< this.mChildren.length; i++)
     {
         this.mChildren[i].rReset();
@@ -369,5 +374,39 @@ System.prototype.rResetColor = function()
     for(var i = 0; i< this.mChildren.length; i++)
     {
         this.mChildren[i].rResetColor();
+    }
+};
+System.prototype.rDropTrail = function(shader, trailList, parentMat)
+{
+    var xfMat = this.mXform.getXform();
+    if(parentMat !== null)
+    {
+        mat4.multiply(xfMat, parentMat, xfMat);
+        
+        //check if there is a last recorded position
+        if(this.lastTrail !== null)
+        {
+            //check distance between current position and last position
+            var xDis = xfMat[12] - this.lastTrail[0];
+            var yDis = xfMat[13] - this.lastTrail[1];
+            var distance = Math.sqrt((xDis * xDis) + (yDis * yDis));
+            if(distance >= this.trailThreshhold)
+            {
+                var trail = new Trail(shader, [this.lastTrail[0],this.lastTrail[1]]
+                , [xfMat[12],xfMat[13]], .5, this.getColor());
+                this.lastTrail = [xfMat[12], xfMat[13]];
+                trailList.push(trail);
+            }
+        }
+        else
+        {
+            this.lastTrail = [xfMat[12], xfMat[13]];;
+        }
+    }
+    
+    //recurse to children
+    for(var i = 0; i< this.mChildren.length; i++)
+    {
+        this.mChildren[i].rDropTrail(shader, trailList, xfMat);
     }
 };

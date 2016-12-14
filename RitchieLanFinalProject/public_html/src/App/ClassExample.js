@@ -14,11 +14,16 @@ function ClassExample() {
         "src/GLSLShaders/SimpleFS.glsl");    // Path to the simple FragmentShader
     this.animated = false;
     this.rainbowMode = false;
+    this.trailsMode = false;
     this.lastClickPosition = null;
+    
     this.mSelectedMatrix = null;
     this.manipulatorValue = 0;
     this.scalingMode = false;
     this.lastScale = null;
+    
+    this.trailList = [];
+    this.maxTrails = 2000;
     
     this.mSelected = null;
     this.mHighlighter = new CircleRenderable(this.mConstColorShader);
@@ -29,29 +34,29 @@ function ClassExample() {
     this.mParent = new System(this.mConstColorShader, "Root", 0 , 0, [253/255, 184/255, 19/255, 0.9]);
     this.mParent.setScale(2);
     
-    this.mLeftChild = new System(this.mConstColorShader, "Child 1",5,0, [.8,.2,.2,1]);
-    this.mLeftChild.setSpeed(2);
-    var xf = this.mLeftChild.getXform();
-    xf.setSize(1,1);
-    this.mParent.addAsChild(this.mLeftChild);
-    
-    this.mTopChild = new System(this.mConstColorShader, "Child 2",3, 0, [.2,.2,.8,1]); 
-    this.mTopChild.setSpeed(8);
-    this.mLeftChild.addAsChild(this.mTopChild); 
-    var xf = this.mTopChild.getXform();
-    xf.setSize(.5,.5);
-    
-    this.mNew = new System(this.mConstColorShader, "Child 3",4.5, 0, [.2,.8,.2,1]); 
-    this.mNew.setSpeed(-4);
-    this.mLeftChild.addAsChild(this.mNew); 
-    var xf = this.mNew.getXform();
-    xf.setSize(.5,.5);
-    
-    this.mNewTwo = new System(this.mConstColorShader, "Child 3",2, 0, [.5,0,.5,1]); 
-    this.mNewTwo.setSpeed(-8);
-    this.mLeftChild.addAsChild(this.mNewTwo); 
-    var xf = this.mNewTwo.getXform();
-    xf.setSize(.5,.5);
+//    this.mLeftChild = new System(this.mConstColorShader, "Child 1",5,.5* Math.PI, [.8,.2,.2,1]);
+//    this.mLeftChild.setSpeed(2);
+//    var xf = this.mLeftChild.getXform();
+//    xf.setSize(1,1);
+//    this.mParent.addAsChild(this.mLeftChild);
+//    
+//    this.mTopChild = new System(this.mConstColorShader, "Child 2",3, .5* Math.PI, [.2,.2,.8,1]); 
+//    this.mTopChild.setSpeed(8);
+//    this.mLeftChild.addAsChild(this.mTopChild); 
+//    var xf = this.mTopChild.getXform();
+//    xf.setSize(.5,.5);
+//    
+//    this.mNew = new System(this.mConstColorShader, "Child 3",4.5, .5* Math.PI, [.2,.8,.2,1]); 
+//    this.mNew.setSpeed(-4);
+//    this.mLeftChild.addAsChild(this.mNew); 
+//    var xf = this.mNew.getXform();
+//    xf.setSize(.5,.5);
+//    
+//    this.mNewTwo = new System(this.mConstColorShader, "Child 3",2, .5 * Math.PI, [.5,0,.5,1]); 
+//    this.mNewTwo.setSpeed(-8);
+//    this.mLeftChild.addAsChild(this.mNewTwo); 
+//    var xf = this.mNewTwo.getXform();
+//    xf.setSize(.5,.5);
     
 //    var theta = 0;
 //    var distance = 2;
@@ -88,16 +93,24 @@ ClassExample.prototype.setColorByHex = function (hex, c) {
 ClassExample.prototype.draw = function (camera) {
     // Step F: Starts the drawing by activating the camera
     camera.setupViewProjection();
+    //draw trails 
+    for(var i = 0; i < this.trailList.length; i++)
+    {
+        this.trailList[i].draw(camera);
+    }
+    //draw selector
     if(this.mSelected !== null && this.mSelectedMatrix !== null)
     {
         this.mHighlighter.draw(camera, this.mSelectedMatrix);
     }
+    //draw systems
     this.mParent.draw(camera);
-    
+    //draw manipulator
     if(this.mSelected !== null && this.mSelectedMatrix !== null)
     {
         this.mManipulator.draw(camera, this.mSelectedMatrix, this.mParent.rGetRealScale(this.mSelected, null));
     }
+    
 };
 
 ClassExample.prototype.update = function () 
@@ -114,6 +127,19 @@ ClassExample.prototype.update = function ()
     if(this.rainbowMode)
     {
         this.mParent.rSetColorFromDistanceFromSun(null, 39);
+    }
+    //check if trail mode in the future
+    if(this.animated && this.trailsMode)
+    {
+        this.mParent.rDropTrail(this.mConstColorShader, this.trailList, null);
+        //remove excess trails
+        if(this.trailList.length > this.maxTrails - 1)
+        {
+            for (var i = this.trailList.length - this.maxTrails - 1; i > 0; i--)
+            {
+                this.trailList.shift();
+            }
+        }
     }
 };
 
@@ -195,6 +221,7 @@ ClassExample.prototype.reset= function()
     this.mParent.rReset();
     this.mParent.rSetAnimated(false);
     this.animated = false;
+    this.trailList = [];
     
 };
 ClassExample.prototype.updateFromView = function(speed, distance, scale, planetSize, thetaInPI)
@@ -275,4 +302,9 @@ ClassExample.prototype.toggleColorMode = function()
 {
     this.rainbowMode = !this.rainbowMode;
     this.mParent.rResetColor();
+};
+ClassExample.prototype.toggleTrails = function()
+{
+    this.trailsMode = !this.trailsMode;
+    this.trailList = [];
 };
