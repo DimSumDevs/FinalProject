@@ -86,51 +86,51 @@ SceneNode.prototype.update = function()
 {
 
 };
-SceneNode.prototype.checkClick = function (parentMat, parentScale, x ,y)
-{
-    var xfMat = this.mXform.getXform();
-    if(parentMat !== null)
-    {
-        mat4.multiply(xfMat, parentMat, xfMat);
-    }
-    var myXform = this.mXform.getXform();
-    //check if the click is on the pivot
-    
-    var myX = xfMat[12];
-    var myY = xfMat[13];
-    //compute disctance btween my X/Y and x/y
-    var xDis = myX - x;
-    var yDis = myY - y;
-    var distance = Math.sqrt((xDis * xDis) + (yDis * yDis));
-    if(distance < .1)
-    {
-        return this;
-    }
-    
-//    check if the click is on an element
-    for (var i = 0; i < this.mSet.length; i++)
-    {
-        var element = this.mSet[i];
-        if(element instanceof ClickableObject)
-        {
-            if(element.checkClick(xfMat, x, y))
-            {
-                return element;
-            }
-        }
-    }
-    //check if the click is on a child
-    for (var i = 0; i < this.mChildren.length; i++)
-    {
-        var childVal = this.mChildren[i].checkClick(xfMat, x, y);
-        if(childVal !== null)
-        {
-            return childVal;
-        }
-    }
-    return null;
-    
-};
+//SceneNode.prototype.checkClick = function (parentMat, parentScale, x ,y)
+//{
+//    var xfMat = this.mXform.getXform();
+//    if(parentMat !== null)
+//    {
+//        mat4.multiply(xfMat, parentMat, xfMat);
+//    }
+//    var myXform = this.mXform.getXform();
+//    //check if the click is on the pivot
+//    
+//    var myX = xfMat[12];
+//    var myY = xfMat[13];
+//    //compute disctance btween my X/Y and x/y
+//    var xDis = myX - x;
+//    var yDis = myY - y;
+//    var distance = Math.sqrt((xDis * xDis) + (yDis * yDis));
+//    if(distance < .1)
+//    {
+//        return this;
+//    }
+//    
+////    check if the click is on an element
+//    for (var i = 0; i < this.mSet.length; i++)
+//    {
+//        var element = this.mSet[i];
+//        if(element instanceof ClickableObject)
+//        {
+//            if(element.checkClick(xfMat, x, y))
+//            {
+//                return element;
+//            }
+//        }
+//    }
+//    //check if the click is on a child
+//    for (var i = 0; i < this.mChildren.length; i++)
+//    {
+//        var childVal = this.mChildren[i].checkClick(xfMat, x, y);
+//        if(childVal !== null)
+//        {
+//            return childVal;
+//        }
+//    }
+//    return null;
+//    
+//};
 SceneNode.prototype.setElementPosition = function(object, parentMat, x ,y)
 {
     var xfMat = this.mXform.getXform();

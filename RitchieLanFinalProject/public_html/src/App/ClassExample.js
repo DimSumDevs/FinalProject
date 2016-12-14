@@ -17,6 +17,8 @@ function ClassExample() {
     this.lastClickPosition = null;
     this.mSelectedMatrix = null;
     this.manipulatorValue = 0;
+    this.scalingMode = false;
+    this.lastScale = null;
     
     this.mSelected = null;
     this.mHighlighter = new CircleRenderable(this.mConstColorShader);
@@ -94,7 +96,7 @@ ClassExample.prototype.draw = function (camera) {
     
     if(this.mSelected !== null && this.mSelectedMatrix !== null)
     {
-        this.mManipulator.draw(camera, this.mSelectedMatrix);
+        this.mManipulator.draw(camera, this.mSelectedMatrix, this.mParent.rGetRealScale(this.mSelected, null));
     }
 };
 
@@ -117,7 +119,20 @@ ClassExample.prototype.update = function ()
 
 ClassExample.prototype.checkClick = function(clickPos)
 {
-    //check for manipulator click somewhere in here
+    //check for manipulator click
+    if(this.mSelected !== null && this.mSelectedMatrix !== null)
+    {
+        if(this.mManipulator.detectClick(this.mSelectedMatrix, 
+        this.mParent.rGetRealScale(this.mSelected, null), clickPos[0], clickPos[1]))
+        {
+            this.scalingMode = true;
+            this.lastClickPosition = clickPos;
+            this.lastScale = this.mParent.rGetRealScale(this.mSelected, null);
+            return;
+        }
+    }
+    this.scalingMode = false;
+    this.lastScale = null;
     this.mSelected = this.mParent.rCheckClick(null,null, clickPos[0], clickPos[1]);
     if(this.mSelected !== null)
     {
@@ -128,8 +143,14 @@ ClassExample.prototype.manipulateSelected = function (newPosition)
 {
     if(this.mSelected !== null)
     {
-        //insert a check here to scale if the manipulator has been clicked
-        this.setDistanceOfSelected(newPosition[0], newPosition[1]);   
+        if(this.scalingMode === true)
+        {
+            this.scaleSelected(newPosition[0]);
+        }
+        else
+        {
+            this.setDistanceOfSelected(newPosition[0], newPosition[1]);   
+        }
     }
 };
 ClassExample.prototype.getMatrixOfSelected= function()
@@ -156,9 +177,8 @@ ClassExample.prototype.setDistanceOfSelected = function(mouseX, mouseY)
 };
 ClassExample.prototype.scaleSelected = function (newX) 
 {
-    
-
-
+    var mouseDifference = newX - this.lastClickPosition[0];
+    this.mParent.rSetRealScale(this.mSelected, null, this.lastScale + mouseDifference / 2);
 };
 ClassExample.prototype.moveManipulator = function (wcPos) {
     var mousePos = this.mManipulator.getXform();
