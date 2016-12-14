@@ -13,6 +13,7 @@ function ClassExample() {
         "src/GLSLShaders/SimpleVS.glsl",      // Path to the VertexShader 
         "src/GLSLShaders/SimpleFS.glsl");    // Path to the simple FragmentShader
     this.animated = false;
+    this.rainbowMode = false;
     this.lastClickPosition = null;
     this.mSelectedMatrix = null;
     this.manipulatorValue = 0;
@@ -23,33 +24,29 @@ function ClassExample() {
     xf.setSize(1.2,1.2);
     
     
-    this.mParent = new System(this.mConstColorShader, "Root", 0 , 0);
+    this.mParent = new System(this.mConstColorShader, "Root", 0 , 0, [253/255, 184/255, 19/255, 0.9]);
     this.mParent.setScale(2);
     
-    this.mLeftChild = new System(this.mConstColorShader, "Child 1",5,0);
+    this.mLeftChild = new System(this.mConstColorShader, "Child 1",5,0, [.8,.2,.2,1]);
     this.mLeftChild.setSpeed(2);
-    this.mLeftChild.setColor([.8,.2,.2,1]);
     var xf = this.mLeftChild.getXform();
     xf.setSize(1,1);
     this.mParent.addAsChild(this.mLeftChild);
     
-    this.mTopChild = new System(this.mConstColorShader, "Child 2",3, 0); 
+    this.mTopChild = new System(this.mConstColorShader, "Child 2",3, 0, [.2,.2,.8,1]); 
     this.mTopChild.setSpeed(8);
-    this.mTopChild.setColor([.2,.2,.8,1]);
     this.mLeftChild.addAsChild(this.mTopChild); 
     var xf = this.mTopChild.getXform();
     xf.setSize(.5,.5);
     
-    this.mNew = new System(this.mConstColorShader, "Child 3",4.5, 0); 
+    this.mNew = new System(this.mConstColorShader, "Child 3",4.5, 0, [.2,.8,.2,1]); 
     this.mNew.setSpeed(-4);
-    this.mNew.setColor([.2,.8,.2,1]);
     this.mLeftChild.addAsChild(this.mNew); 
     var xf = this.mNew.getXform();
     xf.setSize(.5,.5);
     
-    this.mNewTwo = new System(this.mConstColorShader, "Child 3",2, 0); 
+    this.mNewTwo = new System(this.mConstColorShader, "Child 3",2, 0, [.5,0,.5,1]); 
     this.mNewTwo.setSpeed(-8);
-    this.mNewTwo.setColor([.5,0,.5,1]);
     this.mLeftChild.addAsChild(this.mNewTwo); 
     var xf = this.mNewTwo.getXform();
     xf.setSize(.5,.5);
@@ -91,7 +88,8 @@ ClassExample.prototype.draw = function (camera) {
     }
 };
 
-ClassExample.prototype.update = function () {
+ClassExample.prototype.update = function () 
+{
     
     if(this.mParent !== null)
     {
@@ -101,7 +99,10 @@ ClassExample.prototype.update = function () {
     {
         this.getMatrixOfSelected();
     }
-    this.scaleColorByDistance();
+    if(this.rainbowMode)
+    {
+        this.mParent.rSetColorFromDistanceFromSun(null, 39);
+    }
 };
 
 ClassExample.prototype.checkClick = function(clickPos)
@@ -112,18 +113,15 @@ ClassExample.prototype.checkClick = function(clickPos)
     {
         this.getMatrixOfSelected();
     }
-
 };
 ClassExample.prototype.manipulateSelected = function (newPosition)
 {
     if(this.mSelected !== null)
     {
         //insert a check here to scale if the manipulator has been clicked
-        this.setDistanceOfSelected(newPosition[0], newPosition[1]);
-        
+        this.setDistanceOfSelected(newPosition[0], newPosition[1]);   
     }
 };
-
 ClassExample.prototype.getMatrixOfSelected= function()
 {
     var selectedMatrix = null;
@@ -133,26 +131,18 @@ ClassExample.prototype.getMatrixOfSelected= function()
     }
     this.mSelectedMatrix = selectedMatrix;
 };
-
 ClassExample.prototype.setDistanceOfSelected = function(x, y)
-
 {
-//    var selectedX = this.mSelectedMatrix[12];
-//    var selectedY = this.mSelectedMatrix[13];
-//    var currentDistance = Math.sqrt((selectedX * selectedX) + (selectedY * selectedY));
     var newDistance = Math.sqrt((x * x) + (y * y));
-    
     this.mParent.rSetRealDistance(this.mSelected, null, newDistance);
     
 };
-
 ClassExample.prototype.scaleSelected = function (newX) 
 {
     
 
 
 };
-
 ClassExample.prototype.moveManipulator = function (wcPos) {
     var mousePos = this.mManipulator.getXform();
     mousePos.setPosition(wcPos[0], wcPos[1]);
@@ -176,7 +166,11 @@ ClassExample.prototype.updateFromView = function(speed, distance, scale, planetS
     {
         this.mSelected.setSpeed(speed);
         this.mParent.rSetRealDistance(this.mSelected, null, distance);
-        this.mSelected.setScale(scale);
+        if(scale > 2)
+        {
+            var temp = 3;
+        }
+        this.mParent.rSetRealScale(this.mSelected, null, scale);
         this.mSelected.setInitialTheta(thetaInPI * Math.PI);
     }
 };
@@ -198,7 +192,7 @@ ClassExample.prototype.getSelectedScale = function()
 {
     if(this.mSelected !== null)
     {
-        return this.mSelected.getScale();
+        return this.mParent.rGetRealScale(this.mSelected, null);
     }
 };
 ClassExample.prototype.getSelectedPlanetSize = function()
@@ -238,5 +232,10 @@ ClassExample.prototype.randomColor = function()
 };
 ClassExample.prototype.scaleColorByDistance = function()
 {
-    this.mParent.rSetColorFromDistanceFromSun(null, 21);
+    this.mParent.rSetColorFromDistanceFromSun(null, 39);
+};
+ClassExample.prototype.toggleColorMode = function()
+{
+    this.rainbowMode = !this.rainbowMode;
+    this.mParent.rResetColor();
 };

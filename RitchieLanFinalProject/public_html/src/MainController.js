@@ -147,4 +147,8 @@ myModule.controller("MainCtrl", function ($scope) {
     {
         this.mMyWorld.addChildToSelected();
     };
+    $scope.toggleColorMode = function()
+    {
+        this.mMyWorld.toggleColorMode();
+    };
 });

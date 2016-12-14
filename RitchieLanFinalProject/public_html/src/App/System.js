@@ -8,18 +8,19 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function System(shader, name, oribtDistance, initialTheta) {
+function System(shader, name, oribtDistance, initialTheta, initialColor) {
     SceneNode.call(this, shader, name, false);   // calling super class constructor
     this.speed = 10/ oribtDistance;
     this.originalTheta = initialTheta;
     this.theta = initialTheta;
     this.radius = oribtDistance;
     this.animated = false;
+    this.originalColor = initialColor;
     
     // now create the children shapes
     var obj = new CircleRenderable(shader, false);  // The planet for this system
     this.addToSet(obj);
-    obj.setColor([253/255, 184/255, 19/255, 0.9]);
+    obj.setColor(initialColor);
     var xf = obj.getXform();
     xf.setSize(1, 1);
     xf.setPosition(0, 0);
@@ -68,6 +69,7 @@ System.prototype.getSpeed = function(){return this.speed;};
 System.prototype.setSpeed = function(speed){this.speed = speed;};
 System.prototype.setTheta = function(theta){this.theta = theta;};
 System.prototype.getInitialTheta = function(){return this.originalTheta;};
+System.prototype.resetColor = function(){this.mSet[0].setColor(this.originalColor);};
 System.prototype.setInitialTheta = function(theta){
     this.originalTheta = theta;if(this.animated === false){this.theta = this.originalTheta;}};
 
@@ -83,7 +85,7 @@ System.prototype.addChild = function(shader, color)
     }
     //create new child object
     var newName = "My Child";
-    var newChild = new System(shader, newName, newOrbitDistance, this.theta);
+    var newChild = new System(shader, newName, newOrbitDistance, this.theta, color);
     
     //Check if this object has other children, if so model the new child after the
     //last child added
@@ -142,7 +144,7 @@ System.prototype.rCheckClick = function (parentMat,parentScale, x ,y)
     }
     return null;  
 };
-SceneNode.prototype.rGetMatrix = function(object, parentMat)
+System.prototype.rGetMatrix = function(object, parentMat)
 {
     var xfMat = this.mXform.getXform();
     if(parentMat !== null)
@@ -164,23 +166,6 @@ SceneNode.prototype.rGetMatrix = function(object, parentMat)
         }
     }
     return null;
-};
-System.prototype.rSetDistanceFromPosition = function(object, parentMat, x, y)
-{
-//    var xfMat = this.mXform.getXform();
-//    if(parentMat !== null)
-//    {
-//        var xfMat = this.mXform.getXform();
-//        //check if this object is the target object
-//        if(this === object)
-//        {
-//            mat4.multiply(xfMat, parentMat, xfMat);
-//            var myX = xfMat[12];
-//            var myY = xfMat[13];
-//            
-//            var xDif = myX - x
-//        }
-//    }
 };
 System.prototype.rGetRealDistance = function(object, parentScale)
 {
@@ -235,8 +220,50 @@ System.prototype.rSetAnimated = function(animated)
         this.mChildren[i].rSetAnimated(animated);
     }
 };
-System.prototype.rGetRealScale = function(object, parentMat)
-{};
+System.prototype.rGetRealScale = function(object, parentScale)
+{
+    var myScale = this.mXform.getSize()[0];
+    if(parentScale !== null)
+    {
+        myScale *= parentScale;
+    }
+    if(object === this)
+    {
+        return myScale;
+    }
+    
+    for(var i = 0; i< this.mChildren.length; i++)
+    {
+        var result = this.mChildren[i].rGetRealScale(object, myScale);
+        if(result !== null)
+        {
+            return result;
+        }
+    }
+    return null;
+};
+System.prototype.rSetRealScale = function(object, parentScale, newScale)
+{
+    var myScale = this.mXform.getSize()[0];
+    if(parentScale === null)
+    {
+        parentScale = 1;
+    }
+    else
+    {
+        myScale *= parentScale;
+    }
+    if(object === this)
+    {
+        this.setScale(newScale / parentScale);
+        return;
+    }
+    
+    for(var i = 0; i< this.mChildren.length; i++)
+    {
+       this.mChildren[i].rSetRealScale(object, myScale, newScale);
+    }
+};
 System.prototype.rSetColorFromDistanceFromSun = function (parentMat, maxDistance)
 {
     //make sure the max idstance is divisible by 3
@@ -305,5 +332,13 @@ System.prototype.rReset = function()
     for(var i = 0; i< this.mChildren.length; i++)
     {
         this.mChildren[i].rReset();
+    }
+};
+System.prototype.rResetColor = function()
+{
+    this.resetColor();
+    for(var i = 0; i< this.mChildren.length; i++)
+    {
+        this.mChildren[i].rResetColor();
     }
 };
