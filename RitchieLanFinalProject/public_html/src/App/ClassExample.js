@@ -72,6 +72,16 @@ function ClassExample() {
     var manipulatorXform = this.mManipulator.getXform();
     manipulatorXform.setPosition(0, 0);
 }
+// set color by hex
+ClassExample.prototype.setColorByHex = function (hex, c) {
+    var inInt = parseInt(hex.substring(1), 16);  // to get rid of "#"
+    var r = (inInt >> 16) & 255;
+    var g = (inInt >> 8) & 255;
+    var b = inInt & 255;
+    c[0] = r / 255.0;
+    c[1] = g / 255.0;
+    c[2] = b / 255.0;
+};
 
 ClassExample.prototype.draw = function (camera) {
     // Step F: Starts the drawing by activating the camera

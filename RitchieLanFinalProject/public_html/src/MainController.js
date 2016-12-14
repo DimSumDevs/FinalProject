@@ -10,7 +10,8 @@
 "use strict";
 
 // Creates the "backend" logical support for appMyExample
-var myModule = angular.module("appMyExample", ["CSS450Timer", "CSS450Slider", "CSS450Xform"]);
+var myModule = angular.module("appMyExample", 
+            ["CSS450Timer", "CSS450Slider", "CSS450Xform" , "colorpicker.module"]);
 
 // registers the constructor for the controller
 // NOTE: the constructor is only called _AFTER_ the </body> tag is encountered
@@ -19,7 +20,9 @@ myModule.controller("MainCtrl", function ($scope) {
     // Initialize the graphics system
     gEngine.Core.initializeWebGL('GLCanvas');
     $scope.mCanvasMouse = new CanvasMouseSupport('GLCanvas');
-
+    // color
+    $scope.mColor = "#ff0f0f";
+    
     // this is the model
     $scope.mMyWorld = new ClassExample();
 
@@ -147,8 +150,14 @@ myModule.controller("MainCtrl", function ($scope) {
     {
         this.mMyWorld.addChildToSelected();
     };
+    
     $scope.toggleColorMode = function()
     {
         this.mMyWorld.toggleColorMode();
     };
+    
+    //color picker function
+    $scope.$on("colorpicker-selected", function () {
+    
+    });
 });

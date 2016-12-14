@@ -12,6 +12,9 @@
         <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
         <script type="text/javascript" src="src/lib/gl-matrix.js"></script>
         <script type="text/javascript" src="src/lib/webgl-obj-loader.js"></script>
+        <link rel="stylesheet" href="src/lib/css/colorpicker.css"/>
+        <script type="text/javascript" src="src/lib/bootstrap-colorpicker-module.min.js"></script>
+                <!-- use with permission from https://github.com/buberdds/angular-bootstrap-colorpicker -->
 
         <!-- Engine code: Graphics Support -->
         <!-- Core of Engine -->
@@ -200,6 +203,13 @@
         <button onclick="document.getElementById('buttonClickSound').play()" ng-click="addChildSystem()"> Add Child</button>
         <br>Sherbert Mode
         <input type ="checkbox" ng-click="toggleColorMode()">
+        <div>
+            Color: <input colorpicker type="text" 
+                                  ng-model="mColor" 
+                                  size="6"
+                                  style="background-color:{{mColor}}"
+                                  >
+                </div>
     </div>
     <canvas          
         ng-mousemove="serviceMove($event)"
