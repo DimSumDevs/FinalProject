@@ -167,6 +167,35 @@ System.prototype.rGetMatrix = function(object, parentMat)
     }
     return null;
 };
+System.prototype.rGetParentPosition = function(object, parentMat)
+{
+    //concatinate matrices
+    var xfMat = this.mXform.getXform();
+    if(parentMat !== null)
+    {
+        mat4.multiply(xfMat, parentMat, xfMat);
+    }
+    //check if the object is a child, if so return this position
+    for (var i = 0; i< this.mChildren.length; i++)
+    {
+        if(this.mChildren[i] === object )
+        {
+            var position = [xfMat[12],xfMat[13]];
+            return position;
+        }
+    }
+    //recursive call on children
+    for(var i = 0; i < this.mChildren.length; i++)
+    {
+        var position = this.mChildren[i].rGetParentPosition(object, xfMat); 
+        if(position !== null)
+        {
+            return position;
+        }
+    }
+    return null;
+    
+};
 System.prototype.rGetRealDistance = function(object, parentScale)
 {
     var myScale = this.mXform.getSize()[0];

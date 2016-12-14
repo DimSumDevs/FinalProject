@@ -141,9 +141,16 @@ ClassExample.prototype.getMatrixOfSelected= function()
     }
     this.mSelectedMatrix = selectedMatrix;
 };
-ClassExample.prototype.setDistanceOfSelected = function(x, y)
+ClassExample.prototype.setDistanceOfSelected = function(mouseX, mouseY)
 {
-    var newDistance = Math.sqrt((x * x) + (y * y));
+    var parentPos = this.mParent.rGetParentPosition(this.mSelected, null);
+    if(parentPos === null)
+    {
+        parentPos = [0,0];
+    }
+    var xDis = parentPos[0] - mouseX;
+    var yDis = parentPos[1] - mouseY;
+    var newDistance = Math.sqrt((xDis * xDis) + (yDis * yDis));
     this.mParent.rSetRealDistance(this.mSelected, null, newDistance);
     
 };
