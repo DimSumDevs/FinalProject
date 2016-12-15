@@ -26,8 +26,8 @@ function System(shader, name, oribtDistance, initialTheta, initialColor) {
     var xf = obj.getXform();
     xf.setSize(1, 1);
     xf.setPosition(0, 0);
-    
-    this.objColor = obj;
+//    
+//    this.objColor = obj;
     
 }
 

@@ -77,7 +77,7 @@ body .button {
 }
 .button .outer {
 	position: relative;
-	width: 100%;
+	width: 90%;
 	height: 100%;
 	padding: 10px;
 	background: rgba(0,0,0,0.65);
