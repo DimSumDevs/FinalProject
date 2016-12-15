@@ -131,6 +131,7 @@ ClassExample.prototype.update = function ()
     //check if trail mode in the future
     if(this.animated && this.trailsMode)
     {
+        if(this.trailList.length < this.maxTrails)
         this.mParent.rDropTrail(this.mConstColorShader, this.trailList, null);
         //remove excess trails
         if(this.trailList.length > this.maxTrails - 1)
