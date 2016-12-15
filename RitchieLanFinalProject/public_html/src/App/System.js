@@ -31,20 +31,6 @@ function System(shader, name, oribtDistance, initialTheta, initialColor) {
     
 }
 
-System.prototype.setColorByHex = function (hex, c) {
-    var inInt = parseInt(hex.substring(1), 16);  // to get rid of "#"
-    var r = (inInt >> 16) & 255;
-    var g = (inInt >> 8) & 255;
-    var b = inInt & 255;
-    c[0] = r / 255.0;
-    c[1] = g / 255.0;
-    c[2] = b / 255.0;
-};
-
-System.prototype.setCurrentObjColor = function (hex) {
-    this.setColorByHex(hex, this.objColor.getColor());
-};
-
 gEngine.Core.inheritPrototype(System, SceneNode);
 System.prototype.update = function () 
 {
@@ -88,6 +74,7 @@ System.prototype.getSpeed = function(){return this.speed;};
 System.prototype.setSpeed = function(speed){this.speed = speed;};
 System.prototype.setTheta = function(theta){this.theta = theta;};
 System.prototype.getInitialTheta = function(){return this.originalTheta;};
+System.prototype.setInitialColor = function(color){this.originalColor = color;};
 System.prototype.resetColor = function(){this.mSet[0].setColor(this.originalColor);};
 System.prototype.setInitialTheta = function(theta){
     this.originalTheta = theta;

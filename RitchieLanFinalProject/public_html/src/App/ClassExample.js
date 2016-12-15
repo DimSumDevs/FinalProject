@@ -80,16 +80,21 @@ function ClassExample() {
     manipulatorXform.setPosition(0, 0);
 }
 //// set color by hex
-//ClassExample.prototype.setColorByHex = function (hex, c) {
-//    var inInt = parseInt(hex.substring(1), 16);  // to get rid of "#"
-//    var r = (inInt >> 16) & 255;
-//    var g = (inInt >> 8) & 255;
-//    var b = inInt & 255;
-//    c[0] = r / 255.0;
-//    c[1] = g / 255.0;
-//    c[2] = b / 255.0;
-//};
-
+ClassExample.prototype.convertColorFromHex = function (hex) {
+    var inInt = parseInt(hex.substring(1), 16);  // to get rid of "#"
+    var r = (inInt >> 16) & 255;
+    var g = (inInt >> 8) & 255;
+    var b = inInt & 255;
+    var c = [0,0,0,1];
+    c[0] = r / 255.0;
+    c[1] = g / 255.0;
+    c[2] = b / 255.0;
+    return c;
+};
+ClassExample.prototype.convertColorToHex = function(color)
+{
+    
+};
 ClassExample.prototype.draw = function (camera) {
     // Step F: Starts the drawing by activating the camera
     camera.setupViewProjection();
@@ -284,6 +289,13 @@ ClassExample.prototype.getSelectedWcPos = function ()
         return [0,0];
     }
 };
+ClassExample.getSelectedColor = function()
+{
+    if(this.mSelected !== null)
+    {
+        return this.colorToHex(this.mSelected.getColor());
+    }
+};
 ClassExample.prototype.addChildToSelected = function()
 {
     if(this.mSelected !== null)
@@ -314,6 +326,7 @@ ClassExample.prototype.setObjColor = function(hex)
 {
     if(this.mSelected !== null)
     {
-        this.mSelected.setCurrentObjColor(hex);
+        this.mSelected.setColor(this.convertColorFromHex(hex));
+        this.mSelected.setInitialColor(this.convertColorFromHex(hex));
     }
 };

@@ -130,6 +130,7 @@ myModule.controller("MainCtrl", function ($scope) {
         $scope.selectedOrbitDistance = $scope.mMyWorld.getSelectedDistance();
         $scope.selectedTheta = $scope.mMyWorld.getSelectedThetaInPI();
         
+        
     };
     $scope.updateSmallView = function()
     {
