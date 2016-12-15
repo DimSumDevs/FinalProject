@@ -26,10 +26,20 @@ function System(shader, name, oribtDistance, initialTheta, initialColor) {
     var xf = obj.getXform();
     xf.setSize(1, 1);
     xf.setPosition(0, 0);
-//    
-//    this.objColor = obj;
+    
+    this.objColor = obj;
     
 }
+
+//System.prototype.setColorByHex = function (hex, c) {
+//    var inInt = parseInt(hex.substring(1), 16);  // to get rid of "#"
+//    var r = (inInt >> 16) & 255;
+//    var g = (inInt >> 8) & 255;
+//    var b = inInt & 255;
+//    c[0] = r / 255.0;
+//    c[1] = g / 255.0;
+//    c[2] = b / 255.0;
+//};
 
 gEngine.Core.inheritPrototype(System, SceneNode);
 System.prototype.update = function () 
@@ -412,5 +422,19 @@ System.prototype.rDropTrail = function(shader, trailList, parentMat)
     for(var i = 0; i< this.mChildren.length; i++)
     {
         this.mChildren[i].rDropTrail(shader, trailList, xfMat);
+    }
+};
+System.prototype.rRemoveChild = function(object)
+{
+    //check if the object to remove is a child, if so remove that child
+    //this will prevent the sun from ever being removed
+    for (var i = 0; i < this.mChildren.length; i ++)
+    {
+        if(this.mChildren[i] === object)
+        {
+            this.mChildren.splice(i, 1);
+            return;
+        }
+        this.mChildren[i].rRemoveChild(object);
     }
 };

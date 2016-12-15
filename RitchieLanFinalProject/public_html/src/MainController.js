@@ -164,4 +164,8 @@ myModule.controller("MainCtrl", function ($scope) {
     $scope.$on("colorpicker-selected", function () {
         $scope.mMyWorld.setObjColor($scope.mColor);
     });
+    $scope.removeSelected = function()
+    {
+        this.mMyWorld.removeSelected();
+    };
 });

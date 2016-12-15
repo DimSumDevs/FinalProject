@@ -332,6 +332,13 @@ ClassExample.prototype.addChildToSelected = function()
         this.mSelected.addChild(this.mConstColorShader, this.randomColor());
     }
 };
+ClassExample.prototype.removeSelected = function()
+{
+    if(this.mSelected !== null && this.mSelected !== this.mParent)
+    {
+        this.mParent.rRemoveChild(this.mSelected);
+    }
+};
 ClassExample.prototype.randomColor = function()
 {
     return [Math.random(), Math.random(), Math.random(), 1];
