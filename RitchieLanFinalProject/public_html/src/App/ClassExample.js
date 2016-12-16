@@ -356,6 +356,7 @@ ClassExample.prototype.toggleTrails = function()
 {
     this.trailsMode = !this.trailsMode;
     this.trailList = [];
+    this.mParent.rResetTrails();
 };
 
 ClassExample.prototype.setObjColor = function(hex)

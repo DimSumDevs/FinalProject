@@ -2,27 +2,15 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group name="450Examples"/>
         <group>
-<<<<<<< Updated upstream
             <file>file:/C:/Users/Michael/Documents/GitHub/FinalProject/RitchieLanFinalProject/public_html/src/Engine/Transform/Transform.js</file>
             <file>file:/C:/Users/Michael/Documents/GitHub/FinalProject/RitchieLanFinalProject/public_html/src/App/ClassExample.js</file>
             <file>file:/C:/Users/Michael/Documents/GitHub/FinalProject/RitchieLanFinalProject/public_html/index.html</file>
+            <file>file:/C:/Users/Michael/Documents/GitHub/FinalProject/RitchieLanFinalProject/public_html/src/Engine/Renderable/SquareRenderable.js</file>
             <file>file:/C:/Users/Michael/Documents/GitHub/FinalProject/RitchieLanFinalProject/public_html/src/MainController.js</file>
             <file>file:/C:/Users/Michael/Documents/GitHub/FinalProject/RitchieLanFinalProject/public_html/src/App/System.js</file>
+            <file>file:/C:/Users/Michael/Documents/GitHub/FinalProject/RitchieLanFinalProject/public_html/src/Engine/Renderable/Renderable.js</file>
             <file>file:/C:/Users/Michael/Documents/GitHub/FinalProject/RitchieLanFinalProject/public_html/src/Engine/Renderable/SceneNode.js</file>
-=======
-            <file>file:/Users/lanfuli/Documents/CSS430/CSS450MP5/FinalProject/RitchieLanFinalProject/public_html/src/Engine/Camera/Camera_Mouse.js</file>
-            <file>file:/Users/lanfuli/Documents/CSS430/CSS450MP5/FinalProject/RitchieLanFinalProject/public_html/src/style.css</file>
-            <file>file:/Users/lanfuli/Documents/CSS430/CSS450MP5/FinalProject/RitchieLanFinalProject/public_html/src/App/System.js</file>
-            <file>file:/Users/lanfuli/Documents/CSS430/CSS450MP5/FinalProject/RitchieLanFinalProject/public_html/index.html</file>
-            <file>file:/Users/lanfuli/Documents/CSS430/CSS450MP5/FinalProject/RitchieLanFinalProject/public_html/src/jseyes.js</file>
-            <file>file:/Users/lanfuli/Documents/CSS430/CSS450MP5/FinalProject/RitchieLanFinalProject/public_html/src/jseyes.gif</file>
-            <file>file:/Users/lanfuli/Documents/CSS430/CSS450MP5/FinalProject/RitchieLanFinalProject/public_html/src/App/ClassExample_MouseOver.js</file>
-            <file>file:/Users/lanfuli/Documents/CSS430/CSS450MP5/FinalProject/RitchieLanFinalProject/public_html/src/Engine/Camera/Camera.js</file>
-            <file>file:/Users/lanfuli/Documents/CSS430/CSS450MP5/FinalProject/RitchieLanFinalProject/public_html/src/jseyeblue.gif</file>
-            <file>file:/Users/lanfuli/Documents/CSS430/CSS450MP5/FinalProject/RitchieLanFinalProject/public_html/src/App/ClassExample.js</file>
->>>>>>> Stashed changes
         </group>
     </open-files>
 </project-private>

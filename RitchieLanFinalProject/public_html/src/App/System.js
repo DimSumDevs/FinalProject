@@ -139,6 +139,16 @@ System.prototype.rCheckClick = function (parentMat,parentScale, x ,y)
     {
         realScale *= parentScale;
     }
+    
+    //check if the click is on a child
+    for (var i = 0; i < this.mChildren.length; i++)
+    {
+        var childVal = this.mChildren[i].rCheckClick(xfMat,realScale, x, y);
+        if(childVal !== null)
+        {
+            return childVal;
+        }
+    }
     //check if the click is on this systems planet
     var planetRadius = this.mSet[0].getXform().getSize()[0];
     var myX = xfMat[12];
@@ -151,15 +161,7 @@ System.prototype.rCheckClick = function (parentMat,parentScale, x ,y)
     {
         return this;
     }
-    //check if the click is on a child
-    for (var i = 0; i < this.mChildren.length; i++)
-    {
-        var childVal = this.mChildren[i].rCheckClick(xfMat,realScale, x, y);
-        if(childVal !== null)
-        {
-            return childVal;
-        }
-    }
+    //click missed this object and all it's children
     return null;  
 };
 System.prototype.rGetMatrix = function(object, parentMat)
@@ -380,6 +382,14 @@ System.prototype.rReset = function()
     for(var i = 0; i< this.mChildren.length; i++)
     {
         this.mChildren[i].rReset();
+    }
+};
+System.prototype.rResetTrails = function()
+{
+    this.lastTrail = null;
+    for(var i = 0; i< this.mChildren.length; i++)
+    {
+        this.mChildren[i].rResetTrails();
     }
 };
 System.prototype.rResetColor = function()
