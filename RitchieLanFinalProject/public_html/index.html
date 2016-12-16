@@ -179,7 +179,7 @@
                 <input type="text" min ="-25" max="25" value="1" step="1" ng-model ="selectedSpeed" style="width:35px;">-->
 
     <!--    <button onclick="document.getElementById('buttonClickSound').play()" ng-click ="resetPositions()">Reset</button>-->
-    <button onclick="document.getElementById('buttonClickSound').play()" ng-click="removeSelected()">Remove</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   
     <!--        <button onclick="document.getElementById('buttonClickSound').play()" ng-click = "toggleAnimated()">Play/Pause</button>-->
     <p>Speed 
         <br><input type="range" min="-15" max="15" value="1" step=".1" ng-model="selectedSpeed">
@@ -194,12 +194,9 @@
     <p>Starting Position (In PI radians) <br><input type="range" min="0" max="2" value="0" step=".05" ng-model="selectedTheta">
         <input type="text" min ="0" max="2" value="0" step=".05" ng-model ="selectedTheta" style="width:35px;">
         <br>
+         <button onclick="document.getElementById('buttonClickSound').play()" ng-click="removeSelected()">Remove</button>
         <button onclick="document.getElementById('buttonClickSound').play()" ng-click="addChildSystem()"> Add Child</button>
-        <br>Sherbert Mode
-        <input type ="checkbox" ng-click="toggleColorMode()">
-        <br>Trails
-        <input type ="checkbox" ng-click="toggleTrails()">
-    <div>
+    <div style="color:#ffffff;">
         Color: <input colorpicker type="text" 
                       ng-model="mColor" 
                       size="6"
@@ -219,6 +216,15 @@
         <tr>
             <td><div class="button" onclick="document.getElementById('buttonClickSound').play()" ng-click ="resetPositions()" >
                     <div class="outer"><div class="height"><div class="inner">Reset</div></div></div></div>  </td>
+        </tr>
+                <tr>
+            <td><div class="button" onclick="document.getElementById('buttonClickSound').play()" ng-click ="toggleColorMode()" >
+                    <div class="outer"><div class="height"><div class="inner">Sherbert</div></div></div></div>  </td>
+        </tr>
+        
+                        <tr>
+            <td><div class="button" onclick="document.getElementById('buttonClickSound').play()" ng-click ="toggleTrails()" >
+                    <div class="outer"><div class="height"><div class="inner">Trails</div></div></div></div>  </td>
         </tr>
     </table>  
 </div>
