@@ -318,12 +318,16 @@ ClassExample.prototype.getSelectedWcPos = function ()
         return [0,0];
     }
 };
-ClassExample.getSelectedColor = function()
+ClassExample.prototype.getSelectedColor = function()
 {
     if(this.mSelected !== null)
     {
         return this.colorToHex(this.mSelected.getColor());
     }
+};
+ClassExample.prototype.getIfSelected = function()
+{
+    return this.mSelected !== null;
 };
 ClassExample.prototype.addChildToSelected = function()
 {

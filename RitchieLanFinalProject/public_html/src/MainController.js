@@ -32,6 +32,7 @@ myModule.controller("MainCtrl", function ($scope) {
     $scope.selectedPlanetSize;
     $scope.selectedOrbitDistance;
     $scope.selectedTheta;
+    $scope.selected = false;
     
     $scope.wcCenterX = 0;
     $scope.wcCenterY = 0;
@@ -124,6 +125,7 @@ myModule.controller("MainCtrl", function ($scope) {
     };
     $scope.updateViewFromModel = function()
     {
+        $scope.selected = $scope.mMyWorld.getIfSelected();
         $scope.selectedSpeed = $scope.mMyWorld.getSelectedSpeed();
         $scope.selectedScale = $scope.mMyWorld.getSelectedScale();
         $scope.selectedPlanetSize;
